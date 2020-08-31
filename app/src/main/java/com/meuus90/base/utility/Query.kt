@@ -5,14 +5,13 @@ import javax.inject.Singleton
 
 @Singleton
 class Query {
-    var params: List<Any> = listOf()
-    var boundType: Int = 0
+    var params: List<Any?> = listOf()
+    var boundType: Int = NetworkBoundResource.BOUND_FROM_BACKEND
 
     companion object {
-        fun query(params: List<Any>) =
+        fun setParams(vararg params: Any?) =
             Query().apply {
-                this.params = params
-                boundType = NetworkBoundResource.BOUND_FROM_BACKEND
+                this.params = params.asList()
             }
     }
 }
