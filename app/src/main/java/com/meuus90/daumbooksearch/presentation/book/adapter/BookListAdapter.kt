@@ -11,6 +11,7 @@ import com.meuus90.base.view.BaseViewHolder
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookModel
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
     PagedListAdapter<BookModel, BaseViewHolder<BookModel>>(
@@ -67,12 +68,6 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
         return getItem(position)?.isbn.hashCode().toLong()
     }
 
-    private var searchedText = ""
-    fun searchText(text: String) {
-        searchedText = text
-        notifyDataSetChanged()
-    }
-
     class BookItemHolder(
         override val containerView: View,
         private val adapter: BookListAdapter
@@ -83,7 +78,15 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
             item: BookModel,
             position: Int
         ) {
+            containerView.apply {
+                tv_title.text = item.title
 
+                tv_isbn.text = item.isbn
+                
+                v_root.setOnClickListener {
+                    adapter.doOnClick(item)
+                }
+            }
         }
 
         override fun onItemSelected() {

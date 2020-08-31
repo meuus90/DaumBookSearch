@@ -1,5 +1,6 @@
 package com.meuus90.daumbooksearch.domain.usecase.book
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.meuus90.base.network.Resource
 import com.meuus90.base.utility.Params
@@ -19,7 +20,7 @@ constructor(private val repository: BookRepository) : BaseUseCase<Params, Resour
     override suspend fun execute(
         viewModelScope: CoroutineScope,
         params: Params
-    ): MutableLiveData<Resource> {
+    ): LiveData<Resource> {
         setQuery(params)
 
         return repository.work(this@BookUseCase.liveData)

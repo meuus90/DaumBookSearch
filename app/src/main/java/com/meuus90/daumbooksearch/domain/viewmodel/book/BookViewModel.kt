@@ -1,6 +1,6 @@
 package com.meuus90.daumbooksearch.domain.viewmodel.book
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.meuus90.base.network.Resource
 import com.meuus90.base.utility.Params
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class BookViewModel
 @Inject
 constructor(private val useCase: BookUseCase) : BaseViewModel<Params, Int>() {
-    internal var book = MutableLiveData<Resource>()
+    internal lateinit var book: LiveData<Resource>
 
     override fun pullTrigger(params: Params) {
         viewModelScope.launch {
