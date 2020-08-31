@@ -1,7 +1,7 @@
-package com.meuus90.daumbooksearch.di.module.activity
+package com.meuus90.base.di.module.activity
 
-import com.meuus90.daumbooksearch.di.module.fragment.BookDetailFragmentModule
-import com.meuus90.daumbooksearch.di.module.fragment.BookListFragmentModule
+import com.meuus90.base.di.module.fragment.BookDetailFragmentModule
+import com.meuus90.base.di.module.fragment.BookListFragmentModule
 import com.meuus90.daumbooksearch.presentation.book.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

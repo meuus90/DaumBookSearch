@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.di.helper
+package com.meuus90.base.di.helper
 
 import android.app.Activity
 import android.app.Application
@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.meuus90.base.di.component.DaggerAppComponent
 import com.meuus90.daumbooksearch.DaumBookSearch
-import com.meuus90.daumbooksearch.di.component.DaggerAppComponent
 import com.network.clever.di.Injectable
 import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector

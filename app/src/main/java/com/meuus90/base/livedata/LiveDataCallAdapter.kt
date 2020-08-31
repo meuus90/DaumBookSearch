@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.data.livedata
+package com.meuus90.base.livedata
 
 import androidx.lifecycle.LiveData
 import com.meuus90.base.network.ApiResponse

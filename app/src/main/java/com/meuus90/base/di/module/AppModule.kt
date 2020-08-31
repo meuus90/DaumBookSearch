@@ -1,12 +1,12 @@
-package com.meuus90.daumbooksearch.di.module
+package com.meuus90.base.di.module
 
 import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.meuus90.base.livedata.LiveDataCallAdapterFactory
 import com.meuus90.base.network.NetworkError
 import com.meuus90.daumbooksearch.BuildConfig
-import com.meuus90.daumbooksearch.data.livedata.LiveDataCallAdapterFactory
 import com.meuus90.daumbooksearch.data.network.DaumAPI
 import com.orhanobut.logger.Logger
 import dagger.Module
@@ -126,7 +126,7 @@ class AppModule {
                         //do something on error
                     }
                 } catch (e: Exception) {
-                    
+
                 }
             }
 
