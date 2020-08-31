@@ -2,7 +2,7 @@ package com.meuus90.daumbooksearch.presentation
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.network.clever.di.Injectable
+import com.meuus90.daumbooksearch.di.Injectable
 
 open class BaseFragment : Fragment(), Injectable {
     companion object {

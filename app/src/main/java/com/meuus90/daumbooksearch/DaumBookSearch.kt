@@ -11,7 +11,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDex
 import com.bumptech.glide.Glide
-import com.meuus90.base.di.helper.AppInjector
+import com.meuus90.daumbooksearch.di.helper.AppInjector
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import dagger.android.DispatchingAndroidInjector

@@ -79,7 +79,7 @@ android {
             manifestPlaceholders = [appLabel: "@string/app_name"]
 
             buildConfigField "String", "daumApiServer", "\"https://dapi.kakao.com/\""
-            buildConfigField "String", "daumApiKey", "\"asdasd\""
+            buildConfigField "String", "daumApiKey", "\"9de8a625ba985e7c0cb1b7c52c6773e6\""
         }
 
         dev {
@@ -89,7 +89,7 @@ android {
             manifestPlaceholders = [appLabel: "@string/app_name"]
 
             buildConfigField "String", "daumApiServer", "\"https://dapi.kakao.com/\""
-            buildConfigField "String", "daumApiKey", "\"asdasd\""
+            buildConfigField "String", "daumApiKey", "\"9de8a625ba985e7c0cb1b7c52c6773e6\""
         }
     }
 
@@ -154,6 +154,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     testImplementation "junit:junit:$junit_version"

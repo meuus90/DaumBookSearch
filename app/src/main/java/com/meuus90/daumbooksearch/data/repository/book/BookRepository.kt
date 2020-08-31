@@ -36,14 +36,14 @@ constructor() : BaseRepository<Query>() {
         val livePagedList = LivePagedListBuilder(object : DataSource.Factory<Int, BookModel>() {
             override fun create(): DataSource<Int, BookModel> {
                 return BookDataSource(daumAPI, liveData.value as Query) { resource ->
-                    resultEvent.value = resource
+                    resultEvent.postValue(resource)
                 }
             }
         }, config)
             .build()
 
         livePagedList.asFlow().collect { pagedList ->
-            resultEvent.value = Resource().success(pagedList)
+            resultEvent.postValue(Resource().success(pagedList))
         }
         return resultEvent
     }

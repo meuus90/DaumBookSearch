@@ -1,4 +1,4 @@
-package com.meuus90.base.di.module
+package com.meuus90.daumbooksearch.di.module
 
 import android.app.Application
 import android.content.Context
