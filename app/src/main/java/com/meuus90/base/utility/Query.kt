@@ -1,17 +1,24 @@
 package com.meuus90.base.utility
 
-import com.meuus90.base.network.NetworkBoundResource
 import javax.inject.Singleton
 
 @Singleton
 class Query {
-    var params: List<Any?> = listOf()
-    var boundType: Int = NetworkBoundResource.BOUND_FROM_BACKEND
-
     companion object {
-        fun setParams(vararg params: Any?) =
-            Query().apply {
-                this.params = params.asList()
-            }
+        const val BOUND_FROM_BACKEND = 0
+        const val BOUND_FROM_LOCAL = 0
+    }
+
+    var params: List<Any?> = listOf()
+    var boundType: Int = BOUND_FROM_BACKEND
+
+    fun setParams(vararg params: Any?): Query {
+        this.params = params.asList()
+        return this
+    }
+
+    fun setType(boundType: Int): Query {
+        this.boundType = boundType
+        return this
     }
 }

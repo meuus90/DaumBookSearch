@@ -9,14 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-@Suppress("UNCHECKED_CAST")
-abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constructor(private val boundType: Int) {
+abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constructor(
+    private val boundType: Int,
+    private val itemCount: Int = 50,
+    private val pages: Int = 0
+) {
     companion object {
-        private const val NONE_ITEM_COUNT = 20
-
-        const val BOUND_TO_BACKEND = 0
-        const val BOUND_FROM_BACKEND = 1
-        const val BOUND_FROM_LOCAL = 2
+        const val BOUND_FROM_BACKEND = 0
+        const val BOUND_FROM_LOCAL = 1
     }
 
     private val result = MediatorLiveData<Resource>()
@@ -29,59 +29,40 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
         runBlocking {
             when (boundType) {
                 BOUND_FROM_BACKEND -> {
-                    runNetworkJob(MediatorLiveData())
+                    handleDataFromNetwork()
                 }
 
                 BOUND_FROM_LOCAL -> {
-                    fetchFromLocal()
-                }
-
-                BOUND_TO_BACKEND -> {
-
+                    fetchDataFromCache()
                 }
             }
         }
     }
 
-    private suspend fun fetchFromLocal() {
-        fetchDataFromCache(this)
-    }
-
-    private suspend fun runNetworkJob(cacheSource: MediatorLiveData<ResultType>) {
-        handleDataFromNetwork(cacheSource)
-    }
-
-    private suspend fun fetchDataFromCache(resource: NetworkBoundResource<ResultType, RequestType>) {
-        val cacheData = withContext(Dispatchers.IO) {
-            resource.loadFromCache(false, NONE_ITEM_COUNT, 0)
-        }
-
-        cacheData?.let { cd ->
-            resource.result.addSource(cd) {
-                resource.result.removeSource(cd)
-                resource.result.addSource(cd) { updatedData ->
-                    resource.result.postValue(resource.resource.success(updatedData))
-                }
+    private suspend fun fetchDataFromCache() {
+        withContext(Dispatchers.IO) {
+            loadFromCache(false, itemCount, pages)
+        }?.let { cacheData ->
+            result.addSource(cacheData) { updatedData ->
+                result.removeSource(cacheData)
+                result.postValue(resource.success(updatedData))
             }
         }
     }
 
-    private suspend fun handleDataFromNetwork(cacheSource: MediatorLiveData<ResultType>) {
+    suspend fun handleDataFromNetwork() {
         val responseData = doNetworkJob()
 
-        // we re-attach cacheSource as a new source, it will dispatch its latest value quickly
-//        result.postValue(resource.loading("loading"))
         result.value = resource.loading("loading")
         result.addSource(responseData) { response ->
             result.removeSource(responseData)
-            result.removeSource(cacheSource)
             //no inspection ConstantConditions
             when (response) {
                 is ApiSuccessResponse -> {
                     runBlocking {
                         withContext(Dispatchers.IO) {
                             workToCache(response.body)
-                            cacheData = loadFromCache(false, NONE_ITEM_COUNT, 0)
+                            cacheData = loadFromCache(false, itemCount, pages)
                         }
 
                         if (cacheData != null) {
@@ -106,25 +87,9 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     }
 
     private fun failed(response: ApiErrorResponse<RequestType>) {
-//        result.postValue(resource.error(response.errorMessage, response.statusCode))
-        result.value = resource.error(response.errorMessage, response.statusCode)
+        result.postValue(resource.error(response.errorMessage, response.statusCode))
+//        result.value = resource.error(response.errorMessage, response.statusCode)
         onNetworkError(response.errorMessage, response.statusCode)
-    }
-
-    protected abstract fun onNetworkError(errorMessage: String?, errorCode: Int)
-
-    protected abstract fun onFetchFailed(failedMessage: String?)
-
-    fun getAsLiveData(): MediatorLiveData<Resource> {
-        return result
-    }
-
-    fun getAsSingleLiveEvent(): SingleLiveEvent<Resource> {
-        val resultEvent = SingleLiveEvent<Resource>()
-        resultEvent.addSource(result) {
-            resultEvent.value = it
-        }
-        return resultEvent
     }
 
     @WorkerThread
@@ -143,7 +108,21 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     @WorkerThread
     protected abstract suspend fun doNetworkJob(): LiveData<ApiResponse<RequestType>>
 
+    protected abstract fun onNetworkError(errorMessage: String?, errorCode: Int)
+
     @WorkerThread
     protected open suspend fun clearCache() {
+    }
+
+    fun getAsLiveData(): MediatorLiveData<Resource> {
+        return result
+    }
+
+    fun getAsSingleLiveEvent(): SingleLiveEvent<Resource> {
+        val resultEvent = SingleLiveEvent<Resource>()
+        resultEvent.addSource(result) {
+            resultEvent.value = it
+        }
+        return resultEvent
     }
 }

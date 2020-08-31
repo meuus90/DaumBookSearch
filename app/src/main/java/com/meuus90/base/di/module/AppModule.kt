@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder
 import com.meuus90.base.livedata.LiveDataCallAdapterFactory
 import com.meuus90.base.network.NetworkError
 import com.meuus90.daumbooksearch.BuildConfig
-import com.meuus90.daumbooksearch.data.network.DaumAPI
+import com.meuus90.daumbooksearch.data.api.DaumAPI
 import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
