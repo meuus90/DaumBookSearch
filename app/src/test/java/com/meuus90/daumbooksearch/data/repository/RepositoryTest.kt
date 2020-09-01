@@ -6,7 +6,7 @@ import androidx.paging.PagedList
 import com.meuus90.base.network.Resource
 import com.meuus90.base.utility.Query
 import com.meuus90.daumbooksearch.data.model.book.BookModel
-import com.meuus90.daumbooksearch.data.repository.book.BookRepository
+import com.meuus90.daumbooksearch.data.repository.book.RemoteBookRepository
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.*
@@ -31,7 +31,7 @@ class RepositoryTest : TestWatcher() {
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-    private lateinit var repository: BookRepository
+    private lateinit var repository: RemoteBookRepository
 
     val liveData =
         MutableLiveData<Query>(Query().setParams("test", "accuracy", 10, "title"))
@@ -43,7 +43,7 @@ class RepositoryTest : TestWatcher() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         Dispatchers.setMain(mainThreadSurrogate)
 
-        repository = mock(BookRepository::class.java)
+        repository = mock(RemoteBookRepository::class.java)
 
         val result = MutableLiveData(
             Resource().success(

@@ -9,12 +9,14 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.meuus90.base.constant.AppConfig
 import com.meuus90.base.network.Status
 import com.meuus90.base.utility.Params
 import com.meuus90.base.utility.Query
 import com.meuus90.base.view.AutoClearedValue
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookModel
+import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
 import com.meuus90.daumbooksearch.presentation.BaseFragment
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
@@ -75,24 +77,33 @@ class BookListFragment : BaseFragment() {
     }
 
     private fun getPlaylist() {
-        val query = Query().setParams("test", "accuracy", 10, "title")
+        val schema = BookSchema("test", "accuracy", 1, AppConfig.pagedListSize, "title")
+        val query = Query().init(schema)
 
+//        bookViewModel.setParameters(Params(query))
+//        bookViewModel.setPageListLiveData()
         bookViewModel.pullTrigger(Params(query))
+
+//        bookViewModel.bookLocal.observe(viewLifecycleOwner, Observer { list ->
+//            adapter.submitList(list)
+//        })
         bookViewModel.book.observe(viewLifecycleOwner, Observer { resource ->
             when (resource.getStatus()) {
                 Status.SUCCESS -> {
+                    swipeRefreshLayout.isRefreshing = false
                     val list = resource.getData() as PagedList<BookModel>
                     adapter.submitList(list)
-
                 }
 
                 Status.LOADING -> {
                 }
 
                 Status.ERROR -> {
+                    swipeRefreshLayout.isRefreshing = false
                 }
 
                 else -> {
+                    swipeRefreshLayout.isRefreshing = false
                 }
             }
         })

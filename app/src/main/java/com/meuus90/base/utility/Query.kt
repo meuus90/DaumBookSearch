@@ -12,7 +12,7 @@ class Query {
     var params: List<Any?> = listOf()
     var boundType: Int = BOUND_FROM_BACKEND
 
-    fun setParams(vararg params: Any?): Query {
+    fun init(vararg params: Any): Query {
         this.params = params.asList()
         return this
     }

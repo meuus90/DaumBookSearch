@@ -2,12 +2,14 @@ package com.meuus90.daumbooksearch.di.module
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.meuus90.base.livedata.LiveDataCallAdapterFactory
 import com.meuus90.base.network.NetworkError
 import com.meuus90.daumbooksearch.BuildConfig
 import com.meuus90.daumbooksearch.data.api.DaumAPI
+import com.meuus90.daumbooksearch.data.dao.Cache
 import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
@@ -93,7 +95,7 @@ class AppModule {
 
     @Provides
     //@Singleton
-    fun getRequestInterceptor(context: Context): Interceptor {
+    fun getRequestInterceptor(): Interceptor {
         return Interceptor {
             Timber.tag("NETWORK_LOGGER")
 
@@ -134,8 +136,7 @@ class AppModule {
 
             builder.body(
                 ResponseBody.create(
-                    body?.contentType()
-                    , bodyStr?.toByteArray()!!
+                    body?.contentType(), bodyStr?.toByteArray()!!
                 )
             ).build()
 
@@ -154,4 +155,15 @@ class AppModule {
 
         return retrofit.create(DaumAPI::class.java)
     }
+
+    @Singleton
+    @Provides
+    internal fun provideCache(app: Application) =
+        Room.databaseBuilder(app, Cache::class.java, "daum_book_search.db")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Singleton
+    @Provides
+    internal fun provideBookModelDao(cache: Cache) = cache.bookDao()
 }

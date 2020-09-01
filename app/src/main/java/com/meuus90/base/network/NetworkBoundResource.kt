@@ -9,16 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constructor(
-    private val boundType: Int,
-    private val itemCount: Int = 50,
-    private val pages: Int = 0
-) {
-    companion object {
-        const val BOUND_FROM_BACKEND = 0
-        const val BOUND_FROM_LOCAL = 1
-    }
-
+abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constructor() {
     private val result = MediatorLiveData<Resource>()
     private val resource = Resource()
 
@@ -27,42 +18,23 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     init {
         resource.loading(null)
         runBlocking {
-            when (boundType) {
-                BOUND_FROM_BACKEND -> {
-                    handleDataFromNetwork()
-                }
-
-                BOUND_FROM_LOCAL -> {
-                    fetchDataFromCache()
-                }
-            }
-        }
-    }
-
-    private suspend fun fetchDataFromCache() {
-        withContext(Dispatchers.IO) {
-            loadFromCache(false, itemCount, pages)
-        }?.let { cacheData ->
-            result.addSource(cacheData) { updatedData ->
-                result.removeSource(cacheData)
-                result.postValue(resource.success(updatedData))
-            }
+            handleDataFromNetwork()
         }
     }
 
     suspend fun handleDataFromNetwork() {
         val responseData = doNetworkJob()
 
-        result.value = resource.loading("loading")
+        result.postValue(resource.loading("loading"))
         result.addSource(responseData) { response ->
             result.removeSource(responseData)
-            //no inspection ConstantConditions
+            
             when (response) {
                 is ApiSuccessResponse -> {
                     runBlocking {
                         withContext(Dispatchers.IO) {
                             workToCache(response.body)
-                            cacheData = loadFromCache(false, itemCount, pages)
+                            cacheData = loadFromCache(false)
                         }
 
                         if (cacheData != null) {
@@ -97,11 +69,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     }
 
     @WorkerThread
-    protected open suspend fun loadFromCache(
-        isLatest: Boolean,
-        itemCount: Int,
-        pages: Int
-    ): LiveData<ResultType>? {
+    protected open suspend fun loadFromCache(isLatest: Boolean): LiveData<ResultType>? {
         return cacheData
     }
 

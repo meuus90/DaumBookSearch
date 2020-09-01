@@ -14,9 +14,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
-    PagedListAdapter<BookModel, BaseViewHolder<BookModel>>(
-        DIFF_CALLBACK
-    ) {
+    PagedListAdapter<BookModel, BaseViewHolder<BookModel>>(DIFF_CALLBACK) {
     companion object {
         private val PAYLOAD_TITLE = Any()
 
@@ -64,9 +62,13 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
         }
     }
 
-    override fun getItemId(position: Int): Long {
-        return getItem(position)?.isbn.hashCode().toLong()
-    }
+//    override fun getItemCount(): Int {
+//        return currentList?.size ?: 0
+//    }
+//
+//    override fun getItemId(position: Int): Long {
+//        return getItem(position)?.isbn.hashCode().toLong()
+//    }
 
     class BookItemHolder(
         override val containerView: View,
@@ -82,7 +84,7 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
                 tv_title.text = item.title
 
                 tv_isbn.text = item.isbn
-                
+
                 v_root.setOnClickListener {
                     adapter.doOnClick(item)
                 }

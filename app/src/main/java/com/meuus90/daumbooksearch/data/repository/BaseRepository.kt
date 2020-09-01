@@ -14,8 +14,6 @@ abstract class BaseRepository<T> {
 
     abstract suspend fun work(liveData: MutableLiveData<T>): LiveData<Resource>
 
-    companion object {
-        internal const val PER_PAGE = 20
-        internal const val INDEX = 1
+    protected fun handleDefaultError(errorMessage: String?) {
     }
 }
