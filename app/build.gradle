@@ -178,7 +178,7 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-    implementation "androidx.recyclerview:recyclerview:$androidx_version"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-alpha05"
     implementation "androidx.cardview:cardview:$androidx_cardview_version"
     implementation "androidx.browser:browser:$androidx_browser_version"
     implementation "androidx.annotation:annotation:$androidx_version"

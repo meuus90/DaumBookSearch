@@ -24,15 +24,15 @@ buildscript {
         androidx_constraint_layout_version = '2.0.1'
 
         arch_lifecycle_version = '2.2.0'
-        arch_room_version = '2.2.3'
-        arch_workmanager_version = '2.3.0'
-        arch_paging_version = '2.1.2'
+        arch_room_version = '2.2.5'
+        arch_workmanager_version = '2.4.0'
+        arch_paging_version = '3.0.0-alpha05'
         arch_core_testing_version = '2.1.0'
 
         dagger_version = '2.27'
 
-        design_support_version = '1.2.0-alpha04'
-        retrofit2_version = "2.3.0"
+        design_support_version = '1.3.0-alpha02'
+        retrofit2_version = "2.8.1"
         okhttp3_version = "4.7.0"
 
         glide_version = "4.11.0"

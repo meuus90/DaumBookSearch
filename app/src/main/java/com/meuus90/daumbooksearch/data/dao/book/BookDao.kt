@@ -10,7 +10,10 @@ import com.meuus90.daumbooksearch.data.model.book.BookModel
 @Dao
 interface BookDao : BaseDao<BookModel> {
     @Query("SELECT * FROM Book")
-    fun getBooks(): DataSource.Factory<Int, BookModel>
+    fun getBooks(): MutableList<BookModel>
+
+    @Query("SELECT * FROM Book")
+    fun getBooksDataSourceFactory(): DataSource.Factory<Int, BookModel>
 
     @Query("SELECT * FROM Book")
     fun getBooksLiveData(): LiveData<MutableList<BookModel>>

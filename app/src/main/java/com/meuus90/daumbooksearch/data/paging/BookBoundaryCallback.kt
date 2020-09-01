@@ -13,14 +13,11 @@ class BookBoundaryCallback(
     private val schema: BookSchema
 ) : PagedList.BoundaryCallback<BookModel>() {
 
-    //    @MainThread
     override fun onZeroItemsLoaded() {
-        repository.clearCache()
         schema.page = 1
         fetchBooks(schema)
     }
 
-    //    @MainThread
     override fun onItemAtEndLoaded(itemAtEnd: BookModel) {
         schema.page++
         fetchBooks(schema)
@@ -28,7 +25,6 @@ class BookBoundaryCallback(
 
     fun fetchBooks(schema: BookSchema) {
         runBlocking {
-
             repository.work(Query().init(schema))
         }
     }
