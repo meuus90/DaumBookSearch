@@ -1,4 +1,4 @@
-package com.meuus90.base.network
+package com.meuus90.base.utility.network
 
 import retrofit2.Response
 import timber.log.Timber

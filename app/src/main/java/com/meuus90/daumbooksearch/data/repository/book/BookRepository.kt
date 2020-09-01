@@ -1,68 +1,58 @@
 package com.meuus90.daumbooksearch.data.repository.book
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.meuus90.base.constant.AppConfig
-import com.meuus90.base.network.ApiResponse
-import com.meuus90.base.network.NetworkBoundResource
-import com.meuus90.base.network.Resource
+import androidx.lifecycle.MediatorLiveData
 import com.meuus90.base.utility.Query
+import com.meuus90.base.utility.network.ApiResponse
+import com.meuus90.base.utility.network.NetworkBoundResource
+import com.meuus90.base.utility.network.Resource
 import com.meuus90.daumbooksearch.data.dao.book.BookDao
 import com.meuus90.daumbooksearch.data.model.book.BookModel
 import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.BaseRepository
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class BookRepository
 @Inject
-constructor(private val dao: BookDao) : BaseRepository<Query>() {
-    val config = PagedList.Config.Builder()
-        .setInitialLoadSizeHint(AppConfig.pagedListInitialSize)
-        .setPageSize(AppConfig.pagedListSize)
-        .setPrefetchDistance(AppConfig.pagedListPrefetchDistance)
-        .setEnablePlaceholders(false)
-        .build()
+constructor(val dao: BookDao) : BaseRepository<Query>() {
+    var liveData = MediatorLiveData<Resource>()
 
-    override suspend fun work(liveData: MutableLiveData<Query>): LiveData<Resource> {
-        return object : NetworkBoundResource<PagedList<BookModel>, BookResponseModel>() {
-            override suspend fun workToCache(item: BookResponseModel) {
-                //clearCache()
-                dao.insert(item.documents)
-            }
+    fun clearCache() = runBlocking { dao.clear() }
 
-            override suspend fun loadFromCache(isLatest: Boolean): LiveData<PagedList<BookModel>>? {
-                return LivePagedListBuilder(dao.getBooks(), config)
-                    .build()
-            }
+    override suspend fun work(query: Query) {
+        val schema = query.datas[0] as BookSchema
 
-            override suspend fun doNetworkJob(): LiveData<ApiResponse<BookResponseModel>> {
-                val schema = liveData.value?.params?.get(0) as BookSchema
-
-                return daumAPI.getBookList(
-                    query = schema.query,
-                    sort = schema.sort,
-                    page = schema.page,
-                    size = schema.size,
-                    target = schema.target
-                )
-            }
-
-            override fun onNetworkError(errorMessage: String?, errorCode: Int) {
-                runBlocking {
-                    clearCache()
+        liveData.addSource(
+            object : NetworkBoundResource<MutableList<BookModel>, BookResponseModel>() {
+                override suspend fun workToCache(item: BookResponseModel) {
+                    dao.insert(item.documents)
                 }
-                handleDefaultError(errorMessage)
-                Timber.e("Network-Error: $errorMessage")
-            }
 
-            override suspend fun clearCache() = dao.clear()
-        }.getAsLiveData()
+                override suspend fun doNetworkJob(): LiveData<ApiResponse<BookResponseModel>> {
+                    return daumAPI.getBookList(
+                        query = schema.query,
+                        sort = schema.sort,
+                        target = schema.target,
+                        size = schema.size,
+                        page = schema.page
+                    )
+                }
+
+                override fun onNetworkError(errorMessage: String?, errorCode: Int) {
+                }
+            }.getAsLiveData()
+        ) {
+//            if (it.getStatus() == Status.SUCCESS) {
+//                val item = it.getData() as BookResponseModel
+//                runBlocking {
+//                    dao.insert(item.documents)
+//                }
+//            }
+            liveData.postValue(it)
+        }
     }
 }

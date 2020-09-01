@@ -1,4 +1,4 @@
-package com.meuus90.base.network
+package com.meuus90.base.utility.network
 
 enum class Status {
     SUCCESS,

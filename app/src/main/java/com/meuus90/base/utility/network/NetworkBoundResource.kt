@@ -1,10 +1,10 @@
-package com.meuus90.base.network
+package com.meuus90.base.utility.network
 
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.meuus90.base.utility.SingleLiveEvent
+import com.meuus90.base.utility.livedata.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -16,34 +16,25 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     private var cacheData: LiveData<ResultType>? = null
 
     init {
-        resource.loading(null)
         runBlocking {
             handleDataFromNetwork()
         }
     }
 
-    suspend fun handleDataFromNetwork() {
+    private suspend fun handleDataFromNetwork() {
         val responseData = doNetworkJob()
 
-        result.postValue(resource.loading("loading"))
+        result.postValue(resource.loading(""))
         result.addSource(responseData) { response ->
             result.removeSource(responseData)
-            
+
             when (response) {
                 is ApiSuccessResponse -> {
                     runBlocking {
                         withContext(Dispatchers.IO) {
                             workToCache(response.body)
-                            cacheData = loadFromCache(false)
                         }
-
-                        if (cacheData != null) {
-                            result.addSource(cacheData!!) { newData ->
-                                result.postValue(resource.success(newData))
-                            }
-                        } else {
-                            result.postValue(resource.success(response.body))
-                        }
+                        result.postValue(resource.success(response.body))
                     }
                 }
 
@@ -52,16 +43,11 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
                 }
 
                 is ApiErrorResponse -> {
-                    failed(response)
+                    result.postValue(resource.error(response.errorMessage, response.statusCode))
+                    onNetworkError(response.errorMessage, response.statusCode)
                 }
             }
         }
-    }
-
-    private fun failed(response: ApiErrorResponse<RequestType>) {
-        result.postValue(resource.error(response.errorMessage, response.statusCode))
-//        result.value = resource.error(response.errorMessage, response.statusCode)
-        onNetworkError(response.errorMessage, response.statusCode)
     }
 
     @WorkerThread
@@ -69,18 +55,9 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread constru
     }
 
     @WorkerThread
-    protected open suspend fun loadFromCache(isLatest: Boolean): LiveData<ResultType>? {
-        return cacheData
-    }
-
-    @WorkerThread
     protected abstract suspend fun doNetworkJob(): LiveData<ApiResponse<RequestType>>
 
     protected abstract fun onNetworkError(errorMessage: String?, errorCode: Int)
-
-    @WorkerThread
-    protected open suspend fun clearCache() {
-    }
 
     fun getAsLiveData(): MediatorLiveData<Resource> {
         return result

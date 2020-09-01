@@ -9,11 +9,11 @@ class Query {
         const val BOUND_FROM_LOCAL = 0
     }
 
-    var params: List<Any?> = listOf()
+    var datas: List<Any?> = listOf()
     var boundType: Int = BOUND_FROM_BACKEND
 
     fun init(vararg params: Any): Query {
-        this.params = params.asList()
+        this.datas = params.asList()
         return this
     }
 

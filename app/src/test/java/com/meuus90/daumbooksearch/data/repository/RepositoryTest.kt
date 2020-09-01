@@ -3,10 +3,9 @@ package com.meuus90.daumbooksearch.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
-import com.meuus90.base.network.Resource
 import com.meuus90.base.utility.Query
+import com.meuus90.base.utility.network.Resource
 import com.meuus90.daumbooksearch.data.model.book.BookModel
-import com.meuus90.daumbooksearch.data.repository.book.RemoteBookRepository
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.*

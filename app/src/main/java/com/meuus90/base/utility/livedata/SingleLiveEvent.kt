@@ -1,11 +1,11 @@
-package com.meuus90.base.utility
+package com.meuus90.base.utility.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import com.meuus90.base.network.Resource
-import com.meuus90.base.network.Status
+import com.meuus90.base.utility.network.Resource
+import com.meuus90.base.utility.network.Status
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 

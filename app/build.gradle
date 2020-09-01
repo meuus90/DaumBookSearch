@@ -203,7 +203,8 @@ dependencies {
     implementation "androidx.work:work-rxjava2:$arch_workmanager_version"
     implementation "androidx.work:work-gcm:$arch_workmanager_version"
 
-    implementation "androidx.paging:paging-runtime:$arch_paging_runtime_version"
+    implementation "androidx.paging:paging-runtime:$arch_paging_version"
+    testImplementation "androidx.paging:paging-common:$arch_paging_version"
 
     testImplementation "androidx.arch.core:core-testing:$arch_core_testing_version"
     testImplementation "androidx.room:room-testing:$arch_room_version"
