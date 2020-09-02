@@ -9,7 +9,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.meuus90.base.view.BaseViewHolder
 import com.meuus90.daumbooksearch.R
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_book.view.*
 

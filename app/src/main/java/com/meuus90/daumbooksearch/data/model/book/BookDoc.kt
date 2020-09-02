@@ -1,9 +1,9 @@
-package com.meuus90.daumbooksearch.data.mock.model.book
+package com.meuus90.daumbooksearch.data.model.book
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.meuus90.daumbooksearch.data.mock.model.BaseModel
+import com.meuus90.daumbooksearch.data.model.BaseModel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

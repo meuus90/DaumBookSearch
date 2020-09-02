@@ -7,10 +7,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.SystemClock
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 
 fun Window.setSystemBarTextWhite() {
@@ -135,6 +138,19 @@ fun View.setHeight(height: Int) {
     val params = layoutParams
     params.height = height
     layoutParams = params
+}
+
+fun EditText.addAfterTextChangedListener(onTextChanged: (String) -> Unit) {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+//            mViewModel.setIdNumber(s.toString())
+            onTextChanged(s.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    })
 }
 
 fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()

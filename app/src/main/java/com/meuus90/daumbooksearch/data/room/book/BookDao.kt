@@ -1,11 +1,11 @@
-package com.meuus90.daumbooksearch.data.mock.room.book
+package com.meuus90.daumbooksearch.data.room.book
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.room.BaseDao
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.room.BaseDao
 
 @Dao
 interface BookDao : BaseDao<BookDoc> {

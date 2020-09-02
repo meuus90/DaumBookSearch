@@ -8,7 +8,6 @@ import android.content.res.Configuration
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDex
 import com.bumptech.glide.Glide
 import com.meuus90.daumbooksearch.di.helper.AppInjector

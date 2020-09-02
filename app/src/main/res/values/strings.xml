@@ -3,4 +3,14 @@
 
     <string name="title_book">Book</string>
     <string name="book_search">검색</string>
+
+
+    <string name="doc_sort_accuracy">정확도순</string>
+    <string name="doc_sort_recency">최신순</string>
+
+    <string name="search_target_all">전체</string>
+    <string name="search_target_title">제목</string>
+    <string name="search_target_isbn">ISBN</string>
+    <string name="search_target_publisher">출판사</string>
+    <string name="search_target_person">인명</string>
 </resources>

@@ -1,6 +1,6 @@
-package com.meuus90.daumbooksearch.data.mock.model.book
+package com.meuus90.daumbooksearch.data.model.book
 
-import com.meuus90.daumbooksearch.data.mock.model.BaseModel
+import com.meuus90.daumbooksearch.data.model.BaseModel
 
 data class BookResponseModel(
     val meta: BookMeta,

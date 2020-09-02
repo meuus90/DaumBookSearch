@@ -1,6 +1,6 @@
 package com.meuus90.daumbooksearch.data.repository
 
-import com.meuus90.daumbooksearch.data.mock.api.DaumAPI
+import com.meuus90.daumbooksearch.data.api.DaumAPI
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.data.mock.room
+package com.meuus90.daumbooksearch.data.room
 
 import androidx.room.Delete
 import androidx.room.Insert

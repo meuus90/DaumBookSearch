@@ -6,11 +6,11 @@ import com.meuus90.base.utility.Query
 import com.meuus90.base.utility.network.ApiResponse
 import com.meuus90.base.utility.network.NetworkBoundResource
 import com.meuus90.base.utility.network.Resource
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.model.book.BookResponseModel
-import com.meuus90.daumbooksearch.data.mock.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.mock.room.book.BookDao
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
+import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.BaseRepository
+import com.meuus90.daumbooksearch.data.room.book.BookDao
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,12 +23,15 @@ constructor(val dao: BookDao) : BaseRepository<Query>() {
 
     fun clearCache() = runBlocking { dao.clear() }
 
+    var isEnd = false
+
     override suspend fun work(query: Query) {
         val schema = query.datas[0] as BookSchema
 
         liveData.addSource(
             object : NetworkBoundResource<MutableList<BookDoc>, BookResponseModel>() {
                 override suspend fun workToCache(item: BookResponseModel) {
+                    isEnd = item.meta.is_end
                     dao.insert(item.documents)
                 }
 
@@ -46,12 +49,6 @@ constructor(val dao: BookDao) : BaseRepository<Query>() {
                 }
             }.getAsLiveData()
         ) {
-//            if (it.getStatus() == Status.SUCCESS) {
-//                val item = it.getData() as BookResponseModel
-//                runBlocking {
-//                    dao.insert(item.documents)
-//                }
-//            }
             liveData.postValue(it)
         }
     }

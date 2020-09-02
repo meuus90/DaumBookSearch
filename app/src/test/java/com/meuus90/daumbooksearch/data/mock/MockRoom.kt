@@ -1,12 +1,11 @@
-package com.meuus90.daumbooksearch.data.mock.room
+package com.meuus90.daumbooksearch.data.mock
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.meuus90.daumbooksearch.data.mock.model.MockModel
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.room.book.BookDao
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.paging.BookDataSource
+import com.meuus90.daumbooksearch.data.room.book.BookDao
 
 class MockRoom : BookDao {
     override fun getBooks(): MutableList<BookDoc> {

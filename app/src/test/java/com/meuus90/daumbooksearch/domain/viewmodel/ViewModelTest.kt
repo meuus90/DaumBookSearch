@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.meuus90.base.utility.Params
 import com.meuus90.base.utility.Query
-import com.meuus90.daumbooksearch.data.mock.api.MockDaumAPI
-import com.meuus90.daumbooksearch.data.mock.model.MockModel
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.mock.room.MockRoom
+import com.meuus90.daumbooksearch.data.mock.MockDaumAPI
+import com.meuus90.daumbooksearch.data.mock.MockModel
+import com.meuus90.daumbooksearch.data.mock.MockRoom
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.book.BookRepository
 import com.meuus90.daumbooksearch.domain.usecase.book.BookUseCase
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
@@ -64,7 +64,6 @@ class ViewModelTest : TestWatcher() {
     @Test
     fun bookViewModelDirectlyTest() {
         runBlockingTest {
-            val resultLiveData = viewModel.book
             val livePagedList: LiveData<PagedList<BookDoc>> by lazy {
                 viewModel.livePagedList
             }
@@ -77,11 +76,6 @@ class ViewModelTest : TestWatcher() {
             )
 
             viewModel.pullTrigger(params)
-
-            Assert.assertEquals(
-                resultLiveData.getOrAwaitValue().getData(),
-                MockModel.mockResponseModel
-            )
 
             Assert.assertEquals(
                 livePagedList.getOrAwaitValue()[0],
@@ -102,21 +96,21 @@ class ViewModelTest : TestWatcher() {
 
             val params0 = Params(
                 Query().init(
-                    BookSchema("test0", "accuracy", "title", 50, 1),
+                    BookSchema("t", "accuracy", "title", 50, 1),
                     CALL_DEBOUNCE
                 )
             )
 
             val params1 = Params(
                 Query().init(
-                    BookSchema("test1", "accuracy", "title", 50, 1),
+                    BookSchema("te", "accuracy", "title", 50, 1),
                     CALL_DEBOUNCE
                 )
             )
 
             val params2 = Params(
                 Query().init(
-                    BookSchema("test2", "accuracy", "title", 50, 1),
+                    BookSchema("test", "accuracy", "title", 50, 1),
                     CALL_DEBOUNCE
                 )
             )

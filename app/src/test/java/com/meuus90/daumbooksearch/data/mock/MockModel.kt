@@ -1,7 +1,7 @@
-package com.meuus90.daumbooksearch.data.mock.model
+package com.meuus90.daumbooksearch.data.mock
 
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.model.book.BookResponseModel
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 
 object MockModel {
     val mockBook = BookDoc(

@@ -1,16 +1,14 @@
 package com.meuus90.daumbooksearch.domain.viewmodel.book
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.meuus90.base.utility.Params
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.domain.usecase.book.BookUseCase
 import com.meuus90.daumbooksearch.domain.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +25,7 @@ constructor(private val useCase: BookUseCase) : BaseViewModel<Params, Int>() {
     }
 
     internal var book = useCase.liveData
-    lateinit var livePagedList: LiveData<PagedList<BookDoc>>
+    val livePagedList = MutableLiveData<PagedList<BookDoc>>()
 
     val org = MutableLiveData<Params>()
 
@@ -59,7 +57,13 @@ constructor(private val useCase: BookUseCase) : BaseViewModel<Params, Int>() {
 
     private fun execute(params: Params) {
         viewModelScope.launch {
-            livePagedList = useCase.execute(params)
+            useCase.execute(params).asFlow()
+                .collect {
+                    livePagedList.value = it
+                }
+//            useCase.execute(params).map {
+//                livePagedList.value = it
+//            }
         }
     }
 }

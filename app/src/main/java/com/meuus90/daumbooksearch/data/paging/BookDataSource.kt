@@ -1,8 +1,8 @@
 package com.meuus90.daumbooksearch.data.paging
 
 import androidx.paging.PageKeyedDataSource
-import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.mock.room.book.BookDao
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.room.book.BookDao
 
 class BookDataSource(private val dao: BookDao) :
     PageKeyedDataSource<Int, BookDoc>() {

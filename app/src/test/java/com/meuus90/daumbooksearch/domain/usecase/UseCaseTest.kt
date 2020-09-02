@@ -3,10 +3,10 @@ package com.meuus90.daumbooksearch.domain.usecase
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.meuus90.base.utility.Params
 import com.meuus90.base.utility.Query
-import com.meuus90.daumbooksearch.data.mock.api.MockDaumAPI
-import com.meuus90.daumbooksearch.data.mock.model.MockModel
-import com.meuus90.daumbooksearch.data.mock.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.mock.room.MockRoom
+import com.meuus90.daumbooksearch.data.mock.MockDaumAPI
+import com.meuus90.daumbooksearch.data.mock.MockModel
+import com.meuus90.daumbooksearch.data.mock.MockRoom
+import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.book.BookRepository
 import com.meuus90.daumbooksearch.domain.usecase.book.BookUseCase
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
@@ -56,7 +56,6 @@ class UseCaseTest : TestWatcher() {
     @Test
     fun bookUseCaseTest() {
         runBlockingTest {
-            val resultLiveData = useCase.liveData
             val params = Params(
                 Query().init(
                     BookSchema("test", "accuracy", "title", 50, 1)
@@ -64,11 +63,6 @@ class UseCaseTest : TestWatcher() {
             )
 
             val livePagedList = useCase.execute(params)
-
-            Assert.assertEquals(
-                resultLiveData.getOrAwaitValue().getData(),
-                MockModel.mockResponseModel
-            )
 
             Assert.assertEquals(
                 livePagedList.getOrAwaitValue()[0],
