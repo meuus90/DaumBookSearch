@@ -1,35 +1,44 @@
 package com.meuus90.daumbooksearch.presentation.book
 
 import android.os.Bundle
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.meuus90.base.arch.Params
 import com.meuus90.base.arch.Query
 import com.meuus90.base.arch.network.Status
-import com.meuus90.base.view.AutoClearedValue
-import com.meuus90.base.view.addAfterTextChangedListener
-import com.meuus90.base.view.gone
-import com.meuus90.base.view.show
+import com.meuus90.base.view.BaseActivity.Companion.BACK_STACK_STATE_ADD
+import com.meuus90.base.view.BaseFragment
+import com.meuus90.base.view.ext.addAfterTextChangedListener
+import com.meuus90.base.view.ext.gone
+import com.meuus90.base.view.ext.show
+import com.meuus90.base.view.util.AutoClearedValue
+import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.daumbooksearch.R
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DEBOUNCE
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
-import com.meuus90.daumbooksearch.presentation.BaseActivity.Companion.BACK_STACK_STATE_ADD
-import com.meuus90.daumbooksearch.presentation.BaseFragment
+import com.meuus90.daumbooksearch.presentation.MainActivity
 import com.meuus90.daumbooksearch.presentation.book.BookDetailFragment.Companion.KEY_BOOK
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
 import javax.inject.Inject
 
 class BookListFragment : BaseFragment() {
+    companion object {
+        const val KEY_DATA = "KEY_DATA"
+    }
+
     @Inject
     internal lateinit var bookViewModel: BookViewModel
 
@@ -54,12 +63,6 @@ class BookListFragment : BaseFragment() {
         return acvView.get()?.rootView
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//
-//        recyclerView.refreshDrawableState()
-//    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -67,14 +70,24 @@ class BookListFragment : BaseFragment() {
             val bundle = Bundle()
             bundle.putParcelable(KEY_BOOK, item)
 
-            addFragment(BookDetailFragment::class.java, BACK_STACK_STATE_ADD, bundle, sharedView)
+            val newFragment = addFragment(
+                BookDetailFragment::class.java,
+                BACK_STACK_STATE_ADD,
+                bundle,
+                sharedView
+            )
+
+            newFragment.sharedElementEnterTransition = DetailsTransition()
+            newFragment.enterTransition = Fade()
+            exitTransition = Fade()
+            newFragment.sharedElementReturnTransition = DetailsTransition()
         }
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
-        recyclerView.setHasFixedSize(false)
+//        recyclerView.setHasFixedSize(false)
         recyclerView.setItemViewCacheSize(20)
-        recyclerView.itemAnimator?.changeDuration = 0
-        (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+//        recyclerView.itemAnimator?.changeDuration = 0
+//        (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerView.isVerticalScrollBarEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
@@ -93,12 +106,10 @@ class BookListFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
-                val before = searchSchema.sort
-                searchSchema.setSortType(position)
-                val after = searchSchema.sort
+                val isChanged = searchSchema.setSortType(position)
 
                 if (isSortSpinnerInitialized) {
-                    if (before != after)
+                    if (isChanged)
                         getPlaylist(CALL_DIRECTLY)
                 } else {
                     isSortSpinnerInitialized = true
@@ -120,12 +131,10 @@ class BookListFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
-                val before = searchSchema.target
-                searchSchema.setSearchTarget(position)
-                val after = searchSchema.target
+                val isChanged = searchSchema.setSearchTarget(position)
 
                 if (isTargetSpinnerInitialized) {
-                    if (before != after)
+                    if (isChanged)
                         getPlaylist(CALL_DIRECTLY)
                 } else {
                     isTargetSpinnerInitialized = true
@@ -137,38 +146,32 @@ class BookListFragment : BaseFragment() {
         }
 
         et_search.addAfterTextChangedListener { query ->
-            val before = searchSchema.query
-            searchSchema.setQueryStr(query)
-
-            if (query == "")
-                showErrorView(
-                    getString(R.string.network_message_no_item_title, query),
-                    getString(R.string.network_message_no_item_message)
-                )
-            else if (before != query)
+            if (searchSchema.setQueryStr(query))
                 getPlaylist(CALL_DEBOUNCE)
+            else
+                adapter.submitList(pagedList)
+            // todo 한글 에러
+            // todo Pagedlist -> PagingData
         }
 
         iv_home.setOnClickListener {
-            recyclerView.smoothScrollBy(0, 0)
+            recyclerView.smoothScrollToPosition(0)
         }
 
         iv_search.setOnClickListener {
             val query = et_search.text.toString()
             searchSchema.setQueryStr(query)
 
-            if (query == "")
-                showErrorView(
-                    getString(R.string.network_message_no_item_title, query),
-                    getString(R.string.network_message_no_item_message)
-                )
-            else
-                getPlaylist(CALL_DEBOUNCE)
+            getPlaylist(CALL_DEBOUNCE)
         }
 
-//        getPlaylist(CALL_DIRECTLY)
-        showErrorView(getString(R.string.network_message_welcome_title), "")
+        if (!isInitialized) {
+            isInitialized = true
+            showErrorView(getString(R.string.network_message_welcome_title), "")
+        }
     }
+
+    private var isInitialized = false
 
     private fun getPlaylist(delayType: Int) {
         val query = Query().init(searchSchema, delayType)
@@ -178,6 +181,10 @@ class BookListFragment : BaseFragment() {
             when (resource.getStatus()) {
                 Status.SUCCESS -> {
                     swipeRefreshLayout.isRefreshing = false
+                    val data = resource.getData() as BookResponseModel
+
+                    if (data.meta.total_count > 0)
+                        v_error.gone()
                 }
 
                 Status.LOADING -> {
@@ -185,10 +192,19 @@ class BookListFragment : BaseFragment() {
 
                 Status.ERROR -> {
                     swipeRefreshLayout.isRefreshing = false
-                    showErrorView(
-                        getString(R.string.network_message_error_title),
-                        getString(R.string.network_message_error_message)
-                    )
+                    val networkError = parseToNetworkError(resource.getMessage())
+                    if (networkError.errorType == "MissingParameter") {
+                        val schema = query.datas[0] as BookSchema
+                        showErrorView(
+                            getString(R.string.network_message_no_item_title, schema.query),
+                            getString(R.string.network_message_no_item_message)
+                        )
+                    } else {
+                        showErrorView(
+                            resource.getMessage() ?: "",
+                            getString(R.string.network_message_error_message)
+                        )
+                    }
                 }
 
                 else -> {
@@ -197,19 +213,17 @@ class BookListFragment : BaseFragment() {
             }
         })
         bookViewModel.livePagedList.observe(viewLifecycleOwner, Observer { pagedList ->
+            adapter.submitList(pagedList)
+            this.pagedList = pagedList
+
             if (pagedList.isNotEmpty()) {
                 recyclerView.show()
-                adapter.submitList(pagedList)
-            } else {
-                val schema = query.datas[0] as BookSchema
-                showErrorView(
-                    getString(R.string.network_message_no_item_title, schema.query),
-                    getString(R.string.network_message_no_item_message)
-                )
+                v_error.gone()
             }
         })
     }
 
+    var pagedList: PagedList<BookDoc>? = null
     private fun showErrorView(title: String, message: String) {
         recyclerView.gone()
         v_error.show()

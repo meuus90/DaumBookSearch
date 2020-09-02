@@ -6,7 +6,6 @@ import com.meuus90.base.arch.Query
 import com.meuus90.base.arch.network.ApiResponse
 import com.meuus90.base.arch.network.NetworkBoundResource
 import com.meuus90.base.arch.network.Resource
-import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.BaseRepository
@@ -29,7 +28,7 @@ constructor(val dao: BookDao) : BaseRepository<Query>() {
         val schema = query.datas[0] as BookSchema
 
         liveData.addSource(
-            object : NetworkBoundResource<MutableList<BookDoc>, BookResponseModel>() {
+            object : NetworkBoundResource<BookResponseModel, BookResponseModel>() {
                 override suspend fun workToCache(item: BookResponseModel) {
                     isEnd = item.meta.is_end
                     dao.insert(item.documents)

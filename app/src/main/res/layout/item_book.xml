@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/daum_semi_bold"
+                android:fontFamily="@font/kakao_bold"
                 android:maxLines="2"
                 android:textColor="@color/colorTextAccent"
                 android:textSize="13sp"
@@ -43,7 +43,7 @@
             <TableRow android:layout_marginTop="10dp">
 
                 <TextView
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:text="@string/book_item_author"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="11sp" />
@@ -52,7 +52,7 @@
                     android:id="@+id/tv_author"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:textSize="11sp"
                     tools:text="박성호" />
             </TableRow>
@@ -60,7 +60,7 @@
             <TableRow android:layout_marginTop="5dp">
 
                 <TextView
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:text="@string/book_item_publisher"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="11sp" />
@@ -69,7 +69,7 @@
                     android:id="@+id/tv_publisher"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:textSize="11sp"
                     tools:text="북하우스" />
             </TableRow>
@@ -82,7 +82,7 @@
                     android:id="@+id/tv_date"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:textSize="11sp"
                     tools:text="2017.12.05" />
             </TableRow>
@@ -90,7 +90,7 @@
             <TableRow android:layout_marginTop="5dp">
 
                 <TextView
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:text="@string/book_item_price"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="11sp" />
@@ -99,7 +99,7 @@
                     android:id="@+id/tv_price"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:textSize="11sp"
                     tools:text="13,500" />
             </TableRow>
@@ -107,7 +107,7 @@
             <TableRow android:layout_marginTop="5dp">
 
                 <TextView
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:text="@string/book_item_status"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="11sp" />
@@ -116,12 +116,11 @@
                     android:id="@+id/tv_status"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/daum_semi_bold"
+                    android:fontFamily="@font/kakao_bold"
                     android:textSize="11sp"
                     tools:text="판매중" />
             </TableRow>
         </TableLayout>
-
 
         <ImageView
             android:id="@+id/iv_thumbnail"

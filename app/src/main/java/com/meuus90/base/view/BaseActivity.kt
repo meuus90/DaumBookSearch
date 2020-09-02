@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.presentation
+package com.meuus90.base.view
 
 import android.os.Bundle
 import android.transition.Fade
@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.annotation.GlideModule
-import com.meuus90.base.view.DetailsTransition
+import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.presentation.dialog.LoadingDialog
 import dagger.android.DispatchingAndroidInjector
@@ -127,16 +127,17 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         fragment: Fragment,
         sharedView: View? = null
     ) {
-        supportFragmentManager.beginTransaction().apply {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .apply {
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 
-            addToBackStack(fragment.javaClass.name)
+                addToBackStack(fragment.javaClass.name)
 
-            if (sharedView != null)
-                addSharedElement(sharedView, sharedView.transitionName)
-
-            replace(frameLayoutId, fragment, fragment.javaClass.name)
-        }.commit()
+                if (sharedView != null)
+                    addSharedElement(sharedView, sharedView.transitionName)
+                replace(frameLayoutId, fragment, fragment.javaClass.name)
+            }.commit()
     }
 
     internal fun goToRootFragment() {
@@ -149,10 +150,12 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     private fun setTransition(fragment: Fragment, sharedView: View?) {
         sharedView?.let {
-            fragment.sharedElementEnterTransition = DetailsTransition()
+            fragment.sharedElementEnterTransition =
+                DetailsTransition()
             fragment.enterTransition = Fade()
             getCurrentFragment()?.exitTransition = Fade()
-            fragment.sharedElementReturnTransition = DetailsTransition()
+            fragment.sharedElementReturnTransition =
+                DetailsTransition()
         }
     }
 

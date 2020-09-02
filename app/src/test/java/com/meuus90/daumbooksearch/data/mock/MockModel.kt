@@ -19,7 +19,8 @@ object MockModel {
         price = 14900,
         sale_price = 13410,
         thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-        status = "정상판매"
+        status = "정상판매",
+        position = null
     )
 
     val mockBookList = mutableListOf(
@@ -38,7 +39,8 @@ object MockModel {
             price = 14900,
             sale_price = 13410,
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-            status = "정상판매"
+            status = "정상판매",
+            position = null
         ),
         BookDoc(
             title = "미움받을 용기[1]",
@@ -55,7 +57,8 @@ object MockModel {
             price = 14900,
             sale_price = 13410,
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-            status = "정상판매"
+            status = "정상판매",
+            position = null
         ),
         BookDoc(
             title = "미움받을 용기[2]",
@@ -72,7 +75,8 @@ object MockModel {
             price = 14900,
             sale_price = 13410,
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-            status = "정상판매"
+            status = "정상판매",
+            position = null
         )
     )
 

@@ -1,4 +1,4 @@
-package com.meuus90.base.view
+package com.meuus90.base.view.ext
 
 import android.app.Dialog
 import android.content.Context
@@ -48,9 +48,10 @@ fun Dialog.setDefaultWindowTheme() {
 }
 
 fun View.setSafeOnClickListener(interval: Int = 500, onSafeClick: (View) -> Unit) {
-    val safeClickListener = SafeClickListener(interval = interval) {
-        onSafeClick(it)
-    }
+    val safeClickListener =
+        SafeClickListener(interval = interval) {
+            onSafeClick(it)
+        }
     setOnClickListener(safeClickListener)
 }
 

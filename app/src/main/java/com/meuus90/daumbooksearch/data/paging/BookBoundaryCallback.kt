@@ -23,11 +23,10 @@ class BookBoundaryCallback(
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: BookDoc) {
-        if (!repository.isEnd) {
-            schema.page++
-            fetchBooks(schema)
-        }
+        schema.page++
+        fetchBooks(schema)
     }
+
 
     fun fetchBooks(schema: BookSchema) {
         runBlocking {

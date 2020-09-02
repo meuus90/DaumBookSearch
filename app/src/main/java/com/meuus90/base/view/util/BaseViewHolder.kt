@@ -1,4 +1,4 @@
-package com.meuus90.base.view
+package com.meuus90.base.view.util
 
 import android.content.Context
 import android.view.View

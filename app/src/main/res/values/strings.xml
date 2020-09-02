@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">DaumBookSearch</string>
 
-    <string name="title_book">Book</string>
+    <string name="title_book">책 검색</string>
     <string name="book_search">검색</string>
-
 
     <string name="doc_sort_accuracy">정확도순</string>
     <string name="doc_sort_recency">최신순</string>
@@ -17,8 +16,13 @@
     <string name="book_item_author">저자</string>
     <string name="book_item_publisher">출판</string>
     <string name="book_item_price">가격</string>
+    <string name="book_item_price_original">정가</string>
+    <string name="book_item_price_sale">판매가</string>
     <string name="book_item_status">상태</string>
+    <string name="book_item_translators">역자</string>
 
+    <string name="next_web">상세 URL 열기</string>
+    <string name="next_choose_browser">브라우저 선택</string>
 
     <string name="network_message_welcome_title">환영합니다.</string>
 

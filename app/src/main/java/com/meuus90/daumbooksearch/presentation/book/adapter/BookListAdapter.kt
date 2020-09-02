@@ -12,7 +12,7 @@ import com.meuus90.base.util.NumberTools
 import com.meuus90.base.util.TimeTools
 import com.meuus90.base.util.TimeTools.Companion.ISO8601
 import com.meuus90.base.util.TimeTools.Companion.YMD
-import com.meuus90.base.view.BaseViewHolder
+import com.meuus90.base.view.util.BaseViewHolder
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import kotlinx.android.extensions.LayoutContainer
@@ -67,14 +67,6 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
         }
     }
 
-//    override fun getItemCount(): Int {
-//        return currentList?.size ?: 0
-//    }
-//
-//    override fun getItemId(position: Int): Long {
-//        return getItem(position)?.isbn.hashCode().toLong()
-//    }
-
     class BookItemHolder(
         override val containerView: View,
         private val adapter: BookListAdapter
@@ -86,6 +78,15 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
             position: Int
         ) {
             containerView.apply {
+                Glide.with(context).asDrawable().clone()
+                    .load(item.thumbnail)
+                    .centerCrop()
+                    .dontAnimate()
+                    .error(R.drawable.ic_b)
+                    .into(iv_thumbnail)
+
+                iv_thumbnail.transitionName = position.toString()
+
                 tv_title.text = item.title
 
                 tv_author.text = item.authors.joinToString()
@@ -94,16 +95,9 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
                 tv_price.text = NumberTools.convertToString(item.price.toBigDecimal())
                 tv_status.text = item.status
 
-                Glide.with(context).asDrawable().clone()
-                    .load(item.thumbnail)
-                    .centerCrop()
-                    .dontAnimate()
-                    .error(R.drawable.ic_b)
-                    .into(iv_thumbnail)
-
-                iv_thumbnail.transitionName = item.toString()
-
                 v_root.setOnClickListener {
+                    val positioned = item
+                    positioned.position = position
                     adapter.doOnClick(item, iv_thumbnail)
                 }
             }
@@ -115,11 +109,6 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
 
         override fun onItemClear() {
             containerView.setBackgroundColor(0)
-        }
-
-        fun authorListToString(): String {
-
-            return ""
         }
     }
 }

@@ -20,5 +20,6 @@ data class BookDoc(
     @field:ColumnInfo(name = "price") val price: Int,
     @field:ColumnInfo(name = "sale_price") val sale_price: Int,
     @field:ColumnInfo(name = "thumbnail") val thumbnail: String,
-    @field:ColumnInfo(name = "status") val status: String
+    @field:ColumnInfo(name = "status") val status: String,
+    var position: Int?
 ) : BaseModel(), Parcelable

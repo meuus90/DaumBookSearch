@@ -1,9 +1,11 @@
-package com.meuus90.daumbooksearch.presentation
+package com.meuus90.base.view
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.meuus90.base.arch.network.NetworkError
 import com.meuus90.daumbooksearch.di.Injectable
 
 open class BaseFragment : Fragment(), Injectable {
@@ -42,5 +44,16 @@ open class BaseFragment : Fragment(), Injectable {
 
     internal fun showLoading(show: Boolean) {
         baseActivity.showLoading(show)
+    }
+
+    fun parseToNetworkError(errMsg: String?): NetworkError {
+        errMsg?.let { message ->
+            try {
+                return Gson().fromJson(message, NetworkError::class.java)
+            } catch (e: Exception) {
+
+            }
+        }
+        return NetworkError(null)
     }
 }

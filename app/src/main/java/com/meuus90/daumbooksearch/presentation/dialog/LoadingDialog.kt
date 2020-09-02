@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.meuus90.base.view.setDefaultWindowTheme
+import com.meuus90.base.view.ext.setDefaultWindowTheme
 import com.meuus90.daumbooksearch.R
 
 open class LoadingDialog : DialogFragment() {

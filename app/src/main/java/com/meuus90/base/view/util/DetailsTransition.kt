@@ -1,4 +1,4 @@
-package com.meuus90.base.view
+package com.meuus90.base.view.util
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -24,8 +24,10 @@ class DetailsTransition : TransitionSet {
 
     private fun init() {
         ordering = ORDERING_TOGETHER
-        addTransition(ChangeBounds()).addTransition(ChangeTransform()).addTransition(
-            ChangeImageTransform()
-        )
+        addTransition(ChangeBounds())
+            .addTransition(ChangeTransform())
+            .addTransition(
+                ChangeImageTransform()
+            )
     }
 }

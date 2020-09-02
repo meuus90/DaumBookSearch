@@ -1,20 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.book.MainActivity">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_thumbnail"
-        android:layout_width="116dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_b" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_h"
+        android:background="@color/colorPrimary"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin">
+
+        <RelativeLayout
+            android:id="@+id/container_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/shape_rounded_icon"
+                android:src="@drawable/ic_b" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/kakao_bold"
+                android:text="@string/title_book"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/kakao_bold"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    tools:text="바나나 그 다음, test test test test test test test test test" />
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="116dp"
+                    android:layout_height="164dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_b" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/colorLine" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TableRow>
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_author"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_author"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="박성호" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/v_translators"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_translators"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_translators"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="박성호" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_publisher"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_publisher"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="북하우스" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5dp">
+
+                    <View android:layout_height="1dp" />
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="2017.12.05" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_price_original"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_price_original"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="13,500" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_price_sale"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_price_sale"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="13,500" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:fontFamily="@font/kakao_bold"
+                        android:text="@string/book_item_status"
+                        android:textColor="@color/colorTextGrey"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/kakao_bold"
+                        android:textSize="13sp"
+                        tools:text="판매중" />
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/colorLine" />
+
+            <TextView
+                android:id="@+id/tv_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                tools:text="KOTRA 상파울루 무역관장 현장 보고 『브라질은 바나나를 닮았다』. 우리가 갖지 못한 것을 갖고 있는 브라질의 체계를 살펴보고 교훈을 얻기 위해 펴낸 책으로, 한국과 닮은 듯 다른 브라질의 다양성과 자원에 대한 심층 분석을 담고 있다. 1장은 저자가 생각하는 체계의 개념과 종류를 담았고 2장에서는 브라질 체계의 형성과 비용을 살펴보았다. 3장에서는 브라질과 한국, 중국, 호주, 이스라엘의 체계와 비교하면서 브라질 체계의 특징을 부각시켰고 4장에서는" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLine" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/kakao_bold"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/next_web"
+        android:textSize="20sp" />
+</LinearLayout>

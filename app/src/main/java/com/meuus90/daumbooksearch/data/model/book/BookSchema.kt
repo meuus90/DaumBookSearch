@@ -18,21 +18,28 @@ data class BookSchema(
         const val TARGET_PERSON = "person"
     }
 
-    fun setQueryStr(searchStr: String) {
+    fun setQueryStr(searchStr: String): Boolean {
+        val old = query
         query = searchStr
         page = 1
+
+        return old != query
     }
 
-    fun setSortType(index: Int) {
+    fun setSortType(index: Int): Boolean {
+        val old = sort
         sort = when (index) {
             0 -> SORT_ACCURACY
             1 -> SORT_RECENCY
             else -> null
         }
         page = 1
+
+        return old != sort
     }
 
-    fun setSearchTarget(index: Int) {
+    fun setSearchTarget(index: Int): Boolean {
+        val old = target
         target = when (index) {
             0 -> null
             1 -> TARGET_TITLE
@@ -42,5 +49,7 @@ data class BookSchema(
             else -> null
         }
         page = 1
+
+        return old != target
     }
 }

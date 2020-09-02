@@ -32,7 +32,7 @@ constructor(private val useCase: BookUseCase) : BaseViewModel<Params, Int>() {
     init {
         viewModelScope.launch {
             org.asFlow()
-                .debounce(500L)
+                .debounce(300L)
                 .distinctUntilChanged()
                 .collect {
                     execute(it)
