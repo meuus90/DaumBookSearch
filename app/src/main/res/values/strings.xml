@@ -20,8 +20,12 @@
     <string name="book_item_price_sale">판매가</string>
     <string name="book_item_status">상태</string>
     <string name="book_item_translators">역자</string>
+    <string name="book_item_contents">소개</string>
 
-    <string name="next_web">상세 URL 열기</string>
+    <string name="author_format">%s 지음</string>
+    <string name="contents_format">%s…</string>
+
+    <string name="next_web">상세 링크 열기</string>
     <string name="next_choose_browser">브라우저 선택</string>
 
     <string name="network_message_welcome_title">환영합니다.</string>

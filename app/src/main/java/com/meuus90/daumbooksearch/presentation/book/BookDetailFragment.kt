@@ -55,6 +55,8 @@ class BookDetailFragment : BaseFragment() {
 
         tv_title.text = bookDoc.title
 
+        tv_author_title.text = getString(R.string.author_format, bookDoc.authors.joinToString())
+
         tv_author.text = bookDoc.authors.joinToString()
 
         if (bookDoc.translators.isNotEmpty())
@@ -68,7 +70,7 @@ class BookDetailFragment : BaseFragment() {
         tv_price_original.text = NumberTools.convertToString(bookDoc.price.toBigDecimal())
         tv_price_sale.text = NumberTools.convertToString(bookDoc.sale_price.toBigDecimal())
         tv_status.text = bookDoc.status
-        tv_contents.text = bookDoc.contents
+        tv_contents.text = getString(R.string.contents_format, bookDoc.contents)
 
         tv_next.setOnClickListener {
             val url = bookDoc.url
