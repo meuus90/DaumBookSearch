@@ -18,7 +18,7 @@ import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_book.view.*
 
-class BookListAdapter(val doOnClick: (item: BookDoc) -> Unit) :
+class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) :
     PagedListAdapter<BookDoc, BaseViewHolder<BookDoc>>(DIFF_CALLBACK) {
     companion object {
         private val PAYLOAD_TITLE = Any()
@@ -101,8 +101,10 @@ class BookListAdapter(val doOnClick: (item: BookDoc) -> Unit) :
                     .error(R.drawable.ic_b)
                     .into(iv_thumbnail)
 
+                iv_thumbnail.transitionName = item.toString()
+
                 v_root.setOnClickListener {
-                    adapter.doOnClick(item)
+                    adapter.doOnClick(item, iv_thumbnail)
                 }
             }
         }

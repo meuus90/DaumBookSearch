@@ -51,15 +51,24 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         toast?.show()
     }
 
-    internal fun replaceFragment(cls: Class<*>): Fragment {
+    internal fun replaceFragment(cls: Class<*>, bundle: Bundle? = null): Fragment {
         val fragment = getFragmentInstance(cls)
+        if (bundle != null)
+            fragment.arguments = bundle
         callFragment(fragment)
 
         return fragment
     }
 
-    internal fun addFragment(cls: Class<*>, backStackState: Int): Fragment {
+    internal fun addFragment(
+        cls: Class<*>,
+        backStackState: Int,
+        bundle: Bundle? = null,
+        sharedView: View? = null
+    ): Fragment {
         val fragment = getFragmentInstance(cls)
+        if (bundle != null)
+            fragment.arguments = bundle
 
         supportFragmentManager.apply {
             when (backStackState) {
@@ -98,7 +107,7 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
 
-        callFragment(fragment)
+        callFragment(fragment, sharedView)
 
         return fragment
     }
@@ -114,11 +123,18 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         return fragment
     }
 
-    private fun callFragment(fragment: Fragment) {
+    private fun callFragment(
+        fragment: Fragment,
+        sharedView: View? = null
+    ) {
         supportFragmentManager.beginTransaction().apply {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 
             addToBackStack(fragment.javaClass.name)
+
+            if (sharedView != null)
+                addSharedElement(sharedView, sharedView.transitionName)
+
             replace(frameLayoutId, fragment, fragment.javaClass.name)
         }.commit()
     }

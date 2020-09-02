@@ -14,9 +14,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        addFragment(
-            BookListFragment::class.java,
-            BACK_STACK_STATE_NEW
+        replaceFragment(
+            BookListFragment::class.java
         )
     }
 }

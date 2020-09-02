@@ -1,6 +1,8 @@
 package com.meuus90.daumbooksearch.presentation
 
 import android.content.Context
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.meuus90.daumbooksearch.di.Injectable
 
@@ -25,8 +27,13 @@ open class BaseFragment : Fragment(), Injectable {
         return this::class.java.simpleName
     }
 
-    internal fun addFragment(cls: Class<*>, backStackState: Int): Fragment {
-        return baseActivity.addFragment(cls, backStackState)
+    internal fun addFragment(
+        cls: Class<*>,
+        backStackState: Int,
+        bundle: Bundle? = null,
+        sharedView: View? = null
+    ): Fragment {
+        return baseActivity.addFragment(cls, backStackState, bundle, sharedView)
     }
 
     internal fun goToRootFragment() {

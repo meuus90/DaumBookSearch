@@ -4,8 +4,7 @@
     android:id="@+id/tvItemSpinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:padding="15dp"
     android:textColor="@color/colorText"
-    android:textSize="12sp"
+    android:textSize="13sp"
     tools:text="전체" />

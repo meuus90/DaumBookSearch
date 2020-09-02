@@ -15,6 +15,8 @@ import com.meuus90.base.arch.Query
 import com.meuus90.base.arch.network.Status
 import com.meuus90.base.view.AutoClearedValue
 import com.meuus90.base.view.addAfterTextChangedListener
+import com.meuus90.base.view.gone
+import com.meuus90.base.view.show
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
@@ -22,19 +24,12 @@ import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
 import com.meuus90.daumbooksearch.presentation.BaseActivity.Companion.BACK_STACK_STATE_ADD
 import com.meuus90.daumbooksearch.presentation.BaseFragment
+import com.meuus90.daumbooksearch.presentation.book.BookDetailFragment.Companion.KEY_BOOK
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
 import javax.inject.Inject
 
 class BookListFragment : BaseFragment() {
-    companion object {
-        fun newInstance() = BookListFragment().apply {
-            arguments = Bundle(1).apply {
-                putString(FRAGMENT_TAG, BookListFragment::class.java.name)
-            }
-        }
-    }
-
     @Inject
     internal lateinit var bookViewModel: BookViewModel
 
@@ -59,11 +54,20 @@ class BookListFragment : BaseFragment() {
         return acvView.get()?.rootView
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//
+//        recyclerView.refreshDrawableState()
+//    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = BookListAdapter { item ->
-            addFragment(BookDetailFragment::class.java, BACK_STACK_STATE_ADD)
+        adapter = BookListAdapter { item, sharedView ->
+            val bundle = Bundle()
+            bundle.putParcelable(KEY_BOOK, item)
+
+            addFragment(BookDetailFragment::class.java, BACK_STACK_STATE_ADD, bundle, sharedView)
         }
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
@@ -89,10 +93,13 @@ class BookListFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
+                val before = searchSchema.sort
                 searchSchema.setSortType(position)
+                val after = searchSchema.sort
 
                 if (isSortSpinnerInitialized) {
-                    getPlaylist(CALL_DIRECTLY)
+                    if (before != after)
+                        getPlaylist(CALL_DIRECTLY)
                 } else {
                     isSortSpinnerInitialized = true
                 }
@@ -113,10 +120,13 @@ class BookListFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
+                val before = searchSchema.target
                 searchSchema.setSearchTarget(position)
+                val after = searchSchema.target
 
                 if (isTargetSpinnerInitialized) {
-                    getPlaylist(CALL_DIRECTLY)
+                    if (before != after)
+                        getPlaylist(CALL_DIRECTLY)
                 } else {
                     isTargetSpinnerInitialized = true
                 }
@@ -127,11 +137,37 @@ class BookListFragment : BaseFragment() {
         }
 
         et_search.addAfterTextChangedListener { query ->
+            val before = searchSchema.query
             searchSchema.setQueryStr(query)
-            getPlaylist(CALL_DEBOUNCE)
+
+            if (query == "")
+                showErrorView(
+                    getString(R.string.network_message_no_item_title, query),
+                    getString(R.string.network_message_no_item_message)
+                )
+            else if (before != query)
+                getPlaylist(CALL_DEBOUNCE)
         }
 
-        getPlaylist(CALL_DIRECTLY)
+        iv_home.setOnClickListener {
+            recyclerView.smoothScrollBy(0, 0)
+        }
+
+        iv_search.setOnClickListener {
+            val query = et_search.text.toString()
+            searchSchema.setQueryStr(query)
+
+            if (query == "")
+                showErrorView(
+                    getString(R.string.network_message_no_item_title, query),
+                    getString(R.string.network_message_no_item_message)
+                )
+            else
+                getPlaylist(CALL_DEBOUNCE)
+        }
+
+//        getPlaylist(CALL_DIRECTLY)
+        showErrorView(getString(R.string.network_message_welcome_title), "")
     }
 
     private fun getPlaylist(delayType: Int) {
@@ -149,6 +185,10 @@ class BookListFragment : BaseFragment() {
 
                 Status.ERROR -> {
                     swipeRefreshLayout.isRefreshing = false
+                    showErrorView(
+                        getString(R.string.network_message_error_title),
+                        getString(R.string.network_message_error_message)
+                    )
                 }
 
                 else -> {
@@ -157,7 +197,23 @@ class BookListFragment : BaseFragment() {
             }
         })
         bookViewModel.livePagedList.observe(viewLifecycleOwner, Observer { pagedList ->
-            adapter.submitList(pagedList)
+            if (pagedList.isNotEmpty()) {
+                recyclerView.show()
+                adapter.submitList(pagedList)
+            } else {
+                val schema = query.datas[0] as BookSchema
+                showErrorView(
+                    getString(R.string.network_message_no_item_title, schema.query),
+                    getString(R.string.network_message_no_item_message)
+                )
+            }
         })
+    }
+
+    private fun showErrorView(title: String, message: String) {
+        recyclerView.gone()
+        v_error.show()
+        tv_error_title.text = title
+        tv_error_message.text = message
     }
 }
