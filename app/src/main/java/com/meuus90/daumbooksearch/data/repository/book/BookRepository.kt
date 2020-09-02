@@ -6,10 +6,10 @@ import com.meuus90.base.utility.Query
 import com.meuus90.base.utility.network.ApiResponse
 import com.meuus90.base.utility.network.NetworkBoundResource
 import com.meuus90.base.utility.network.Resource
-import com.meuus90.daumbooksearch.data.dao.book.BookDao
-import com.meuus90.daumbooksearch.data.model.book.BookModel
-import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
-import com.meuus90.daumbooksearch.data.model.book.BookSchema
+import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.mock.model.book.BookResponseModel
+import com.meuus90.daumbooksearch.data.mock.model.book.BookSchema
+import com.meuus90.daumbooksearch.data.mock.room.book.BookDao
 import com.meuus90.daumbooksearch.data.repository.BaseRepository
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -27,7 +27,7 @@ constructor(val dao: BookDao) : BaseRepository<Query>() {
         val schema = query.datas[0] as BookSchema
 
         liveData.addSource(
-            object : NetworkBoundResource<MutableList<BookModel>, BookResponseModel>() {
+            object : NetworkBoundResource<MutableList<BookDoc>, BookResponseModel>() {
                 override suspend fun workToCache(item: BookResponseModel) {
                     dao.insert(item.documents)
                 }

@@ -1,14 +1,14 @@
-package com.meuus90.daumbooksearch.data.model.book
+package com.meuus90.daumbooksearch.data.mock.model.book
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.meuus90.daumbooksearch.data.model.BaseModel
+import com.meuus90.daumbooksearch.data.mock.model.BaseModel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "Book", primaryKeys = ["title", "isbn"])
-data class BookModel(
+data class BookDoc(
     @field:ColumnInfo(name = "title") val title: String,
     @field:ColumnInfo(name = "contents") val contents: String,
     @field:ColumnInfo(name = "url") val url: String,

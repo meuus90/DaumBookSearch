@@ -1,15 +1,15 @@
 package com.meuus90.daumbooksearch.data.paging
 
 import androidx.paging.PageKeyedDataSource
-import com.meuus90.daumbooksearch.data.dao.book.BookDao
-import com.meuus90.daumbooksearch.data.model.book.BookModel
+import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.mock.room.book.BookDao
 
 class BookDataSource(private val dao: BookDao) :
-    PageKeyedDataSource<Int, BookModel>() {
+    PageKeyedDataSource<Int, BookDoc>() {
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, BookModel>
+        callback: LoadInitialCallback<Int, BookDoc>
     ) {
         val curPage = 1
         val nextPage = curPage + 1
@@ -17,11 +17,11 @@ class BookDataSource(private val dao: BookDao) :
         callback.onResult(dao.getBooks(), null, nextPage)
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, BookModel>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, BookDoc>) {
         callback.onResult(dao.getBooks(), params.key + 1)
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, BookModel>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, BookDoc>) {
         callback.onResult(dao.getBooks(), params.key - 1)
     }
 }

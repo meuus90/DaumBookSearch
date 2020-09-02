@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.data.model.book
+package com.meuus90.daumbooksearch.data.mock.model.book
 
 data class BookSchema(
     val query: String,

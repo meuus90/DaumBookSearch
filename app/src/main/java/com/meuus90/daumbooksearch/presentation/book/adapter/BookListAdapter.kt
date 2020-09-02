@@ -9,32 +9,32 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.meuus90.base.view.BaseViewHolder
 import com.meuus90.daumbooksearch.R
-import com.meuus90.daumbooksearch.data.model.book.BookModel
+import com.meuus90.daumbooksearch.data.mock.model.book.BookDoc
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_book.view.*
 
-class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
-    PagedListAdapter<BookModel, BaseViewHolder<BookModel>>(DIFF_CALLBACK) {
+class BookListAdapter(val doOnClick: (item: BookDoc) -> Unit) :
+    PagedListAdapter<BookDoc, BaseViewHolder<BookDoc>>(DIFF_CALLBACK) {
     companion object {
         private val PAYLOAD_TITLE = Any()
 
         private val DIFF_CALLBACK =
-            object : DiffUtil.ItemCallback<BookModel>() {
-                override fun areItemsTheSame(oldItem: BookModel, newItem: BookModel): Boolean =
+            object : DiffUtil.ItemCallback<BookDoc>() {
+                override fun areItemsTheSame(oldItem: BookDoc, newItem: BookDoc): Boolean =
                     oldItem.isbn == newItem.isbn
 
-                override fun areContentsTheSame(oldItem: BookModel, newItem: BookModel): Boolean =
+                override fun areContentsTheSame(oldItem: BookDoc, newItem: BookDoc): Boolean =
                     oldItem == newItem
 
-                override fun getChangePayload(oldItem: BookModel, newItem: BookModel): Any? {
+                override fun getChangePayload(oldItem: BookDoc, newItem: BookDoc): Any? {
                     return if (sameExceptTitle(oldItem, newItem)) PAYLOAD_TITLE
                     else null
                 }
             }
 
         private fun sameExceptTitle(
-            oldItem: BookModel,
-            newItem: BookModel
+            oldItem: BookDoc,
+            newItem: BookDoc
         ): Boolean {
             return oldItem.copy(isbn = newItem.isbn) == newItem
         }
@@ -43,14 +43,14 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<BookModel> {
+    ): BaseViewHolder<BookDoc> {
         val inflater = LayoutInflater.from(parent.context.applicationContext)
         val view = inflater.inflate(R.layout.item_book, parent, false)
         return BookItemHolder(view, this)
     }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<BookModel>,
+        holder: BaseViewHolder<BookDoc>,
         position: Int
     ) {
         val item = getItem(position)
@@ -73,11 +73,11 @@ class BookListAdapter(val doOnClick: (item: BookModel) -> Unit) :
     class BookItemHolder(
         override val containerView: View,
         private val adapter: BookListAdapter
-    ) : BaseViewHolder<BookModel>(containerView), LayoutContainer {
+    ) : BaseViewHolder<BookDoc>(containerView), LayoutContainer {
         @SuppressLint("SetTextI18n")
         override fun bindItemHolder(
-            holder: BaseViewHolder<BookModel>,
-            item: BookModel,
+            holder: BaseViewHolder<BookDoc>,
+            item: BookDoc,
             position: Int
         ) {
             containerView.apply {

@@ -13,8 +13,9 @@ import com.meuus90.base.utility.Query
 import com.meuus90.base.utility.network.Status
 import com.meuus90.base.view.AutoClearedValue
 import com.meuus90.daumbooksearch.R
-import com.meuus90.daumbooksearch.data.model.book.BookSchema
+import com.meuus90.daumbooksearch.data.mock.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
+import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
 import com.meuus90.daumbooksearch.presentation.BaseFragment
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
@@ -75,7 +76,7 @@ class BookListFragment : BaseFragment() {
 
     private fun getPlaylist() {
         val schema = BookSchema("test", "accuracy", "title", 50, 1)
-        val query = Query().init(schema)
+        val query = Query().init(schema, CALL_DIRECTLY)
 
         bookViewModel.pullTrigger(Params(query))
         bookViewModel.book.observe(viewLifecycleOwner, Observer { resource ->
