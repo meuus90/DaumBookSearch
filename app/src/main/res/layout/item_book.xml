@@ -1,23 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/v_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="5dp"
+    android:elevation="20dp"
+    android:translationZ="5dp"
+    app:cardCornerRadius="10dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Hello World!" />
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/tv_isbn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Hello World!" />
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp">
 
-</LinearLayout>
+            <com.meuus90.base.view.widget.EllipsizingTextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/daum_semi_bold"
+                android:maxLines="2"
+                android:textColor="@color/colorTextAccent"
+                android:textSize="13sp"
+                tools:text="바나나 그 다음, test test test test test test test test test" />
+
+            <TableRow android:layout_marginTop="10dp">
+
+                <TextView
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:text="@string/book_item_author"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:textSize="11sp"
+                    tools:text="박성호" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:text="@string/book_item_publisher"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_publisher"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:textSize="11sp"
+                    tools:text="북하우스" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <View android:layout_height="1dp" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:textSize="11sp"
+                    tools:text="2017.12.05" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:text="@string/book_item_price"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:textSize="11sp"
+                    tools:text="13,500" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:text="@string/book_item_status"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/daum_semi_bold"
+                    android:textSize="11sp"
+                    tools:text="판매중" />
+            </TableRow>
+        </TableLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_thumbnail"
+            android:layout_width="87dp"
+            android:layout_height="123dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_b" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

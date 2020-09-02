@@ -1,10 +1,10 @@
-package com.meuus90.base.utility.network
+package com.meuus90.base.arch.network
 
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.meuus90.base.utility.livedata.SingleLiveEvent
+import com.meuus90.base.arch.livedata.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext

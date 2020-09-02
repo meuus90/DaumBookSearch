@@ -1,8 +1,8 @@
 package com.meuus90.daumbooksearch.domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.meuus90.base.utility.Params
-import com.meuus90.base.utility.Query
+import com.meuus90.base.arch.Params
+import com.meuus90.base.arch.Query
 import com.meuus90.daumbooksearch.data.mock.MockDaumAPI
 import com.meuus90.daumbooksearch.data.mock.MockModel
 import com.meuus90.daumbooksearch.data.mock.MockRoom

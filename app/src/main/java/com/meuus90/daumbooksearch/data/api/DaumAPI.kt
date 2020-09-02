@@ -1,7 +1,7 @@
 package com.meuus90.daumbooksearch.data.api
 
 import androidx.lifecycle.LiveData
-import com.meuus90.base.utility.network.ApiResponse
+import com.meuus90.base.arch.network.ApiResponse
 import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Query

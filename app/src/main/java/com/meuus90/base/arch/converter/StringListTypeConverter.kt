@@ -1,4 +1,4 @@
-package com.meuus90.base.utility.converter
+package com.meuus90.base.arch.converter
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

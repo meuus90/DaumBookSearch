@@ -8,7 +8,8 @@
     <color name="colorWhite">#ffffff</color>
 
     <color name="colorText">#000000</color>
-    <color name="colorTextGrey">#797979</color>
+    <color name="colorTextAccent">#2196f3</color>
+    <color name="colorTextGrey">#959595</color>
 
     <color name="colorEditTextBg">#f6f6f6</color>
     <color name="colorLine">#d7d7d7</color>

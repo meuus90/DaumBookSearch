@@ -2,10 +2,10 @@ package com.meuus90.daumbooksearch.data.repository.book
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.meuus90.base.utility.Query
-import com.meuus90.base.utility.network.ApiResponse
-import com.meuus90.base.utility.network.NetworkBoundResource
-import com.meuus90.base.utility.network.Resource
+import com.meuus90.base.arch.Query
+import com.meuus90.base.arch.network.ApiResponse
+import com.meuus90.base.arch.network.NetworkBoundResource
+import com.meuus90.base.arch.network.Resource
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
 import com.meuus90.daumbooksearch.data.model.book.BookSchema

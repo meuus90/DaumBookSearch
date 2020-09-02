@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.meuus90.base.utility.Params
+import com.meuus90.base.arch.Params
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.domain.usecase.book.BookUseCase
 import com.meuus90.daumbooksearch.domain.viewmodel.BaseViewModel

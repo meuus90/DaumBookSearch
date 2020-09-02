@@ -3,8 +3,8 @@ package com.meuus90.daumbooksearch.domain.usecase.book
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.meuus90.base.arch.Params
 import com.meuus90.base.constant.AppConfig
-import com.meuus90.base.utility.Params
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.paging.BookBoundaryCallback

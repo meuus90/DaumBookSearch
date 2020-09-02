@@ -13,4 +13,9 @@
     <string name="search_target_isbn">ISBN</string>
     <string name="search_target_publisher">출판사</string>
     <string name="search_target_person">인명</string>
+
+    <string name="book_item_author">저자</string>
+    <string name="book_item_publisher">출판</string>
+    <string name="book_item_price">가격</string>
+    <string name="book_item_status">상태</string>
 </resources>

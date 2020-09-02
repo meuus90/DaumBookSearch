@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.meuus90.base.utility.Params
-import com.meuus90.base.utility.Query
-import com.meuus90.base.utility.network.Status
+import com.meuus90.base.arch.Params
+import com.meuus90.base.arch.Query
+import com.meuus90.base.arch.network.Status
 import com.meuus90.base.view.AutoClearedValue
 import com.meuus90.base.view.addAfterTextChangedListener
 import com.meuus90.daumbooksearch.R
@@ -20,6 +20,7 @@ import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DEBOUNCE
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
+import com.meuus90.daumbooksearch.presentation.BaseActivity.Companion.BACK_STACK_STATE_ADD
 import com.meuus90.daumbooksearch.presentation.BaseFragment
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
@@ -62,7 +63,7 @@ class BookListFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         adapter = BookListAdapter { item ->
-            //todo : goto detail page
+            addFragment(BookDetailFragment::class.java, BACK_STACK_STATE_ADD)
         }
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter

@@ -7,6 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.Glide
+import com.meuus90.base.util.NumberTools
+import com.meuus90.base.util.TimeTools
+import com.meuus90.base.util.TimeTools.Companion.ISO8601
+import com.meuus90.base.util.TimeTools.Companion.YMD
 import com.meuus90.base.view.BaseViewHolder
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
@@ -83,7 +88,18 @@ class BookListAdapter(val doOnClick: (item: BookDoc) -> Unit) :
             containerView.apply {
                 tv_title.text = item.title
 
-                tv_isbn.text = item.isbn
+                tv_author.text = item.authors.joinToString()
+                tv_publisher.text = item.publisher
+                tv_date.text = TimeTools.convertDateFormat(item.datetime, ISO8601, YMD)
+                tv_price.text = NumberTools.convertToString(item.price.toBigDecimal())
+                tv_status.text = item.status
+
+                Glide.with(context).asDrawable().clone()
+                    .load(item.thumbnail)
+                    .centerCrop()
+                    .dontAnimate()
+                    .error(R.drawable.ic_b)
+                    .into(iv_thumbnail)
 
                 v_root.setOnClickListener {
                     adapter.doOnClick(item)
@@ -97,6 +113,11 @@ class BookListAdapter(val doOnClick: (item: BookDoc) -> Unit) :
 
         override fun onItemClear() {
             containerView.setBackgroundColor(0)
+        }
+
+        fun authorListToString(): String {
+
+            return ""
         }
     }
 }

@@ -1,7 +1,7 @@
-package com.meuus90.base.utility.livedata
+package com.meuus90.base.arch.livedata
 
 import androidx.lifecycle.LiveData
-import com.meuus90.base.utility.network.ApiResponse
+import com.meuus90.base.arch.network.ApiResponse
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType

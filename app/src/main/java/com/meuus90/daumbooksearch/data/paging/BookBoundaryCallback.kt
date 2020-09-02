@@ -1,7 +1,7 @@
 package com.meuus90.daumbooksearch.data.paging
 
 import androidx.paging.PagedList
-import com.meuus90.base.utility.Query
+import com.meuus90.base.arch.Query
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.repository.book.BookRepository
