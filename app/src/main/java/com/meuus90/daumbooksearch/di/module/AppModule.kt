@@ -166,4 +166,8 @@ class AppModule {
     @Singleton
     @Provides
     internal fun provideBookModelDao(cache: Cache) = cache.bookDao()
+
+    @Singleton
+    @Provides
+    internal fun provideBookRemoteKeyDao(cache: Cache) = cache.bookRemoteKeyDao()
 }

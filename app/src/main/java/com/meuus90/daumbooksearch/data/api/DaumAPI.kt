@@ -15,4 +15,14 @@ interface DaumAPI {
         @Query("size") size: Int?,
         @Query("page") page: Int?
     ): LiveData<ApiResponse<BookResponseModel>>
+
+
+    @GET("v3/search/book")
+    suspend fun getBookListSus(
+        @Query("query") query: String,
+        @Query("sort") sort: String?,
+        @Query("target") target: String?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): ApiResponse<BookResponseModel>
 }

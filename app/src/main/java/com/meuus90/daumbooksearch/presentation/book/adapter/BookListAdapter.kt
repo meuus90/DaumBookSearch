@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.meuus90.base.util.NumberTools
@@ -19,7 +19,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) :
-    PagedListAdapter<BookDoc, BaseViewHolder<BookDoc>>(DIFF_CALLBACK) {
+    PagingDataAdapter<BookDoc, BaseViewHolder<BookDoc>>(DIFF_CALLBACK) {
     companion object {
         private val PAYLOAD_TITLE = Any()
 
@@ -54,16 +54,9 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
         return BookItemHolder(view, this)
     }
 
-    override fun onBindViewHolder(
-        holder: BaseViewHolder<BookDoc>,
-        position: Int
-    ) {
-        val item = getItem(position)
-
-        item?.let {
-            if (holder is BookItemHolder) {
-                holder.bindItemHolder(holder, it, position)
-            }
+    override fun onBindViewHolder(holder: BaseViewHolder<BookDoc>, position: Int) {
+        getItem(position)?.let { item ->
+            holder.bindItemHolder(holder, item, position)
         }
     }
 
