@@ -1,5 +1,6 @@
-package com.meuus90.daumbooksearch.presentation.book
+package com.meuus90.daumbooksearch.ui.book
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.transition.Fade
 import android.view.KeyEvent
@@ -26,6 +27,12 @@ import com.meuus90.daumbooksearch.domain.viewmodel.book.TestBookViewModel
 import com.meuus90.daumbooksearch.presentation.MainActivity
 import com.meuus90.daumbooksearch.presentation.book.BookDetailFragment.Companion.KEY_BOOK
 import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
+import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
+import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DEBOUNCE
+import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
+import com.meuus90.daumbooksearch.ui.MainActivity
+import com.meuus90.daumbooksearch.ui.book.BookDetailFragment.Companion.KEY_BOOK
+import com.meuus90.daumbooksearch.ui.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

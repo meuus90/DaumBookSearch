@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.presentation.dialog
+package com.meuus90.daumbooksearch.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

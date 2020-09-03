@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.presentation
+package com.meuus90.daumbooksearch.ui
 
 import android.content.Context
 import android.content.Intent
