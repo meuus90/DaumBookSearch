@@ -28,4 +28,6 @@ constructor(
     fun postBookSchema(bookSchema: BookSchema) {
         schemaLiveData.value = bookSchema
     }
+
+    fun clearCache() = repository.clearCache()
 }

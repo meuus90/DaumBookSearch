@@ -2,6 +2,8 @@ package com.meuus90.daumbooksearch.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
+import com.meuus90.daumbooksearch.data.mock.FakeCache
+import com.meuus90.daumbooksearch.data.mock.FakeDaumAPI
 import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
@@ -31,7 +33,9 @@ class RepositoryTest : TestWatcher() {
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
 
-    private val repository = Mockito.mock(BooksRepository::class.java) as BooksRepository
+    private val mockRepository = Mockito.mock(BooksRepository::class.java) as BooksRepository
+
+    private val repository = BooksRepository(FakeCache(), FakeDaumAPI())
 
     private val flow = flowOf(PagingData.empty<BookDoc>())
 
@@ -39,7 +43,7 @@ class RepositoryTest : TestWatcher() {
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        Mockito.`when`(repository.execute(mockBookSchema))
+        Mockito.`when`(mockRepository.execute(mockBookSchema))
             .thenReturn(flow)
     }
 
@@ -50,10 +54,17 @@ class RepositoryTest : TestWatcher() {
     @Test
     fun bookRepositoryTest() {
         runBlockingTest {
-            Assert.assertEquals(repository.execute(mockBookSchema), flow)
+            Assert.assertEquals(mockRepository.execute(mockBookSchema), flow)
 //            println(repository.execute(mockBookSchema))
 
             println("bookRepositoryTest() pass")
         }
+    }
+
+    @Test
+    fun bookRepositoryClearCacheTest() {
+        repository.clearCache()
+        
+        println("bookRepositoryClearCacheTest() pass")
     }
 }

@@ -62,6 +62,9 @@ class ViewModelTest : TestWatcher() {
 
             Mockito.`when`(repository.execute(FakeSchema.mockBookSchema))
                 .thenReturn(flow)
+
+            Mockito.`when`(repository.clearCache())
+                .then { }
         }
 
         viewModel = BooksViewModel(repository)
@@ -81,6 +84,13 @@ class ViewModelTest : TestWatcher() {
         Assert.assertTrue(captor.value.equals(PagingData.empty<BookDoc>()))
 
         println("bookViewModelDirectlyTest() pass")
+    }
+
+    @Test
+    fun bookViewModelClearCacheTest() {
+        viewModel.clearCache()
+
+        println("bookViewModelClearCacheTest() pass")
     }
 
 //    @Test

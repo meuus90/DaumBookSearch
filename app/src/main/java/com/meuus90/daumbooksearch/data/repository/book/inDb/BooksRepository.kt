@@ -8,6 +8,7 @@ import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.data.paging.PageKeyedRemoteMediator
 import com.meuus90.daumbooksearch.data.repository.book.BookInterface
 import com.meuus90.daumbooksearch.data.room.Cache
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,4 +32,6 @@ constructor(private val db: Cache, private val daumAPI: DaumAPI) : BookInterface
     ) {
         db.bookDao().getBooksPagingSource()
     }.flow
+
+    fun clearCache() = runBlocking { db.bookDao().clear() }
 }

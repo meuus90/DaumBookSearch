@@ -31,7 +31,7 @@ class NumberTools {
             scale: Int = 0,
             roundingMode: RoundingMode = RoundingMode.DOWN
         ): BigDecimal {
-            return customStripTrailingZeros().setScale(scale, roundingMode)
+            return this.setScale(scale, roundingMode).customStripTrailingZeros()
         }
     }
 }

@@ -15,9 +15,6 @@ class DetailsTransition : TransitionSet {
         init()
     }
 
-    /**
-     * This constructor allows us to use this transition in XML
-     */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
