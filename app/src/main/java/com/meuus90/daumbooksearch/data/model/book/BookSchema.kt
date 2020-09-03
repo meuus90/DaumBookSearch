@@ -4,8 +4,7 @@ data class BookSchema(
     var query: String,
     var sort: String?,
     var target: String?,
-    val size: Int?,
-    var page: Int
+    val size: Int?
 ) {
 
     companion object {
@@ -21,7 +20,6 @@ data class BookSchema(
     fun setQueryStr(searchStr: String): Boolean {
         val old = query
         query = searchStr
-        page = 1
 
         return old != query
     }
@@ -33,7 +31,6 @@ data class BookSchema(
             1 -> SORT_RECENCY
             else -> null
         }
-        page = 1
 
         return old != sort
     }
@@ -48,7 +45,6 @@ data class BookSchema(
             4 -> TARGET_PERSON
             else -> null
         }
-        page = 1
 
         return old != target
     }

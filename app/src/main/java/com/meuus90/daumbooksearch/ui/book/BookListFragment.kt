@@ -12,47 +12,38 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.meuus90.base.constant.AppConfig
+import com.meuus90.base.util.customDebounce
 import com.meuus90.base.view.BaseActivity.Companion.BACK_STACK_STATE_ADD
 import com.meuus90.base.view.BaseFragment
 import com.meuus90.base.view.ext.gone
 import com.meuus90.base.view.ext.show
 import com.meuus90.base.view.util.AutoClearedValue
 import com.meuus90.base.view.util.DetailsTransition
+import com.meuus90.base.view.util.SnappingLinearLayoutManager
 import com.meuus90.daumbooksearch.R
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
-import com.meuus90.daumbooksearch.domain.viewmodel.book.TestBookViewModel
-import com.meuus90.daumbooksearch.presentation.MainActivity
-import com.meuus90.daumbooksearch.presentation.book.BookDetailFragment.Companion.KEY_BOOK
-import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
-import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
-import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DEBOUNCE
-import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
-import com.meuus90.daumbooksearch.ui.MainActivity
+import com.meuus90.daumbooksearch.data.paging.PageKeyedRemoteMediator
+import com.meuus90.daumbooksearch.domain.viewmodel.book.BooksViewModel
 import com.meuus90.daumbooksearch.ui.book.BookDetailFragment.Companion.KEY_BOOK
 import com.meuus90.daumbooksearch.ui.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class BookListFragment : BaseFragment() {
     @Inject
-    internal lateinit var bookViewModel: TestBookViewModel
+    internal lateinit var bookViewModel: BooksViewModel
 
-    private lateinit var adapter: BookListAdapter
-
-    val searchSchema = BookSchema("", null, null, AppConfig.pagedListSize, 1)
-
-    private val mainActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+    val searchSchema = BookSchema("", null, null, AppConfig.pagedListSize)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,30 +61,171 @@ class BookListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = BookListAdapter { item, sharedView ->
-            val bundle = Bundle()
-            bundle.putParcelable(KEY_BOOK, item)
+        initAdapter()
+        initViews()
+    }
 
-            val newFragment = addFragment(
-                BookDetailFragment::class.java,
-                BACK_STACK_STATE_ADD,
-                bundle,
-                sharedView
+    private val adapter = BookListAdapter { item, sharedView ->
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_BOOK, item)
+
+        position = item.position
+
+        val newFragment = addFragment(
+            BookDetailFragment::class.java,
+            BACK_STACK_STATE_ADD,
+            bundle,
+            sharedView
+        )
+
+        newFragment.sharedElementEnterTransition = DetailsTransition()
+        newFragment.enterTransition = Fade()
+        exitTransition = Fade()
+        newFragment.sharedElementReturnTransition = DetailsTransition()
+    }
+
+    lateinit var layoutManager: SnappingLinearLayoutManager
+
+    private var position: Int? = 0
+    private var pagingData: PagingData<BookDoc>? = null
+    private var isRecyclerViewInitialized = false
+    private fun initAdapter() {
+        recyclerView.adapter = adapter
+        recyclerView.setItemViewCacheSize(AppConfig.recyclerViewCacheSize)
+        recyclerView.setHasFixedSize(false)
+        recyclerView.isVerticalScrollBarEnabled = false
+        layoutManager = SnappingLinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recyclerView.layoutManager = layoutManager
+
+        if (!isRecyclerViewInitialized) {
+            updatedBooksFromInput()
+            isRecyclerViewInitialized = true
+        }
+
+        lifecycleScope.launchWhenCreated {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            adapter.loadStateFlow
+                .collectLatest { loadStates ->
+                    swipeRefreshLayout.isRefreshing = loadStates.refresh is LoadState.Loading
+//                recyclerView.scrollToPosition(0)
+                }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            bookViewModel.books
+                .distinctUntilChanged()
+                .collectLatest {
+                    recyclerView.show()
+                    v_error.gone()
+                    pagingData = it
+                    adapter.submitData(lifecycle, it)
+                }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            bookViewModel.books
+                .distinctUntilChanged()
+                .customDebounce(1000)
+                .collectLatest {
+                    position?.let { pos ->
+                        recyclerView.itemDecorationCount
+                        recyclerView.smoothScrollToPosition(pos)
+                        position = null
+                    }
+                }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            @OptIn(FlowPreview::class)
+            adapter.loadStateFlow
+                .distinctUntilChangedBy { it.append }
+//                .filter { it.refresh is LoadState.Error }
+                .collectLatest {
+                    val state = it.append
+                    if (state is LoadState.Error)
+                        updateErrorUI(state)
+                    else {
+                        recyclerView.show()
+                        v_error.gone()
+                    }
+                }
+        }
+    }
+
+    private var initialized = false
+    private fun updateErrorUI(state: LoadState.Error) {
+        val error = state.error
+        if (error is PageKeyedRemoteMediator.EmptyResultException) {
+            showErrorView(
+                R.drawable.brand_wearefriends4,
+                getString(
+                    R.string.network_message_no_item_title,
+                    searchSchema.query
+                ),
+                getString(R.string.network_message_no_item_message)
+            )
+        } else if (error is HttpException) {
+            val bodyStr = error.response()?.errorBody()?.string()
+            val networkError = parseToNetworkError(bodyStr)
+
+            if (networkError.isMissingParameter()) {
+                if (!initialized) {
+                    showErrorView(
+                        R.drawable.brand_wearefriends3,
+                        getString(R.string.network_message_welcome_title),
+                        getString(R.string.network_message_welcome_message)
+                    )
+                } else {
+                    showErrorView(
+                        R.drawable.brand_wearefriends4,
+                        getString(R.string.network_message_no_item_title, ""),
+                        getString(R.string.network_message_no_item_message)
+                    )
+                }
+            } else {
+                showErrorView(
+                    R.drawable.brand_wearefriends7,
+                    networkError.message,
+                    getString(R.string.network_message_error_message)
+                )
+            }
+        } else {
+            showErrorView(
+                R.drawable.brand_wearefriends7,
+                getString(R.string.network_message_error_title),
+                getString(R.string.network_message_error_message)
             )
 
-            newFragment.sharedElementEnterTransition = DetailsTransition()
-            newFragment.enterTransition = Fade()
-            exitTransition = Fade()
-            newFragment.sharedElementReturnTransition = DetailsTransition()
         }
-        adapter.setHasStableIds(true)
-        recyclerView.adapter = adapter
-        recyclerView.setItemViewCacheSize(20)
-        recyclerView.isVerticalScrollBarEnabled = false
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+    }
 
-        swipeRefreshLayout.setOnRefreshListener {
-            updatedSubredditFromInput()
+    private fun initViews() {
+        iv_home.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
+
+        iv_search.setOnClickListener {
+            updatedBooksFromInput()
+        }
+
+        et_search.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                updatedBooksFromInput()
+                true
+            } else {
+                false
+            }
+        }
+
+        et_search.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updatedBooksFromInput()
+                true
+            } else {
+                false
+            }
         }
 
         var isSortSpinnerInitialized = false
@@ -107,11 +239,13 @@ class BookListFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
+                // sort param is not working for kakao api
+
                 val isChanged = searchSchema.setSortType(position)
 
                 if (isSortSpinnerInitialized) {
                     if (isChanged)
-                        updatedSubredditFromInput()
+                        updatedBooksFromInput()
                 } else {
                     isSortSpinnerInitialized = true
                 }
@@ -136,7 +270,7 @@ class BookListFragment : BaseFragment() {
 
                 if (isTargetSpinnerInitialized) {
                     if (isChanged)
-                        updatedSubredditFromInput()
+                        updatedBooksFromInput()
                 } else {
                     isTargetSpinnerInitialized = true
                 }
@@ -146,76 +280,25 @@ class BookListFragment : BaseFragment() {
             }
         }
 
-        iv_home.setOnClickListener {
-            recyclerView.smoothScrollToPosition(0)
-        }
-
-        iv_search.setOnClickListener {
-            updatedSubredditFromInput()
-        }
-
-        et_search.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                updatedSubredditFromInput()
-                true
-            } else {
-                false
-            }
-        }
-
-        et_search.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                updatedSubredditFromInput()
-                true
-            } else {
-                false
-            }
-        }
-
-        initAdapter()
-    }
-
-    private fun initAdapter() {
-        lifecycleScope.launchWhenCreated {
-            @OptIn(ExperimentalCoroutinesApi::class)
-            adapter.loadStateFlow.collectLatest { loadStates ->
-                swipeRefreshLayout.isRefreshing = loadStates.refresh is LoadState.Loading
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
-            @OptIn(ExperimentalCoroutinesApi::class)
-            bookViewModel.posts.collectLatest {
-                adapter.submitData(it)
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
-            @OptIn(FlowPreview::class)
-            adapter.loadStateFlow
-                // Only emit when REFRESH LoadState for RemoteMediator changes.
-                .distinctUntilChangedBy { it.refresh }
-                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-                .filter {
-                    it.refresh is LoadState.NotLoading
-                }
-                .collect {
-                    recyclerView.scrollToPosition(0)
-                }
+        swipeRefreshLayout.setOnRefreshListener {
+            updatedBooksFromInput()
         }
     }
 
-    private fun updatedSubredditFromInput() {
+    private fun updatedBooksFromInput() {
+        hideKeyboard()
+
         et_search.text?.trim().toString().let {
-            if (it.isNotBlank() && bookViewModel.shouldShowSubreddit(searchSchema)) {
-                bookViewModel.showSubreddit(searchSchema)
-            }
+            searchSchema.query = it
+            bookViewModel.postBookSchema(searchSchema)
         }
     }
 
-    private fun showErrorView(title: String, message: String) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showErrorView(drawableResId: Int, title: String, message: String) {
         recyclerView.gone()
         v_error.show()
+        iv_error.setImageDrawable(context.getDrawable(drawableResId))
         tv_error_title.text = title
         tv_error_message.text = message
     }

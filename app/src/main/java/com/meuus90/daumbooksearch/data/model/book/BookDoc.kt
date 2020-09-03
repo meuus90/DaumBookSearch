@@ -3,12 +3,15 @@ package com.meuus90.daumbooksearch.data.model.book
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.meuus90.daumbooksearch.data.model.BaseModel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = "Book", primaryKeys = ["isbn"])
+@Entity(tableName = "Book")
 data class BookDoc(
+    @PrimaryKey(autoGenerate = true)
+    val databaseId: Int,
     @field:ColumnInfo(name = "isbn") val isbn: String,
     @field:ColumnInfo(name = "title") val title: String,
     @field:ColumnInfo(name = "contents") val contents: String,

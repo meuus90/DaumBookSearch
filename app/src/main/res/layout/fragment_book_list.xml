@@ -140,7 +140,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/shape_rounded_grey2"
                         android:hint="@string/book_search"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionSearch"
                         android:importantForAutofill="no"
                         android:includeFontPadding="false"
                         android:inputType="text"

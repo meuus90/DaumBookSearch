@@ -46,6 +46,10 @@ open class BaseFragment : Fragment(), Injectable {
         baseActivity.showLoading(show)
     }
 
+    internal fun hideKeyboard() {
+        baseActivity.hideKeyboard()
+    }
+
     fun parseToNetworkError(errMsg: String?): NetworkError {
         errMsg?.let { message ->
             try {

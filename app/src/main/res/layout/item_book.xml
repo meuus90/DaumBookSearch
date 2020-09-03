@@ -29,7 +29,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="5dp">
 
-            <com.meuus90.base.view.widget.EllipsizingTextView
+            <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,6 +127,7 @@
             android:layout_width="87dp"
             android:layout_height="123dp"
             android:layout_marginStart="10dp"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_b" />

@@ -49,7 +49,7 @@ class BookDetailFragment : BaseFragment() {
             .load(bookDoc.thumbnail)
             .centerCrop()
             .dontAnimate()
-            .error(R.drawable.ic_b)
+            .error(R.drawable.no_image)
             .into(iv_thumbnail)
         iv_thumbnail.transitionName = bookDoc.position.toString()
 

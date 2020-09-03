@@ -1,8 +1,10 @@
 package com.meuus90.base.view
 
+import android.content.Context
 import android.os.Bundle
 import android.transition.Fade
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -189,10 +191,11 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         if (fragment != null) {
             val fragmentStackSize = supportFragmentManager.backStackEntryCount
             if (fragmentStackSize <= 1) {
-                supportFragmentManager.popBackStackImmediate()
+//                supportFragmentManager.popBackStack()
                 supportFinishAfterTransition()
             } else
-                super.onBackPressed()
+                supportFragmentManager.popBackStack()
+//                super.onBackPressed()
 
         } else {
             super.onBackPressed()
@@ -211,6 +214,18 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         } else {
             if (loadingDialog != null && loadingDialog!!.isShowing())
                 loadingDialog?.dismiss()
+        }
+    }
+
+    internal fun hideKeyboard() {
+        val inputManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        currentFocus?.windowToken?.let {
+            inputManager.hideSoftInputFromWindow(
+                it,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 }

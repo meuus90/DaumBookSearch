@@ -1,28 +1,24 @@
 package com.meuus90.daumbooksearch.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.meuus90.base.arch.Query
-import com.meuus90.daumbooksearch.data.mock.MockDaumAPI
-import com.meuus90.daumbooksearch.data.mock.MockModel
-import com.meuus90.daumbooksearch.data.mock.MockRoom
-import com.meuus90.daumbooksearch.data.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.repository.book.BookRepository
+import androidx.paging.PagingData
+import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema
+import com.meuus90.daumbooksearch.data.model.book.BookDoc
+import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
-import com.meuus90.daumbooksearch.test.utils.getOrAwaitValue
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.rules.TestWatcher
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -35,14 +31,16 @@ class RepositoryTest : TestWatcher() {
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
 
-    private lateinit var repository: BookRepository
+    private val repository = Mockito.mock(BooksRepository::class.java) as BooksRepository
+
+    private val flow = flowOf(PagingData.empty<BookDoc>())
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        repository = BookRepository(MockRoom())
-        repository.daumAPI = MockDaumAPI()
+        Mockito.`when`(repository.execute(mockBookSchema))
+            .thenReturn(flow)
     }
 
     @After
@@ -52,14 +50,8 @@ class RepositoryTest : TestWatcher() {
     @Test
     fun bookRepositoryTest() {
         runBlockingTest {
-            val resultLiveData = repository.liveData
-            val query = Query().init(
-                BookSchema("test", "accuracy", "title", 50, 1)
-            )
-
-            repository.work(query)
-
-            assertEquals(resultLiveData.getOrAwaitValue().getData(), MockModel.mockResponseModel)
+            Assert.assertEquals(repository.execute(mockBookSchema), flow)
+//            println(repository.execute(mockBookSchema))
 
             println("bookRepositoryTest() pass")
         }
