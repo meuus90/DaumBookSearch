@@ -7,12 +7,12 @@ import com.meuus90.daumbooksearch.data.model.BaseModel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = "Book", primaryKeys = ["title", "isbn"])
+@Entity(tableName = "Book", primaryKeys = ["isbn"])
 data class BookDoc(
+    @field:ColumnInfo(name = "isbn") val isbn: String,
     @field:ColumnInfo(name = "title") val title: String,
     @field:ColumnInfo(name = "contents") val contents: String,
     @field:ColumnInfo(name = "url") val url: String,
-    @field:ColumnInfo(name = "isbn") val isbn: String,
     @field:ColumnInfo(name = "datetime") val datetime: String,
     @field:ColumnInfo(name = "authors") val authors: List<String>,
     @field:ColumnInfo(name = "publisher") val publisher: String,

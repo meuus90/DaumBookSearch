@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.presentation.book
+package com.meuus90.daumbooksearch.ui.book
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import com.meuus90.base.view.ext.gone
 import com.meuus90.base.view.util.AutoClearedValue
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
-import com.meuus90.daumbooksearch.presentation.Caller
-import com.meuus90.daumbooksearch.presentation.MainActivity
+import com.meuus90.daumbooksearch.ui.Caller
+import com.meuus90.daumbooksearch.ui.MainActivity
 import kotlinx.android.synthetic.main.fragment_book_detail.*
 
 

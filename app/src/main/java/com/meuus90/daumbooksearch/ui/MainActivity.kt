@@ -1,9 +1,9 @@
-package com.meuus90.daumbooksearch.presentation
+package com.meuus90.daumbooksearch.ui
 
 import android.os.Bundle
 import com.meuus90.base.view.BaseActivity
 import com.meuus90.daumbooksearch.R
-import com.meuus90.daumbooksearch.presentation.book.BookListFragment
+import com.meuus90.daumbooksearch.ui.book.BookListFragment
 
 class MainActivity : BaseActivity() {
     override val frameLayoutId = R.id.contentFrame

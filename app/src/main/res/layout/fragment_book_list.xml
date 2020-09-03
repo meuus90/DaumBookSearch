@@ -10,14 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_error"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="380dp"
+            android:layout_height="160dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/img_ans" />
+            android:scaleType="centerInside"
+            tools:src="@drawable/brand_wearefriends3" />
 
         <TextView
             android:id="@+id/tv_error_title"
@@ -57,7 +59,8 @@
             android:clipToPadding="false"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            tools:listitem="@layout/item_book" />
+            tools:listitem="@layout/item_book"
+            tools:visibility="gone" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.appbar.AppBarLayout

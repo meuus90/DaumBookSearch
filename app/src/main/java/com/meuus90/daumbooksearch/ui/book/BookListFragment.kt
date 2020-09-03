@@ -1,5 +1,6 @@
-package com.meuus90.daumbooksearch.presentation.book
+package com.meuus90.daumbooksearch.ui.book
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.transition.Fade
 import android.view.LayoutInflater
@@ -28,9 +29,9 @@ import com.meuus90.daumbooksearch.data.model.book.BookSchema
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DEBOUNCE
 import com.meuus90.daumbooksearch.domain.viewmodel.book.BookViewModel.Companion.CALL_DIRECTLY
-import com.meuus90.daumbooksearch.presentation.MainActivity
-import com.meuus90.daumbooksearch.presentation.book.BookDetailFragment.Companion.KEY_BOOK
-import com.meuus90.daumbooksearch.presentation.book.adapter.BookListAdapter
+import com.meuus90.daumbooksearch.ui.MainActivity
+import com.meuus90.daumbooksearch.ui.book.BookDetailFragment.Companion.KEY_BOOK
+import com.meuus90.daumbooksearch.ui.book.adapter.BookListAdapter
 import kotlinx.android.synthetic.main.fragment_book_list.*
 import javax.inject.Inject
 
@@ -84,10 +85,7 @@ class BookListFragment : BaseFragment() {
         }
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
-//        recyclerView.setHasFixedSize(false)
         recyclerView.setItemViewCacheSize(20)
-//        recyclerView.itemAnimator?.changeDuration = 0
-//        (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerView.isVerticalScrollBarEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
@@ -150,8 +148,6 @@ class BookListFragment : BaseFragment() {
                 getPlaylist(CALL_DEBOUNCE)
             else
                 adapter.submitList(pagedList)
-            // todo 한글 에러
-            // todo Pagedlist -> PagingData
         }
 
         iv_home.setOnClickListener {
@@ -167,7 +163,10 @@ class BookListFragment : BaseFragment() {
 
         if (!isInitialized) {
             isInitialized = true
-            showErrorView(getString(R.string.network_message_welcome_title), "")
+            showErrorView(
+                R.drawable.brand_wearefriends4,
+                getString(R.string.network_message_welcome_title), ""
+            )
         }
     }
 
@@ -185,6 +184,14 @@ class BookListFragment : BaseFragment() {
 
                     if (data.meta.total_count > 0)
                         v_error.gone()
+                    else {
+                        val schema = query.datas[0] as BookSchema
+                        showErrorView(
+                            R.drawable.brand_wearefriends3,
+                            getString(R.string.network_message_no_item_title, schema.query),
+                            getString(R.string.network_message_no_item_message)
+                        )
+                    }
                 }
 
                 Status.LOADING -> {
@@ -196,11 +203,13 @@ class BookListFragment : BaseFragment() {
                     if (networkError.errorType == "MissingParameter") {
                         val schema = query.datas[0] as BookSchema
                         showErrorView(
+                            R.drawable.brand_wearefriends3,
                             getString(R.string.network_message_no_item_title, schema.query),
                             getString(R.string.network_message_no_item_message)
                         )
                     } else {
                         showErrorView(
+                            R.drawable.brand_wearefriends7,
                             resource.getMessage() ?: "",
                             getString(R.string.network_message_error_message)
                         )
@@ -224,10 +233,16 @@ class BookListFragment : BaseFragment() {
     }
 
     var pagedList: PagedList<BookDoc>? = null
-    private fun showErrorView(title: String, message: String) {
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showErrorView(drawableResId: Int, title: String, message: String) {
         recyclerView.gone()
         v_error.show()
+        iv_error.setImageDrawable(context.getDrawable(drawableResId))
         tv_error_title.text = title
         tv_error_message.text = message
     }
+
+    // todo 한글 에러
+    // todo Pagedlist -> PagingData
 }

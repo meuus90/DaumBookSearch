@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.presentation.book.adapter
+package com.meuus90.daumbooksearch.ui.book.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
