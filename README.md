@@ -225,8 +225,8 @@ interface AppComponent {
 - [x] 프로젝트 세팅
 - [x] 스키마 디자인
 - [x] Model 세팅
-    - [x] Remote Repository 세팅
-    - [x] Local Room 세팅
+    - [x] Repository 세팅
+    - [x] Room 세팅
     - [x] Paging Data 세팅
 - [x] ViewModel 세팅
 - [x] Unit Test 테스트코드 작성
