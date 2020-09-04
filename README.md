@@ -95,8 +95,7 @@ Android application to search for books with Daum API
     
 ### 2. Continuous Integration
 
-#### Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
-
+  * Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
   * 주요 기능
     * JDK i.8 셋업
     * Kotlin linter 체크
