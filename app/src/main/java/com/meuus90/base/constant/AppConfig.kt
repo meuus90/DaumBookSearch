@@ -6,9 +6,9 @@ object AppConfig {
 
     const val recyclerViewCacheSize = 20
 
-    const val localPagingSize = 40
-    const val localInitialLoadSize = 80
-    const val localPrefetchDistance = 30
+    const val localPagingSize = 25
+    const val localInitialLoadSize = 40
+    const val localPrefetchDistance = 25
 
     const val remotePagingSize = 50
 
