@@ -23,7 +23,7 @@ class BooksViewModel
 @Inject
 constructor(private val repository: BooksRepository) : ViewModel() {
     val org = MutableLiveData<BookRequest>()
-    private lateinit var schemaLiveData: LiveEvent<BookRequest>
+    lateinit var schemaLiveData: LiveEvent<BookRequest>
 
     init {
         viewModelScope.launch {
