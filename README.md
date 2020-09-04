@@ -6,6 +6,7 @@ Android application to search for books with Daum API
 
 
 ## 목차
+- [요구사항 정리](#요구사항-정리)
 - [개발 환경](#개발-환경)
 - [프로젝트 구성](#프로젝트-구성)
     - [Directory](#Directory)
@@ -14,9 +15,24 @@ Android application to search for books with Daum API
     - [Dependency Injection](#Dependency-Injection)
     - [Paging Data](#Paging-Data)
 - [화면 구성](#화면-구성)
+    - [스플래시 화면](#스플래시-화면)
+    - [검색 화면](#검색-화면)
+    - [상세 화면](#상세-화면)
 - [작업 계획](#작업-계획)
+- [License](#license)
     
     
+## 요구사항 정리
+  * Kotlin을 이용하여 개발
+  * 카카오 도서 검색 API를 이용하여 도서 검색
+    * https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book
+    * size param : 50
+  * Paging 기능 제공
+  * 검색 리스트 결과(메인화면) 및 상세화면으로 구성
+  * 메인 리스트와 상세화면은 Fragment로 구성
+  * 메인 리스트에서 특정 Item 클릭 시 상세화면으로 이동
+  
+
 ## 개발 환경
   * 기본 환경
     * OS : Mac OS X
@@ -46,7 +62,6 @@ Android application to search for books with Daum API
     * 카카오 캐릭터 : 카카오 프렌즈 월페이퍼
     
     
-    
 ## 프로젝트 구성
 
 ### Directory
@@ -68,6 +83,14 @@ Dagger
 
 
 ## 화면 구성
+
+### 스플래시 화면
+
+
+### 검색 화면
+
+
+### 상세 화면
 
 
 ## 작업 계획
