@@ -11,9 +11,9 @@ Android application to search for books with Daum API
 - [개발 환경](#개발-환경)
 - [프로젝트 구성](#프로젝트-구성)
     - [1. Directory](#1-Directory)
-    - [2. Architecture Design Pattern and Paging](#3-Architecture-Design-Pattern-and-Paging)
-    - [3. Dependency Injection](#4-Dependency-Injection)
-    - [4. CI](#2-CI)
+    - [2. Architecture Design Pattern and Paging](#2-Architecture-Design-Pattern-and-Paging)
+    - [3. Dependency Injection](#3-Dependency-Injection)
+    - [4. CI](#4-CI)
 - [화면 구성](#화면-구성)
     - [1. 스플래시 화면](#1-스플래시-화면)
     - [2. 검색 화면](#2-검색-화면)
@@ -51,12 +51,12 @@ Android application to search for books with Daum API
     * Paging 3.0.0-alpha05
 
   * 기타 라이브러리
-    * Dagger 2.27
-    * Retrofit 2.8.1
-    * OkHttp 4.7.0
-    * Glide 4.11.0
-    * Timber 4.7.1
-    * Logger 2.2.0
+    * Dagger 2.27       // Dependency Injection Tool
+    * Retrofit 2.8.1    // REST API Tool
+    * OkHttp 4.7.0      // HTTP Client Tool
+    * Glide 4.11.0      // Image Loading Tool
+    * Timber 4.7.1      // Logging Tool
+    * Logger 2.2.0      // Logging Tool
     
   * 이미지 출처
     * 앱 아이콘 : 자체 제작
@@ -93,7 +93,8 @@ Android application to search for books with Daum API
 ```
 
 ### 2. Architecture Design Pattern and Paging
-
+  * 아키텍쳐 디자인 패턴은 MVVM 패턴을 적용하였다.
+  
 
 
 ### 3. Dependency Injection
