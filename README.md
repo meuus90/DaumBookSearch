@@ -134,6 +134,7 @@ Android application to search for books with Daum API
         
         * 페이징 처리에 적용한 파라미터는 다음과 같다.
         
+    [AppConfig](app/src/main/java/com/meuus90/base/constant/AppConfig.kt)    
     ```
     const val localPagingSize = 25          // Room에서 페이지당 불러오는 아이템 개수
     const val localInitialLoadSize = 40     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
@@ -152,6 +153,7 @@ Android application to search for books with Daum API
 #### 이를 통해 개발 퍼포먼스가 향상되었고 단위 테스트를 수행하기 쉬워졌으며 코드 재사용성이 늘어났다.
 
   * Fragment를 각각 모듈화 하였고, Activity도 각각 모듈화하여 사용할 Fragment들을 서브모듈로 등록하였다.
+    [MainActivityModule](app/src/main/java/com/meuus90/daumbooksearch/di/module/activity/MainActivityModule.kt)
 ```
 @Module
 abstract class MainActivityModule {
@@ -167,6 +169,7 @@ abstract class MainActivityModule {
 ```
   
   * AppModule에서는 Application Context, 네트워크 API, Room Database 등을 모듈화하였다.
+    [AppModule](app/src/main/java/com/meuus90/daumbooksearch/di/module/AppModule.kt)
 ```
 @Provides
 @Singleton
@@ -192,8 +195,8 @@ fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
 ```
 
   * 생성된 컴포넌트 모듈들은 AppComponent로 등록하여 AppInjector를 통해 Application에 주입하였다.
+    [AppComponent](app/src/main/java/com/meuus90/daumbooksearch/di/component/AppComponent.kt)
 ```
-
 @Singleton
 @Component(
     modules = [
