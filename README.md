@@ -118,6 +118,12 @@ Android application to search for books with Daum API
         
   * BookListFragment의 RecyclerView에 페이징 기능을 적용하였다.
   
+    * AndroidX Paging 3.0.0-alpha05 라이브러리를 사용하였다.
+    
+        * 사전에 Paging 2 버전을 사용하여 구성하였지만 PagedListBoundaryCallback와 Adapter의 비정상 처리 등의 이슈가 발생하여 Paging 3 버전으로 업데이트 하였다.
+        
+        * Paging 3 이상 버전에서는 PagedList와 PagedListAdapter가 Deprecated 되었고 PagingData와 PagingDataAdapter가 생겼으며 사용방법에 다소 차이점이 있다.
+  
     * Paging 처리 방식은 'Network Storage -> Local Storage -> Repository -> Adapter'로 구성하였다.
     
         * BooksRepository에서 제공하는 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
@@ -137,11 +143,6 @@ Android application to search for books with Daum API
     const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 
                                             // (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
     ```
-    * AndroidX Paging 3.0.0-alpha05 라이브러리를 사용하였다.
-    
-        * 사전에 Paging 2 버전을 사용하여 구성하였지만 PagedListBoundaryCallback와 Adapter의 비정상 처리 등의 이슈가 발생하여 Paging 3 버전으로 업데이트 하였다.
-        
-        * Paging 3 이상 버전에서는 PagedList와 PagedListAdapter가 Deprecated 되었고 PagingData와 PagingDataAdapter가 생겼으며 사용방법에 다소 차이점이 있다.
       
 
 ### 3. Dependency Injection
