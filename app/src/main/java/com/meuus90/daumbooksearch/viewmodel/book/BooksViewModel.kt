@@ -6,7 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.meuus90.base.util.customDebounce
 import com.meuus90.daumbooksearch.data.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
+import com.meuus90.daumbooksearch.data.repository.book.BooksRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect

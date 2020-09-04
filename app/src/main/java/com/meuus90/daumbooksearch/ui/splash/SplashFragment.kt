@@ -9,6 +9,7 @@ import com.meuus90.base.constant.AppConfig
 import com.meuus90.base.view.BaseActivity.Companion.BACK_STACK_STATE_REPLACE
 import com.meuus90.base.view.BaseFragment
 import com.meuus90.base.view.util.AutoClearedValue
+import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.ui.book.BookListFragment
 import com.meuus90.daumbooksearch.viewmodel.splash.SplashViewModel
@@ -42,13 +43,18 @@ class SplashFragment : BaseFragment() {
         super.onResume()
 
         Handler().postDelayed({
-            addFragment(
+            val newFragment = addFragment(
                 BookListFragment::class.java,
                 BACK_STACK_STATE_REPLACE,
                 null,
                 iv_splash,
                 false
             )
+
+            newFragment.sharedElementEnterTransition = DetailsTransition()
+            newFragment.enterTransition = null
+            exitTransition = null
+            newFragment.sharedElementReturnTransition = DetailsTransition()
         }, AppConfig.splashDelay)
 
     }

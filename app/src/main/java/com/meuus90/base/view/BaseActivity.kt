@@ -2,7 +2,6 @@ package com.meuus90.base.view
 
 import android.content.Context
 import android.os.Bundle
-import android.transition.Fade
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -163,12 +162,10 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     private fun setTransition(fragment: Fragment, sharedView: View?) {
         sharedView?.let {
-            fragment.sharedElementEnterTransition =
-                DetailsTransition()
-            fragment.enterTransition = Fade()
-            getCurrentFragment()?.exitTransition = Fade()
-            fragment.sharedElementReturnTransition =
-                DetailsTransition()
+            fragment.sharedElementEnterTransition = DetailsTransition()
+            fragment.enterTransition = null
+            getCurrentFragment()?.exitTransition = null
+            fragment.sharedElementReturnTransition = DetailsTransition()
         }
     }
 

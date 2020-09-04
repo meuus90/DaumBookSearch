@@ -28,8 +28,9 @@ data class BookSchema(
     fun setSortType(index: Int): Boolean {
         val old = sort
         sort = when (index) {
-            0 -> SORT_ACCURACY
-            1 -> SORT_RECENCY
+            0 -> null
+            1 -> SORT_ACCURACY
+            2 -> SORT_RECENCY
             else -> null
         }
 

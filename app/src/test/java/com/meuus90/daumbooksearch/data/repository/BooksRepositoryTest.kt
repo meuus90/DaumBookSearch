@@ -6,7 +6,7 @@ import com.meuus90.daumbooksearch.data.mock.FakeCache
 import com.meuus90.daumbooksearch.data.mock.FakeDaumAPI
 import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
+import com.meuus90.daumbooksearch.data.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
@@ -35,7 +35,11 @@ class BooksRepositoryTest : TestWatcher() {
 
     private val mockRepository = Mockito.mock(BooksRepository::class.java) as BooksRepository
 
-    private val repository = BooksRepository(FakeCache(), FakeDaumAPI())
+    private val repository =
+        BooksRepository(
+            FakeCache(),
+            FakeDaumAPI()
+        )
 
     private val flow = flowOf(PagingData.empty<BookDoc>())
 

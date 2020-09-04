@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.transition.Fade
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -44,7 +43,7 @@ class BookListFragment : BaseFragment() {
         activity as MainActivity
     }
 
-    val searchSchema = BookSchema("", null, null, AppConfig.pagedListSize, 0)
+    val searchSchema = BookSchema("", null, null, AppConfig.remotePagingSize, 0)
 
     private var createdView: View? = null
     override fun onCreateView(
@@ -70,7 +69,12 @@ class BookListFragment : BaseFragment() {
             initViews()
             initAdapter()
 
-            updateBooks()
+//            updateBooks()
+            showErrorView(
+                R.drawable.brand_wearefriends3,
+                getString(R.string.network_message_welcome_title),
+                getString(R.string.network_message_welcome_message)
+            )
 
             isRecyclerViewInitialized = true
         }
@@ -88,12 +92,9 @@ class BookListFragment : BaseFragment() {
             false
         )
 
-        mainActivity.window.sharedElementEnterTransition.duration = 5000
-        mainActivity.window.sharedElementReturnTransition.duration = 5000
-
         newFragment.sharedElementEnterTransition = DetailsTransition()
-        newFragment.enterTransition = Fade()
-        exitTransition = Fade()
+        newFragment.enterTransition = null
+        exitTransition = null
         newFragment.sharedElementReturnTransition = DetailsTransition()
     }
 

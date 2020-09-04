@@ -80,10 +80,13 @@ class PageKeyedRemoteMediator(
                 }
             }
         } catch (e: IOException) {
+            is_end = true
             return MediatorResult.Error(e)
         } catch (e: HttpException) {
+            is_end = true
             return MediatorResult.Error(e)
         } catch (e: Exception) {
+            is_end = true
             return MediatorResult.Error(e)
         }
     }

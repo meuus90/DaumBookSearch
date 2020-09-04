@@ -9,7 +9,7 @@ import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema0
 import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema1
 import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema2
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
+import com.meuus90.daumbooksearch.data.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
 import com.meuus90.daumbooksearch.test.utils.getOrAwaitValue
 import com.meuus90.daumbooksearch.viewmodel.book.BooksViewModel
