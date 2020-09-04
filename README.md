@@ -141,7 +141,8 @@ Android application to search for books with Daum API
                                             // 아이템을 미리 불러오기 위해 메모리상 남은 개수
 
     const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 
-                                            // (PagingConfig에 적용하지 않고 BooksPageKeyedMediator에 넘겨서 API Request 파라미터로 넘긴다.)
+                                            // (PagingConfig에 적용하지 않고 BooksPageKeyedMediator로 넘긴다.
+                                            // BooksPageKeyedMediator에서 API Request 파라미터로 전송한다.)
     ```
       
 
