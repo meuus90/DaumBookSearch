@@ -11,10 +11,9 @@ Android application to search for books with Daum API
 - [개발 환경](#개발-환경)
 - [프로젝트 구성](#프로젝트-구성)
     - [1. Directory](#1-Directory)
-    - [2. Continuous Integration](#2-Continuous-Integration)
-    - [3. Architecture Design Pattern](#3-Architecture-Design-Pattern)
-    - [4. Dependency Injection](#4-Dependency-Injection)
-    - [5. Paging Data](#5-Paging-Data)
+    - [2. Architecture Design Pattern and Paging](#3-Architecture-Design-Pattern-and-Paging)
+    - [3. Dependency Injection](#4-Dependency-Injection)
+    - [4. CI](#2-CI)
 - [화면 구성](#화면-구성)
     - [1. 스플래시 화면](#1-스플래시-화면)
     - [2. 검색 화면](#2-검색-화면)
@@ -92,8 +91,16 @@ Android application to search for books with Daum API
     ├── view         ---------> # view source
     └── DaumBookSearch.kt  ---> # application
 ```
-    
-### 2. Continuous Integration
+
+### 2. Architecture Design Pattern and Paging
+
+
+
+### 3. Dependency Injection
+
+
+
+### 4. Continuous Integration
 
   * Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
   * 주요 기능
@@ -102,18 +109,7 @@ Android application to search for books with Daum API
     * Kotlin linter 체크
     * Android linter 체크
     * Test code Unit test 실시
-    
-    
-### 3. Architecture Design Pattern
 
-### 4. MVVM 디자인 패턴을 이용하여 설계하였다.
-    
-    
-### 5. Dependency Injection
-Dagger
-
-
-### 6. Paging Data
 
 
 ## 화면 구성
@@ -147,8 +143,3 @@ Dagger
 ## License
 
 Completely free (MIT)! See [LICENSE.md](LICENSE.md) for more.
-
-
-
-
-
