@@ -2,7 +2,7 @@ package com.meuus90.daumbooksearch.data.model.book
 
 import com.meuus90.daumbooksearch.data.model.BaseModel
 
-data class BookResponseModel(
+data class BookResponse(
     val meta: BookMeta,
     val documents: MutableList<BookDoc>
 ) : BaseModel() {

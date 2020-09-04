@@ -51,6 +51,7 @@ class BookDetailFragment : BaseFragment() {
             .dontAnimate()
             .error(R.drawable.no_image)
             .into(iv_thumbnail)
+        
         iv_thumbnail.transitionName = bookDoc.position.toString()
 
         tv_title.text = bookDoc.title
@@ -67,8 +68,8 @@ class BookDetailFragment : BaseFragment() {
         tv_publisher.text = bookDoc.publisher
         tv_date.text =
             TimeTools.convertDateFormat(bookDoc.datetime, TimeTools.ISO8601, TimeTools.YMD)
-        tv_price_original.text = NumberTools.convertToString(bookDoc.price.toBigDecimal())
-        tv_price_sale.text = NumberTools.convertToString(bookDoc.sale_price.toBigDecimal())
+        tv_price_original.text = NumberTools.convertToString(bookDoc.price)
+        tv_price_sale.text = NumberTools.convertToString(bookDoc.sale_price)
         tv_status.text = bookDoc.status
         tv_contents.text = getString(R.string.contents_format, bookDoc.contents)
 

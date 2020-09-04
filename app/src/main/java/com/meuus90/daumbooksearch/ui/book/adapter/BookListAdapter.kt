@@ -1,6 +1,5 @@
 package com.meuus90.daumbooksearch.ui.book.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -64,7 +63,6 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
         override val containerView: View,
         private val adapter: BookListAdapter
     ) : BaseViewHolder<BookDoc>(containerView), LayoutContainer {
-        @SuppressLint("SetTextI18n")
         override fun bindItemHolder(
             holder: BaseViewHolder<BookDoc>,
             item: BookDoc,
@@ -75,7 +73,7 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
                     .load(item.thumbnail)
                     .centerCrop()
                     .dontAnimate()
-                    .override(87, 123)
+//                    .override(87, 123)
                     .error(R.drawable.no_image)
                     .into(iv_thumbnail)
 
@@ -86,12 +84,12 @@ class BookListAdapter(val doOnClick: (item: BookDoc, sharedView: View) -> Unit) 
                 tv_author.text = item.authors.joinToString()
                 tv_publisher.text = item.publisher
                 tv_date.text = TimeTools.convertDateFormat(item.datetime, ISO8601, YMD)
-                tv_price.text = NumberTools.convertToString(item.price.toBigDecimal())
+                tv_price.text = NumberTools.convertToString(item.price)
                 tv_status.text = item.status
 
                 v_root.setOnClickListener {
-                    val positioned = item
-                    positioned.position = position
+
+                    item.position = position
                     adapter.doOnClick(item, iv_thumbnail)
                 }
             }

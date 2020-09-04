@@ -1,7 +1,7 @@
 package com.meuus90.daumbooksearch.data.mock
 
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
-import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
+import com.meuus90.daumbooksearch.data.model.book.BookResponse
 
 object FakeModel {
     val mockBook = BookDoc(
@@ -17,8 +17,8 @@ object FakeModel {
         ),
         publisher = "인플루엔셜",
         translators = listOf("전경아"),
-        price = 14900,
-        sale_price = 13410,
+        price = 14900.toBigDecimal(),
+        sale_price = 13410.toBigDecimal(),
         thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
         status = "정상판매",
         position = null
@@ -38,8 +38,8 @@ object FakeModel {
             ),
             publisher = "인플루엔셜",
             translators = listOf("전경아"),
-            price = 14900,
-            sale_price = 13410,
+            price = 14900.toBigDecimal(),
+            sale_price = 13410.toBigDecimal(),
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
             status = "정상판매",
             position = null
@@ -57,8 +57,8 @@ object FakeModel {
             ),
             publisher = "인플루엔셜",
             translators = listOf("전경아"),
-            price = 14900,
-            sale_price = 13410,
+            price = 14900.toBigDecimal(),
+            sale_price = 13410.toBigDecimal(),
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
             status = "정상판매",
             position = null
@@ -76,16 +76,16 @@ object FakeModel {
             ),
             publisher = "인플루엔셜",
             translators = listOf("전경아"),
-            price = 14900,
-            sale_price = 13410,
+            price = 14900.toBigDecimal(),
+            sale_price = 13410.toBigDecimal(),
             thumbnail = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
             status = "정상판매",
             position = null
         )
     )
 
-    val mockResponseModel = BookResponseModel(
-        BookResponseModel.BookMeta(
+    val mockResponseModel = BookResponse(
+        BookResponse.BookMeta(
             is_end = true,
             pageable_count = 9,
             total_count = 10
@@ -93,8 +93,8 @@ object FakeModel {
         documents = mockBookList
     )
 
-    val mockBookResponseEmptyModel = BookResponseModel(
-        BookResponseModel.BookMeta(
+    val mockBookResponseEmptyModel = BookResponse(
+        BookResponse.BookMeta(
             is_end = true,
             pageable_count = 9,
             total_count = 10

@@ -1,6 +1,6 @@
 package com.meuus90.daumbooksearch.data.api
 
-import com.meuus90.daumbooksearch.data.model.book.BookResponseModel
+import com.meuus90.daumbooksearch.data.model.book.BookResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,5 +12,5 @@ interface DaumAPI {
         @Query("target") target: String?,
         @Query("size") size: Int?,
         @Query("page") page: Int?
-    ): BookResponseModel
+    ): BookResponse
 }

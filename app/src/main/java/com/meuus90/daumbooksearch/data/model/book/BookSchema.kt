@@ -4,7 +4,8 @@ data class BookSchema(
     var query: String,
     var sort: String?,
     var target: String?,
-    val size: Int?
+    val size: Int?,
+    var refreshCount: Int
 ) {
 
     companion object {

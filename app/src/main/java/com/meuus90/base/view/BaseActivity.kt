@@ -66,7 +66,8 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
         cls: Class<*>,
         backStackState: Int,
         bundle: Bundle? = null,
-        sharedView: View? = null
+        sharedView: View? = null,
+        useAnimation: Boolean = true
     ): Fragment {
         val fragment = getFragmentInstance(cls)
         if (bundle != null)
@@ -82,19 +83,29 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
                 BACK_STACK_STATE_REPLACE -> {
                     popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
-                    beginTransaction().setCustomAnimations(
-                        0, 0,
-                        R.anim.slide_in_left_right,
-                        R.anim.slide_out_left_right
-                    )
+                    if (useAnimation)
+                        beginTransaction().setCustomAnimations(
+                            0, 0,
+                            R.anim.slide_in_left_right,
+                            R.anim.slide_out_left_right
+                        )
+                    else
+                        beginTransaction().setCustomAnimations(
+                            0, 0, 0, 0
+                        )
                 }
                 BACK_STACK_STATE_ADD -> {
-                    beginTransaction().setCustomAnimations(
-                        R.anim.slide_in_right_left,
-                        R.anim.slide_out_right_left,
-                        R.anim.slide_in_left_right,
-                        R.anim.slide_out_left_right
-                    )
+                    if (useAnimation)
+                        beginTransaction().setCustomAnimations(
+                            R.anim.slide_in_right_left,
+                            R.anim.slide_out_right_left,
+                            R.anim.slide_in_left_right,
+                            R.anim.slide_out_left_right
+                        )
+                    else
+                        beginTransaction().setCustomAnimations(
+                            0, 0, 0, 0
+                        )
                 }
                 BACK_STACK_STATE_POP_AND_ADD -> {
                     popBackStack()

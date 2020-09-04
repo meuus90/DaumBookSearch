@@ -1,14 +1,18 @@
-package com.meuus90.daumbooksearch.domain.viewmodel
+package com.meuus90.daumbooksearch.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
 import com.meuus90.daumbooksearch.data.mock.FakeSchema
+import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema0
+import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema1
+import com.meuus90.daumbooksearch.data.mock.FakeSchema.mockBookSchema2
 import com.meuus90.daumbooksearch.data.model.book.BookDoc
 import com.meuus90.daumbooksearch.data.repository.book.inDb.BooksRepository
-import com.meuus90.daumbooksearch.domain.viewmodel.book.BooksViewModel
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
+import com.meuus90.daumbooksearch.test.utils.getOrAwaitValue
+import com.meuus90.daumbooksearch.viewmodel.book.BooksViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,7 +35,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @RunWith(MockitoJUnitRunner::class)
-class ViewModelTest : TestWatcher() {
+class BooksViewModelTest : TestWatcher() {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -62,9 +66,6 @@ class ViewModelTest : TestWatcher() {
 
             Mockito.`when`(repository.execute(FakeSchema.mockBookSchema))
                 .thenReturn(flow)
-
-            Mockito.`when`(repository.clearCache())
-                .then { }
         }
 
         viewModel = BooksViewModel(repository)
@@ -87,76 +88,18 @@ class ViewModelTest : TestWatcher() {
     }
 
     @Test
-    fun bookViewModelClearCacheTest() {
-        viewModel.clearCache()
+    fun postBookSchemaWithDebounceTest() {
+        runBlockingTest {
+            viewModel.postBookSchemaWithDebounce(mockBookSchema0)
+            viewModel.postBookSchemaWithDebounce(mockBookSchema1)
+            viewModel.postBookSchemaWithDebounce(mockBookSchema2)
 
-        println("bookViewModelClearCacheTest() pass")
+            Assert.assertEquals(
+                viewModel.org.getOrAwaitValue(),
+                mockBookSchema2
+            )
+
+            println("postBookSchemaWithDebounceTest() pass")
+        }
     }
-
-//    @Test
-//    fun bookViewModelDirectlyTest() {
-//        runBlockingTest {
-//            val livePagedList: LiveData<PagedList<BookDoc>> by lazy {
-//                viewModel.livePagedList
-//            }
-//
-//            val params = Params(
-//                Query().init(
-//                    BookSchema("test", "accuracy", "title", 50, 1),
-//                    CALL_DIRECTLY
-//                )
-//            )
-//
-//            viewModel.pullTrigger(params)
-//
-//            Assert.assertEquals(
-//                livePagedList.getOrAwaitValue()[0],
-//                MockModel.mockBookList[0]
-//            )
-//
-//            println("bookViewModelDirectlyTest() pass")
-//        }
-//    }
-//
-//    @Test
-//    fun bookViewModelDebounceTest() {
-//        runBlockingTest {
-//            val resultLiveData = viewModel.book
-//            val livePagedList: LiveData<PagedList<BookDoc>> by lazy {
-//                viewModel.livePagedList
-//            }
-//
-//            val params0 = Params(
-//                Query().init(
-//                    BookSchema("t", "accuracy", "title", 50, 1),
-//                    CALL_DEBOUNCE
-//                )
-//            )
-//
-//            val params1 = Params(
-//                Query().init(
-//                    BookSchema("te", "accuracy", "title", 50, 1),
-//                    CALL_DEBOUNCE
-//                )
-//            )
-//
-//            val params2 = Params(
-//                Query().init(
-//                    BookSchema("test", "accuracy", "title", 50, 1),
-//                    CALL_DEBOUNCE
-//                )
-//            )
-//
-//            viewModel.org.value = params0
-//            viewModel.org.value = params1
-//            viewModel.org.value = params2
-//
-//            Assert.assertEquals(
-//                viewModel.org.getOrAwaitValue(),
-//                params2
-//            )
-//
-//            println("bookViewModelDebounceTest() pass")
-//        }
-//    }
 }

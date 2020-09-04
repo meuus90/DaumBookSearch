@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_error"
@@ -19,6 +18,7 @@
             android:layout_height="160dp"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
+            android:transitionName="icon"
             tools:src="@drawable/brand_wearefriends3" />
 
         <TextView

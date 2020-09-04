@@ -1,4 +1,4 @@
-package com.meuus90.daumbooksearch.domain.viewmodel
+package com.meuus90.daumbooksearch.viewmodel
 
 import androidx.lifecycle.ViewModel
 

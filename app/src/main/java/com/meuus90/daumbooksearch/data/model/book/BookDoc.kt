@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.meuus90.daumbooksearch.data.model.BaseModel
 import kotlinx.android.parcel.Parcelize
+import java.math.BigDecimal
 
 @Parcelize
 @Entity(tableName = "Book")
@@ -20,8 +21,8 @@ data class BookDoc(
     @field:ColumnInfo(name = "authors") val authors: List<String>,
     @field:ColumnInfo(name = "publisher") val publisher: String,
     @field:ColumnInfo(name = "translators") val translators: List<String>,
-    @field:ColumnInfo(name = "price") val price: Int,
-    @field:ColumnInfo(name = "sale_price") val sale_price: Int,
+    @field:ColumnInfo(name = "price") val price: BigDecimal,
+    @field:ColumnInfo(name = "sale_price") val sale_price: BigDecimal,
     @field:ColumnInfo(name = "thumbnail") val thumbnail: String,
     @field:ColumnInfo(name = "status") val status: String,
     var position: Int?

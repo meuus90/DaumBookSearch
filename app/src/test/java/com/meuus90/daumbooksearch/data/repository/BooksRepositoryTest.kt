@@ -26,7 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @RunWith(MockitoJUnitRunner::class)
-class RepositoryTest : TestWatcher() {
+class BooksRepositoryTest : TestWatcher() {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -64,7 +64,7 @@ class RepositoryTest : TestWatcher() {
     @Test
     fun bookRepositoryClearCacheTest() {
         repository.clearCache()
-        
+
         println("bookRepositoryClearCacheTest() pass")
     }
 }

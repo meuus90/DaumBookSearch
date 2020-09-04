@@ -33,9 +33,10 @@ open class BaseFragment : Fragment(), Injectable {
         cls: Class<*>,
         backStackState: Int,
         bundle: Bundle? = null,
-        sharedView: View? = null
+        sharedView: View? = null,
+        useAnimation: Boolean = true
     ): Fragment {
-        return baseActivity.addFragment(cls, backStackState, bundle, sharedView)
+        return baseActivity.addFragment(cls, backStackState, bundle, sharedView, useAnimation)
     }
 
     internal fun goToRootFragment() {
