@@ -27,7 +27,7 @@ Android application to search for books with Daum API
   * 카카오 도서 검색 API를 이용하여 도서 검색
     * https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book
     * size param : 50
-  * Paging 기능 제공
+  * 스크롤 시 연속 Paging 기능 제공
   * 검색 리스트 결과(메인화면) 및 상세화면으로 구성
   * 메인 리스트와 상세화면은 Fragment로 구성
   * 메인 리스트에서 특정 Item 클릭 시 상세화면으로 이동
