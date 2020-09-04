@@ -29,28 +29,22 @@ class BooksPageKeyedMediator(
         loadType: LoadType,
         state: PagingState<Int, BookDoc>
     ): MediatorResult {
-        Timber.e("PageKeyedRemoteMediator.load $loadType, $loadKey, $isEnd")
-        Timber.e("PageKeyedRemoteMediator.load.bookSchema $bookSchema")
+        Timber.e("bookSchema $bookSchema")
+        Timber.e("load start $loadType, $loadKey, $isEnd")
         try {
             when (loadType) {
                 LoadType.REFRESH -> {
                     loadKey = 1
                     isEnd = false
-                    Timber.e("PageKeyedRemoteMediator.schema $bookSchema")
 
                     db.withTransaction {
                         postDao.clear()
                     }
-
-                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
                 LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
                 LoadType.APPEND -> {
                     if (!isEnd) {
-                        var items = mutableListOf<BookDoc>()
-
                         val response = daumAPI.getBookListSus(
                             query = bookSchema.query,
                             sort = bookSchema.sort,
@@ -58,36 +52,36 @@ class BooksPageKeyedMediator(
                             size = bookSchema.size,
                             page = loadKey
                         )
-                        Timber.e("PageKeyedRemoteMediator.response ${response.meta}")
+                        Timber.e("response ${response.meta}")
 
                         if (response.meta.total_count == 0) {
-                            return MediatorResult.Error(EmptyResultException())
+                            val e = EmptyResultException()
+                            Timber.e(e)
+                            return MediatorResult.Error(e)
                         }
 
-                        items = response.documents
-
                         db.withTransaction {
-                            postDao.insert(items)
+                            postDao.insert(response.documents)
                         }
 
                         isEnd = response.meta.is_end
-
-//                    if (!is_end) {
-                        loadKey++
+                        
+                        if (!isEnd)
+                            loadKey++
                     }
-
-//                    return MediatorResult.Success(endOfPaginationReached = items.isEmpty() || response.meta.is_end)
-                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
             }
+            Timber.e("load end $loadType, $loadKey, $isEnd")
+
+            return MediatorResult.Success(endOfPaginationReached = isEnd)
         } catch (e: IOException) {
-            isEnd = true
+            Timber.e(e)
             return MediatorResult.Error(e)
         } catch (e: HttpException) {
-            isEnd = true
+            Timber.e(e)
             return MediatorResult.Error(e)
         } catch (e: Exception) {
-            isEnd = true
+            Timber.e(e)
             return MediatorResult.Error(e)
         }
     }
