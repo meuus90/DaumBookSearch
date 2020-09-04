@@ -1,6 +1,6 @@
 package com.meuus90.daumbooksearch.model.mock
 
-import com.meuus90.daumbooksearch.model.data.source.remote.api.DaumAPI
+import com.meuus90.daumbooksearch.model.data.source.api.DaumAPI
 import com.meuus90.daumbooksearch.model.schema.book.BookResponse
 
 class FakeDaumAPI : DaumAPI {

@@ -5,9 +5,9 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.meuus90.daumbooksearch.model.data.source.api.DaumAPI
 import com.meuus90.daumbooksearch.model.data.source.local.Cache
 import com.meuus90.daumbooksearch.model.data.source.local.book.BookDao
-import com.meuus90.daumbooksearch.model.data.source.remote.api.DaumAPI
 import com.meuus90.daumbooksearch.model.schema.book.BookDoc
 import com.meuus90.daumbooksearch.model.schema.book.BookRequest
 import retrofit2.HttpException

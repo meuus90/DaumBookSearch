@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.meuus90.base.util.NumberTools
-import com.meuus90.base.util.TimeTools
+import com.meuus90.base.common.util.NumberTools
+import com.meuus90.base.common.util.TimeTools
 import com.meuus90.base.view.BaseFragment
 import com.meuus90.base.view.ext.gone
 import com.meuus90.base.view.util.AutoClearedValue
