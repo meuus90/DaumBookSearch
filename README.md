@@ -111,13 +111,13 @@ Android application to search for books with Daum API
         * BooksRepository에서 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
         * Room 데이터가 모두 로드 되었을 시 BooksPageKeyedMediator를 이용하여 네트워크에서 paged data를 수집한다.
         * 페이징 처리에 적용한 파라미터는 다음과 같다.
-        ```
-            const val localPagingSize = 40          // Room에서 페이지당 불러오는 아이템 개수
-            const val localInitialLoadSize = 80     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
-            const val localPrefetchDistance = 30    // PagingDataAdapter에서 스크롤 시 아이템을 미리 불러오기 위해 메모리상 남은 개수
+```
+    const val localPagingSize = 40          // Room에서 페이지당 불러오는 아이템 개수
+    const val localInitialLoadSize = 80     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
+    const val localPrefetchDistance = 30    // PagingDataAdapter에서 스크롤 시 아이템을 미리 불러오기 위해 메모리상 남은 개수
 
-            const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
-        ```
+    const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
+```
 
         * RemoteMediator
     * AndroidX Paging 3.0.0-alpha05 라이브러리를 사용하였다.
