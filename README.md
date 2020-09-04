@@ -107,7 +107,7 @@ Android application to search for books with Daum API
         * BooksRepository는 Constant object에 설정된 값으로 PagingConfig를 초기화 한다.
         
         
-  * View의 RecyclerView 페이징 기능을 적용하였다.
+  * BookListFragment의 RecyclerView에 페이징 기능을 적용하였다.
     * Paging 처리 방식은 'Network Storage -> Local Storage -> Repository -> Adapter'로 구성하였다.
         * BooksRepository에서 제공하는 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
         * 로컬 스토리지 데이터가 모두 로드 되었고 추가 데이터가 필요할 시 BooksPageKeyedMediator를 이용하여 LoadType에 따라 네트워크에서 추가 데이터를 수집하여 로컬 스토리지에 저장한다.
@@ -130,7 +130,8 @@ Android application to search for books with Daum API
 
 ### 3. Dependency Injection
 
-#### 각 컴포넌트들을 모듈화 하여 컴포넌트간 종속성을 제거하였다. 이를 통해 개발 퍼포먼스가 향상되었고 단위 테스트를 수행하기 쉬워졌으며 코드 재사용성이 늘어났다.
+#### 각 컴포넌트들을 모듈화 하여 컴포넌트간 종속성을 제거하였다. 
+#### 이를 통해 개발 퍼포먼스가 향상되었고 단위 테스트를 수행하기 쉬워졌으며 코드 재사용성이 늘어났다.
 
   * Fragment를 각각 모듈화 하였고, Activity도 각각 모듈화하여 사용할 Fragment들을 서브모듈로 등록하였다.
 ```
