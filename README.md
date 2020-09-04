@@ -1,10 +1,20 @@
 # DaumBookSearch
 Android application to search for books with Daum API
 
+[APK 링크 Github]
+[APK 링크 Google Drive]
+
 
 ## 목차
 - [개발 환경](#개발-환경)
-- [프로젝트 디렉토리](#프로젝트-디렉토리)
+- [프로젝트 구성](#프로젝트-구성)
+    - [Directory](#Directory)
+    - [Continuous Integration](#Continuous-Integration)
+    - [Architecture Design Pattern](#Architecture-Design-Pattern)
+    - [Dependency Injection](#Dependency-Injection)
+    - [Paging Data](#Paging-Data)
+- [화면 구성](#화면-구성)
+- [작업 계획](#작업-계획)
     
     
 ## 개발 환경
@@ -36,4 +46,39 @@ Android application to search for books with Daum API
     * 카카오 캐릭터 : 카카오 프렌즈 월페이퍼
     
     
-## 프로젝트 디렉토리
+    
+## 프로젝트 구성
+
+### Directory
+
+    
+### Continuous Integration
+Github Actions Workflow로 테스트 자동화를 등록하였다.
+    
+    
+### Architecture Design Pattern
+MVVM
+    
+    
+### Dependency Injection
+Dagger
+
+
+### Paging Data
+
+
+## 화면 구성
+
+
+## 작업 계획
+
+
+
+## License
+
+Completely free (MIT)! See [LICENSE.md](LICENSE.md) for more.
+
+
+
+
+
