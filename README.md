@@ -191,7 +191,7 @@ fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
 }
 ```
 
-  * 생성된 컴포넌트 모듈들은 AppComponent에서 바인드하여 AppInjector를 통해 Application에 주입하였다.
+  * 생성된 컴포넌트 모듈들은 AppComponent로 등록하여 AppInjector를 통해 Application에 주입하였다.
 ```
 
 @Singleton
