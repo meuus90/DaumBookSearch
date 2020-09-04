@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
-import com.meuus90.base.util.NumberTools
-import com.meuus90.base.util.TimeTools
-import com.meuus90.base.util.TimeTools.Companion.ISO8601
-import com.meuus90.base.util.TimeTools.Companion.YMD
+import com.meuus90.base.common.util.NumberTools
+import com.meuus90.base.common.util.TimeTools
+import com.meuus90.base.common.util.TimeTools.Companion.ISO8601
+import com.meuus90.base.common.util.TimeTools.Companion.YMD
 import com.meuus90.base.view.util.BaseViewHolder
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.model.schema.book.BookDoc

@@ -1,7 +1,7 @@
 package com.meuus90.daumbooksearch.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.meuus90.daumbooksearch.model.data.source.remote.book.BooksRepository
+import com.meuus90.daumbooksearch.model.data.source.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.test.utils.CoroutineTestRule
 import com.meuus90.daumbooksearch.viewmodel.splash.SplashViewModel
 import io.mockk.MockKAnnotations

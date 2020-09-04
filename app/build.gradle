@@ -174,8 +174,6 @@ dependencies {
     androidTestImplementation 'io.mockk:mockk-android:1.10.0'
     testImplementation 'org.mockito:mockito-inline:3.3.3'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.4'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.4'
     androidTestImplementation 'com.google.truth:truth:1.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
 

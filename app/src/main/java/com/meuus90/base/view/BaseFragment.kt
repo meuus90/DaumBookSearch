@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.meuus90.base.arch.network.NetworkError
+import com.meuus90.base.arch.util.network.NetworkError
 import com.meuus90.daumbooksearch.di.Injectable
 
 open class BaseFragment : Fragment(), Injectable {

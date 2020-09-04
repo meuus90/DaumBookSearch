@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.meuus90.base.util.customDebounce
-import com.meuus90.daumbooksearch.model.data.source.remote.book.BooksRepository
+import com.meuus90.base.common.util.customDebounce
+import com.meuus90.daumbooksearch.model.data.source.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.model.schema.book.BookRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

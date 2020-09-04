@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.paging.PagingData
-import com.meuus90.daumbooksearch.model.data.source.remote.book.BooksRepository
+import com.meuus90.daumbooksearch.model.data.source.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.model.mock.FakeSchema
 import com.meuus90.daumbooksearch.model.mock.FakeSchema.mockBookSchema0
 import com.meuus90.daumbooksearch.model.mock.FakeSchema.mockBookSchema1
