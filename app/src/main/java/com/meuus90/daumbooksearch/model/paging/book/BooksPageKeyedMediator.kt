@@ -23,31 +23,32 @@ class BooksPageKeyedMediator(
     private val postDao: BookDao = db.bookDao()
 
     private var loadKey = 1
-    private var is_end = false
+    private var isEnd = false
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, BookDoc>
     ): MediatorResult {
-        Timber.e("PageKeyedRemoteMediator.load $loadType, $loadKey")
+        Timber.e("PageKeyedRemoteMediator.load $loadType, $loadKey, $isEnd")
+        Timber.e("PageKeyedRemoteMediator.load.bookSchema $bookSchema")
         try {
             when (loadType) {
                 LoadType.REFRESH -> {
                     loadKey = 1
-                    is_end = false
+                    isEnd = false
                     Timber.e("PageKeyedRemoteMediator.schema $bookSchema")
 
                     db.withTransaction {
                         postDao.clear()
                     }
 
-                    return MediatorResult.Success(endOfPaginationReached = is_end)
+                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
                 LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = is_end)
+                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
                 LoadType.APPEND -> {
-                    if (!is_end) {
+                    if (!isEnd) {
                         var items = mutableListOf<BookDoc>()
 
                         val response = daumAPI.getBookListSus(
@@ -69,24 +70,24 @@ class BooksPageKeyedMediator(
                             postDao.insert(items)
                         }
 
-                        is_end = response.meta.is_end
+                        isEnd = response.meta.is_end
 
 //                    if (!is_end) {
                         loadKey++
                     }
 
 //                    return MediatorResult.Success(endOfPaginationReached = items.isEmpty() || response.meta.is_end)
-                    return MediatorResult.Success(endOfPaginationReached = is_end)
+                    return MediatorResult.Success(endOfPaginationReached = isEnd)
                 }
             }
         } catch (e: IOException) {
-            is_end = true
+            isEnd = true
             return MediatorResult.Error(e)
         } catch (e: HttpException) {
-            is_end = true
+            isEnd = true
             return MediatorResult.Error(e)
         } catch (e: Exception) {
-            is_end = true
+            isEnd = true
             return MediatorResult.Error(e)
         }
     }

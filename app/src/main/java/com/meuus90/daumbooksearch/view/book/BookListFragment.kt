@@ -31,6 +31,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
@@ -129,7 +130,9 @@ class BookListFragment : BaseFragment() {
                 .collectLatest {
                     recyclerView.show()
                     v_error.gone()
-                    adapter.submitData(lifecycle, it)
+                    lifecycleScope.launch {
+                        adapter.submitData(lifecycle, it)
+                    }
                     Timber.e("BookListFragment distinctUntilChangedBy adapter.submitData")
                 }
         }
