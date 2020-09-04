@@ -66,6 +66,29 @@ Android application to search for books with Daum API
 
 ### Directory
 
+```
+/com/meuus90
+│
+├── base             ---------> # base package
+│   ├── arch/util    ---------> # architecture util source
+│   ├── common/util  ---------> # common util source
+│   ├── constant     ---------> # constant source
+│   └── view         ---------> # custom view source
+│
+├── daumbooksearch   ---------> # project package
+│   ├── di           ---------> # dependency injection
+│   ├── model
+│   │   ├── data/source
+│   │   │   ├── local   ------> # local room repository
+│   │   │   └── remote      
+│   │   │       ├── api         # server api interface
+│   │   │       └── repository  # remote repository
+│   │   ├── paging   ---------> # paging source
+│   │   └── schema   ---------> # schema collection
+│   ├── viewmodel    ---------> # viewmodel source
+│   ├── view         ---------> # view source
+│   └── DaumBookSearch.kt  ---> # application
+```
     
 ### Continuous Integration
 Github Actions Workflow로 테스트 자동화를 등록하였다.
@@ -94,7 +117,20 @@ Dagger
 
 
 ## 작업 계획
-
+- [x] 프로젝트 세팅
+- [x] 스키마 디자인
+- [x] Model 세팅
+    - [x] Remote Repository 세팅
+    - [x] Local Room 세팅
+    - [x] Paging Data 세팅
+- [x] ViewModel 세팅
+- [x] Unit Test 테스트코드 작성
+- [x] UI 디자인
+- [x] API 에러 타입 별 대응
+- [x] 애니메이션 등 UX 설정
+- [x] 디바이스 퍼포먼스 체크
+- [x] UI 테스트 및 기타 버그 픽스
+- [x] Release
 
 
 ## License
