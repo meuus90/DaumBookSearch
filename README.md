@@ -6,6 +6,7 @@ Android application to search for books with Daum API
 
 
 ## 목차
+
 - [요구사항 정리](#요구사항-정리)
 - [개발 환경](#개발-환경)
 - [프로젝트 구성](#프로젝트-구성)
@@ -23,6 +24,7 @@ Android application to search for books with Daum API
     
     
 ## 요구사항 정리
+
   * Kotlin을 이용하여 개발
   * 카카오 도서 검색 API를 이용하여 도서 검색
     * https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book
@@ -34,6 +36,7 @@ Android application to search for books with Daum API
   
 
 ## 개발 환경
+
   * 기본 환경
     * OS : Mac OS X
     * IDE : Android Studio 4.0.1
@@ -91,8 +94,13 @@ Android application to search for books with Daum API
 ```
     
 ### Continuous Integration
-[Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
-Github Actions Workflow로 테스트 자동화를 등록하였다.
+
+Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
+
+  * JDK i.8 셋업
+  * Kotlin linter 체크
+  * Android linter 체크
+  * Test code Unit test 실시
     
     
 ### Architecture Design Pattern
