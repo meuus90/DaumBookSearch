@@ -14,7 +14,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.annotation.GlideModule
 import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.daumbooksearch.R
-import com.meuus90.daumbooksearch.ui.dialog.LoadingDialog
+import com.meuus90.daumbooksearch.view.dialog.LoadingDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject

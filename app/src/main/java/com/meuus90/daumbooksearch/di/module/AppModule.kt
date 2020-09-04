@@ -8,8 +8,8 @@ import com.google.gson.GsonBuilder
 import com.meuus90.base.arch.livedata.LiveDataCallAdapterFactory
 import com.meuus90.base.arch.network.NetworkError
 import com.meuus90.daumbooksearch.BuildConfig
-import com.meuus90.daumbooksearch.data.api.DaumAPI
-import com.meuus90.daumbooksearch.data.room.Cache
+import com.meuus90.daumbooksearch.model.data.source.local.Cache
+import com.meuus90.daumbooksearch.model.data.source.remote.api.DaumAPI
 import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides

@@ -1,6 +1,6 @@
 package com.meuus90.daumbooksearch.di.module.fragment
 
-import com.meuus90.daumbooksearch.ui.book.BookListFragment
+import com.meuus90.daumbooksearch.view.book.BookListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

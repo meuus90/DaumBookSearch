@@ -1,0 +1,36 @@
+package com.meuus90.daumbooksearch.model.data.source.remote.book
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.meuus90.base.constant.AppConfig
+import com.meuus90.daumbooksearch.model.data.source.local.Cache
+import com.meuus90.daumbooksearch.model.data.source.remote.api.DaumAPI
+import com.meuus90.daumbooksearch.model.paging.book.BooksPageKeyedMediator
+import com.meuus90.daumbooksearch.model.schema.book.BookRequest
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class BooksRepository
+@Inject
+constructor(private val db: Cache, private val daumAPI: DaumAPI) : BookInterface {
+
+    override fun execute(bookSchema: BookRequest) = Pager(
+        config = PagingConfig(
+            initialLoadSize = AppConfig.localInitialLoadSize,
+            pageSize = AppConfig.localPagingSize,
+            prefetchDistance = AppConfig.localPrefetchDistance,
+            enablePlaceholders = false
+        ),
+        remoteMediator = BooksPageKeyedMediator(
+            db,
+            daumAPI,
+            bookSchema
+        )
+    ) {
+        db.bookDao().getBooksPagingSource()
+    }.flow
+
+    fun clearCache() = runBlocking { db.bookDao().clear() }
+}

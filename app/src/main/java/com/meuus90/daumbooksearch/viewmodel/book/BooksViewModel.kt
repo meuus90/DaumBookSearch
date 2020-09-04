@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.meuus90.base.util.customDebounce
-import com.meuus90.daumbooksearch.data.model.book.BookSchema
-import com.meuus90.daumbooksearch.data.repository.book.BooksRepository
+import com.meuus90.daumbooksearch.model.data.source.remote.book.BooksRepository
+import com.meuus90.daumbooksearch.model.schema.book.BookRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class BooksViewModel
 @Inject
 constructor(private val repository: BooksRepository) : ViewModel() {
-    val org = MutableLiveData<BookSchema>()
+    val org = MutableLiveData<BookRequest>()
 
     init {
         viewModelScope.launch {
@@ -33,7 +33,7 @@ constructor(private val repository: BooksRepository) : ViewModel() {
         }
     }
 
-    private val schemaLiveData = MutableLiveData<BookSchema>()
+    private val schemaLiveData = MutableLiveData<BookRequest>()
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val books = schemaLiveData.asFlow()
@@ -45,11 +45,11 @@ constructor(private val repository: BooksRepository) : ViewModel() {
             repository.execute(it)
         }
 
-    fun postBookSchema(bookSchema: BookSchema) {
+    fun postBookSchema(bookSchema: BookRequest) {
         schemaLiveData.value = bookSchema
     }
 
-    fun postBookSchemaWithDebounce(bookSchema: BookSchema) {
+    fun postBookSchemaWithDebounce(bookSchema: BookRequest) {
         org.value = bookSchema
     }
 }
