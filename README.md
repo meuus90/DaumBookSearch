@@ -130,9 +130,9 @@ Android application to search for books with Daum API
 
 ### 3. Dependency Injection
 
-#### 각 컴포넌트들의 의존성을 제거하여 
+#### 각 컴포넌트들을 모듈화 하여 컴포넌트간 종속성을 제거하였다. 이를 통해 개발 퍼포먼스가 향상되었고 단위 테스트를 수행하기 쉬워졌으며 코드 재사용성이 늘어났다.
 
-  * 사용할 Fragment들과 Activity를 각각 모듈화 하였고, Fragment 모듈들은 이를 사용할 Activity 모듈에서 서브모듈로 등록하였다. 
+  * Fragment를 각각 모듈화 하였고, Activity도 각각 모듈화하여 사용할 Fragment들을 서브모듈로 등록하였다.
 ```
 @Module
 abstract class MainActivityModule {
@@ -147,17 +147,14 @@ abstract class MainActivityModule {
 }
 ```
   
-  * AppModule에서는 Application Context, 네트워크 API, RoomDatabase 등을 모듈화하였다.
+  * AppModule에서는 Application Context, 네트워크 API, Room Database 등을 모듈화하였다.
 ```
 @Provides
 @Singleton
 fun appContext(application: Application): Context {
     return application
 }
-```
 
-
-```
 @Provides
 @Singleton
 fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
@@ -207,7 +204,6 @@ interface AppComponent {
     * Kotlin linter 체크
     * Android linter 체크
     * Test code Unit test 실시
-
 
 
 ## 화면 구성
