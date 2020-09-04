@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.Fade
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,6 +16,7 @@ import com.meuus90.base.constant.AppConfig
 import com.meuus90.base.view.BaseActivity.Companion.BACK_STACK_STATE_ADD
 import com.meuus90.base.view.BaseFragment
 import com.meuus90.base.view.ext.gone
+import com.meuus90.base.view.ext.hideKeyboard
 import com.meuus90.base.view.ext.show
 import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.base.view.util.SnappingLinearLayoutManager
@@ -162,6 +160,7 @@ class BookListFragment : BaseFragment() {
             ArrayAdapter(context, R.layout.item_spinner, targetItems)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initViewsListener() {
         iv_home.setOnClickListener {
             recyclerView.smoothScrollToPosition(0)
@@ -224,6 +223,16 @@ class BookListFragment : BaseFragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+
+        recyclerView.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_MOVE)
+                et_search.hideKeyboard()
+            false
+        }
+
+        et_search.setOnClickListener {
+            appbar_search.setExpanded(true)
         }
 
         swipeRefreshLayout.setOnRefreshListener {
