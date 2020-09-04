@@ -81,10 +81,9 @@ Android application to search for books with Daum API
     ├── di           ---------> # dependency injection
     ├── model
     │   ├── data/source
-    │   │   ├── local   ------> # local room repository
-    │   │   └── remote      
-    │   │       ├── api         # server api interface
-    │   │       └── repository  # remote repository
+    │   │   ├── api     ------> # remote server api
+    │   │   ├── local   ------> # local room dao
+    │   │   └── repository      # repository source
     │   ├── paging   ---------> # paging source
     │   └── schema   ---------> # schema collection
     ├── viewmodel    ---------> # viewmodel source
@@ -93,8 +92,18 @@ Android application to search for books with Daum API
 ```
 
 ### 2. Architecture Design Pattern and Paging
+
   * 아키텍쳐 디자인 패턴은 MVVM 패턴을 적용하였다.
-  
+    * View는 MainActivity, SplashFragment, BookListFragment, BookDetailFragment로 구성하였다.
+        * View component들은 필요 시 ViewModel을 Inject 하여 필요한 데이터를 observe 한다. Injection 내용은 하단 참조. [Dependency Injection](#Dependency-Injection)
+        * View component 간 화면 이동은 하단 참조. [화면 구성](#화면-구성)
+    * ViewModel은 SplashViewModel, BooksViewModel로 구성하였다.
+        * 각 ViewModel은 View의 lifecycle을 고려하여 필요한 비즈니스 로직을 처리하고 데이터를 저장하거나 변경된 내용을 알리는 역할을 한다.
+        * SplashViewModel은 BooksRepository를 Inject하여 cache 초기화 기능을 제공하며, SplashFragment 생성 시 로컬 캐시 데이터를 초기화한다.
+        * BooksViewModel은 BooksRepository를 Inject하여 paging 관련 처리를 중계한다.
+    * Model은 BooksRepository와 LocalDB, RemoteAPI로 구성하였다.
+        * BooksRepository는 Pager를 이용하여 Remote DataSource에서 필요한 데이터를 Room에 저장하고 Config 파라미터에 따라 PagingData를 메모리에 캐싱하여 관찰자에게 알린다.
+      
 
 
 ### 3. Dependency Injection
