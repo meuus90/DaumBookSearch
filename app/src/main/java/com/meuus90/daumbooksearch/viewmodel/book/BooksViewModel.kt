@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.meuus90.base.arch.util.livedata.LiveEvent
 import com.meuus90.base.common.util.customDebounce
 import com.meuus90.daumbooksearch.model.data.source.repository.book.BooksRepository
 import com.meuus90.daumbooksearch.model.schema.book.BookRequest
@@ -22,9 +23,11 @@ class BooksViewModel
 @Inject
 constructor(private val repository: BooksRepository) : ViewModel() {
     val org = MutableLiveData<BookRequest>()
+    private lateinit var schemaLiveData: LiveEvent<BookRequest>
 
     init {
         viewModelScope.launch {
+            schemaLiveData = LiveEvent<BookRequest>()
             org.asFlow()
                 .customDebounce(500L)
                 .collect {
@@ -32,8 +35,6 @@ constructor(private val repository: BooksRepository) : ViewModel() {
                 }
         }
     }
-
-    private val schemaLiveData = MutableLiveData<BookRequest>()
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val books = schemaLiveData.asFlow()

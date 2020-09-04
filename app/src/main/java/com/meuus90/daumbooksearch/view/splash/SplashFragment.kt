@@ -12,6 +12,7 @@ import com.meuus90.base.view.util.AutoClearedValue
 import com.meuus90.base.view.util.DetailsTransition
 import com.meuus90.daumbooksearch.R
 import com.meuus90.daumbooksearch.view.book.BookListFragment
+import com.meuus90.daumbooksearch.viewmodel.book.BooksViewModel
 import com.meuus90.daumbooksearch.viewmodel.splash.SplashViewModel
 import kotlinx.android.synthetic.main.fragment_splash.*
 import javax.inject.Inject
@@ -19,6 +20,9 @@ import javax.inject.Inject
 class SplashFragment : BaseFragment() {
     @Inject
     internal lateinit var splashViewModel: SplashViewModel
+
+    @Inject
+    internal lateinit var bookViewModel: BooksViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
