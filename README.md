@@ -10,15 +10,15 @@ Android application to search for books with Daum API
 - [요구사항 정리](#요구사항-정리)
 - [개발 환경](#개발-환경)
 - [프로젝트 구성](#프로젝트-구성)
-    - [Directory](#Directory)
-    - [Continuous Integration](#Continuous-Integration)
-    - [Architecture Design Pattern](#Architecture-Design-Pattern)
-    - [Dependency Injection](#Dependency-Injection)
-    - [Paging Data](#Paging-Data)
+    - [1. Directory](#1.-Directory)
+    - [2. Continuous Integration](#2.-Continuous-Integration)
+    - [3. Architecture Design Pattern](#3.-Architecture-Design-Pattern)
+    - [4. Dependency Injection](#4.-Dependency-Injection)
+    - [5. Paging Data](#5.-Paging-Data)
 - [화면 구성](#화면-구성)
-    - [스플래시 화면](#스플래시-화면)
-    - [검색 화면](#검색-화면)
-    - [상세 화면](#상세-화면)
+    - [1. 스플래시 화면](#1.-스플래시-화면)
+    - [2. 검색 화면](#2.-검색-화면)
+    - [3. 상세 화면](#3.-상세-화면)
 - [작업 계획](#작업-계획)
 - [License](#license)
     
@@ -67,7 +67,7 @@ Android application to search for books with Daum API
     
 ## 프로젝트 구성
 
-### Directory
+### 1. Directory
 
 ```
 /com/meuus90
@@ -93,7 +93,7 @@ Android application to search for books with Daum API
     └── DaumBookSearch.kt  ---> # application
 ```
     
-### Continuous Integration
+### 2. Continuous Integration
 
 #### Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
 
@@ -104,27 +104,27 @@ Android application to search for books with Daum API
     * Test code Unit test 실시
     
     
-### Architecture Design Pattern
+### 3. Architecture Design Pattern
 
-### MVVM 디자인 패턴을 이용하여 설계하였다.
+### 4. MVVM 디자인 패턴을 이용하여 설계하였다.
     
     
-### Dependency Injection
+### 5. Dependency Injection
 Dagger
 
 
-### Paging Data
+### 6. Paging Data
 
 
 ## 화면 구성
 
-### 스플래시 화면
+### 1. 스플래시 화면
 
 
-### 검색 화면
+### 2. 검색 화면
 
 
-### 상세 화면
+### 3. 상세 화면
 
 
 ## 작업 계획
