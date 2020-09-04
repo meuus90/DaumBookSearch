@@ -95,16 +95,18 @@ Android application to search for books with Daum API
     
 ### Continuous Integration
 
-Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
+#### Github Actions Workflow를 이용해 테스트 자동화를 등록하였다. [Github Actions](https://github.com/meuus90/DaumBookSearch/actions)
 
-  * JDK i.8 셋업
-  * Kotlin linter 체크
-  * Android linter 체크
-  * Test code Unit test 실시
+  * 주요 기능
+    * JDK i.8 셋업
+    * Kotlin linter 체크
+    * Android linter 체크
+    * Test code Unit test 실시
     
     
 ### Architecture Design Pattern
-MVVM
+
+### MVVM 디자인 패턴을 이용하여 설계하였다.
     
     
 ### Dependency Injection
