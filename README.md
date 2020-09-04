@@ -72,20 +72,20 @@ Android application to search for books with Daum API
 /com/meuus90
 │
 ├── base             ---------> # base package
-│   ├── arch/util    ---------> # architecture util source
-│   ├── common/util  ---------> # common util source
-│   ├── constant     ---------> # constant source
-│   └── view         ---------> # custom view source
+│   ├── arch/util        ---------> # architecture util source
+│   ├── common/util      ---------> # common util source
+│   ├── constant         ---------> # constant source
+│   └── view             ---------> # custom view source
 │
 └── daumbooksearch   ---------> # project package
-    ├── di           ---------> # dependency injection
+    ├── di               ---------> # dependency injection
     ├── model
     │   ├── data/source
-    │   │   ├── api     ------> # remote server api
-    │   │   ├── local   ------> # local room dao
-    │   │   └── repository      # repository source
-    │   ├── paging   ---------> # paging source
-    │   └── schema   ---------> # schema collection
+    │   │   ├── api         ----------> # remote server api
+    │   │   ├── local       ----------> # local room dao
+    │   │   └── repository  ----------> # repository source
+    │   ├── paging       ---------> # paging source
+    │   └── schema       ---------> # schema collection
     ├── viewmodel    ---------> # viewmodel source
     ├── view         ---------> # view source
     └── DaumBookSearch.kt  ---> # application
@@ -111,6 +111,7 @@ Android application to search for books with Daum API
     * Paging 처리 방식은 'Network Storage -> Local Storage -> Repository -> Adapter'로 구성하였다.
         * BooksRepository에서 제공하는 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
         * 로컬 스토리지 데이터가 모두 로드 되었고 추가 데이터가 필요할 시 BooksPageKeyedMediator를 이용하여 LoadType에 따라 네트워크에서 추가 데이터를 수집하여 로컬 스토리지에 저장한다.
+        * BookListAdapter는 PagingDataAdapter를 상속하고 Diff Callback을 설정하여 아이템이 중복으로 나오는 것을 방지하였다.
         * 페이징 처리에 적용한 파라미터는 다음과 같다.
         
     ```
@@ -127,9 +128,74 @@ Android application to search for books with Daum API
         * Paging 3 이상 버전에서는 PagedList와 PagedListAdapter가 Deprecated 되었고 PagingData와 PagingDataAdapter가 생겼으며 사용방법에 다소 차이점이 있다.
       
 
-
 ### 3. Dependency Injection
 
+#### 각 컴포넌트들의 의존성을 제거하여 
+
+  * 사용할 Fragment들과 Activity를 각각 모듈화 하였고, Fragment 모듈들은 이를 사용할 Activity 모듈에서 서브모듈로 등록하였다. 
+```
+@Module
+abstract class MainActivityModule {
+    @ContributesAndroidInjector(
+        modules = [
+            SplashFragmentModule::class,
+            BookListFragmentModule::class,
+            BookDetailFragmentModule::class
+        ]
+    )
+    internal abstract fun contributeMainActivity(): MainActivity
+}
+```
+  
+  * AppModule에서는 Application Context, 네트워크 API, RoomDatabase 등을 모듈화하였다.
+```
+@Provides
+@Singleton
+fun appContext(application: Application): Context {
+    return application
+}
+```
+
+
+```
+@Provides
+@Singleton
+fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    val ok = OkHttpClient.Builder()
+        .connectTimeout(timeout_connect, TimeUnit.SECONDS)
+        .readTimeout(timeout_read, TimeUnit.SECONDS)
+        .writeTimeout(timeout_write, TimeUnit.SECONDS)
+            
+                .
+                .
+                .
+            
+    ok.addInterceptor(interceptor)
+    return ok.build()
+}
+```
+
+  * 생성된 컴포넌트 모듈들은 AppComponent에서 바인드하여 AppInjector를 통해 Application에 주입하였다.
+```
+
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        MainActivityModule::class
+    ]
+)
+
+interface AppComponent {
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance app: Application): AppComponent
+    }
+
+    fun inject(app: DaumBookSearch)
+}
+```
 
 
 ### 4. CI
