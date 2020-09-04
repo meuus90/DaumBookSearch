@@ -94,7 +94,7 @@ Android application to search for books with Daum API
 ### 2. Architecture Design Pattern and Paging
 
   * 아키텍쳐 디자인 패턴은 MVVM 패턴을 적용하였다.
-    * 각 컴포넌트들은 다른 컴포넌트를 Inject하여 사용하였다. Injection 내용은 하단 참조. [DI](#Dependency-Injection)
+    * 각 컴포넌트들은 필요시 다른 컴포넌트를 Inject하여 사용하였다. Injection 내용은 하단 참조. [Dependency Injection](#3-Dependency-Injection)
     * View는 MainActivity, SplashFragment, BookListFragment, BookDetailFragment로 구성하였다.
         * View 컴포넌트들은 필요 시 ViewModel에게 필요한 데이터를 관찰한다.
         * View 컴포넌트간 화면 이동은 하단 참조. [화면 구성](#화면-구성)
@@ -106,20 +106,22 @@ Android application to search for books with Daum API
         * BooksRepository는 Pager를 이용하여 Remote DataSource에서 필요한 데이터를 Room에 저장한다. Config 파라미터에 따라 PagingData를 메모리에 캐싱하여 관찰자에게 알린다.
         * BooksRepository는 Constant object에 설정된 값으로 PagingConfig를 초기화 한다.
         
+        
   * View의 RecyclerView 페이징 기능을 적용하였다.
-    * Paging 처리 방식은 'RemoteDataSource -> Room -> Repository -> Adapter'로 구성하였다.
-        * BooksRepository에서 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
-        * Room 데이터가 모두 로드 되었을 시 BooksPageKeyedMediator를 이용하여 네트워크에서 paged data를 수집한다.
+    * Paging 처리 방식은 'Network Storage -> Local Storage -> Repository -> Adapter'로 구성하였다.
+        * BooksRepository에서 제공하는 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
+        * 로컬 스토리지 데이터가 모두 로드 되었고 추가 데이터가 필요할 시 BooksPageKeyedMediator를 이용하여 LoadType에 따라 네트워크에서 추가 데이터를 수집하여 로컬 스토리지에 저장한다.
         * 페이징 처리에 적용한 파라미터는 다음과 같다.
-```
+        
+    ```
     const val localPagingSize = 40          // Room에서 페이지당 불러오는 아이템 개수
     const val localInitialLoadSize = 80     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
-    const val localPrefetchDistance = 30    // PagingDataAdapter에서 스크롤 시 아이템을 미리 불러오기 위해 메모리상 남은 개수
+    const val localPrefetchDistance = 30    // PagingDataAdapter에서 스크롤 시 
+                                            // 아이템을 미리 불러오기 위해 메모리상 남은 개수
 
-    const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
-```
-
-        * RemoteMediator
+    const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 
+                                            // (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
+    ```
     * AndroidX Paging 3.0.0-alpha05 라이브러리를 사용하였다.
         * 사전에 Paging 2 버전을 사용하여 구성하였지만 PagedListBoundaryCallback와 Adapter의 비정상 처리 등의 이슈가 발생하여 Paging 3 버전으로 업데이트 하였다.
         * Paging 3 이상 버전에서는 PagedList와 PagedListAdapter가 Deprecated 되었고 PagingData와 PagingDataAdapter가 생겼으며 사용방법에 다소 차이점이 있다.
