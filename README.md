@@ -72,20 +72,20 @@ Android application to search for books with Daum API
 /com/meuus90
 │
 ├── base             ---------> # base package
-│   ├── arch/util    ---------> # architecture util source
-│   ├── common/util  ---------> # common util source
-│   ├── constant     ---------> # constant source
-│   └── view         ---------> # custom view source
+│   ├── arch/util        ---------> # architecture util source
+│   ├── common/util      ---------> # common util source
+│   ├── constant         ---------> # constant source
+│   └── view             ---------> # custom view source
 │
 └── daumbooksearch   ---------> # project package
-    ├── di           ---------> # dependency injection
+    ├── di               ---------> # dependency injection
     ├── model
     │   ├── data/source
-    │   │   ├── api     ------> # remote server api
-    │   │   ├── local   ------> # local room dao
-    │   │   └── repository      # repository source
-    │   ├── paging   ---------> # paging source
-    │   └── schema   ---------> # schema collection
+    │   │   ├── api         ----------> # remote server api
+    │   │   ├── local       ----------> # local room dao
+    │   │   └── repository  ----------> # repository source
+    │   ├── paging       ---------> # paging source
+    │   └── schema       ---------> # schema collection
     ├── viewmodel    ---------> # viewmodel source
     ├── view         ---------> # view source
     └── DaumBookSearch.kt  ---> # application
@@ -94,20 +94,106 @@ Android application to search for books with Daum API
 ### 2. Architecture Design Pattern and Paging
 
   * 아키텍쳐 디자인 패턴은 MVVM 패턴을 적용하였다.
+    * 각 컴포넌트들은 필요시 다른 컴포넌트를 Inject하여 사용하였다. Injection 내용은 하단 참조. [Dependency Injection](#3-Dependency-Injection)
     * View는 MainActivity, SplashFragment, BookListFragment, BookDetailFragment로 구성하였다.
-        * View component들은 필요 시 ViewModel을 Inject 하여 필요한 데이터를 observe 한다. Injection 내용은 하단 참조. [Dependency Injection](#Dependency-Injection)
-        * View component 간 화면 이동은 하단 참조. [화면 구성](#화면-구성)
+        * View 컴포넌트들은 필요 시 ViewModel에게 필요한 데이터를 관찰한다.
+        * View 컴포넌트간 화면 이동은 하단 참조. [화면 구성](#화면-구성)
     * ViewModel은 SplashViewModel, BooksViewModel로 구성하였다.
         * 각 ViewModel은 View의 lifecycle을 고려하여 필요한 비즈니스 로직을 처리하고 데이터를 저장하거나 변경된 내용을 알리는 역할을 한다.
-        * SplashViewModel은 BooksRepository를 Inject하여 cache 초기화 기능을 제공하며, SplashFragment 생성 시 로컬 캐시 데이터를 초기화한다.
-        * BooksViewModel은 BooksRepository를 Inject하여 paging 관련 처리를 중계한다.
+        * SplashViewModel은 BooksRepository로 cache 초기화 기능을 제공하며, SplashFragment 생성 시 로컬 캐시 데이터를 초기화한다.
+        * BooksViewModel은 BooksRepository로 View와 Model 간 paging 관련 처리를 중계한다.
     * Model은 BooksRepository와 LocalDB, RemoteAPI로 구성하였다.
-        * BooksRepository는 Pager를 이용하여 Remote DataSource에서 필요한 데이터를 Room에 저장하고 Config 파라미터에 따라 PagingData를 메모리에 캐싱하여 관찰자에게 알린다.
-      
+        * BooksRepository는 Pager를 이용하여 Remote DataSource에서 필요한 데이터를 Room에 저장한다. Config 파라미터에 따라 PagingData를 메모리에 캐싱하여 관찰자에게 알린다.
+        * BooksRepository는 Constant object에 설정된 값으로 PagingConfig를 초기화 한다.
+        
+        
+  * BookListFragment의 RecyclerView에 페이징 기능을 적용하였다.
+    * Paging 처리 방식은 'Network Storage -> Local Storage -> Repository -> Adapter'로 구성하였다.
+        * BooksRepository에서 제공하는 기본 페이징 처리는 Room 로컬 스토리지에서 캐싱처리 하도록 하였다.
+        * 로컬 스토리지 데이터가 모두 로드 되었고 추가 데이터가 필요할 시 BooksPageKeyedMediator를 이용하여 LoadType에 따라 네트워크에서 추가 데이터를 수집하여 로컬 스토리지에 저장한다.
+        * BookListAdapter는 PagingDataAdapter를 상속하고 Diff Callback을 설정하여 아이템이 중복으로 나오는 것을 방지하였다.
+        * 페이징 처리에 적용한 파라미터는 다음과 같다.
+        
+    ```
+    const val localPagingSize = 25          // Room에서 페이지당 불러오는 아이템 개수
+    const val localInitialLoadSize = 40     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
+    const val localPrefetchDistance = 25    // PagingDataAdapter에서 스크롤 시 
+                                            // 아이템을 미리 불러오기 위해 메모리상 남은 개수
 
+    const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 
+                                            // (PagingConfig에 적용하지 않고 Request 파라미터로 넘긴다.)
+    ```
+    * AndroidX Paging 3.0.0-alpha05 라이브러리를 사용하였다.
+        * 사전에 Paging 2 버전을 사용하여 구성하였지만 PagedListBoundaryCallback와 Adapter의 비정상 처리 등의 이슈가 발생하여 Paging 3 버전으로 업데이트 하였다.
+        * Paging 3 이상 버전에서는 PagedList와 PagedListAdapter가 Deprecated 되었고 PagingData와 PagingDataAdapter가 생겼으며 사용방법에 다소 차이점이 있다.
+      
 
 ### 3. Dependency Injection
 
+#### 각 컴포넌트들을 모듈화 하여 컴포넌트간 종속성을 제거하였다. 
+#### 이를 통해 개발 퍼포먼스가 향상되었고 단위 테스트를 수행하기 쉬워졌으며 코드 재사용성이 늘어났다.
+
+  * Fragment를 각각 모듈화 하였고, Activity도 각각 모듈화하여 사용할 Fragment들을 서브모듈로 등록하였다.
+```
+@Module
+abstract class MainActivityModule {
+    @ContributesAndroidInjector(
+        modules = [
+            SplashFragmentModule::class,
+            BookListFragmentModule::class,
+            BookDetailFragmentModule::class
+        ]
+    )
+    internal abstract fun contributeMainActivity(): MainActivity
+}
+```
+  
+  * AppModule에서는 Application Context, 네트워크 API, Room Database 등을 모듈화하였다.
+```
+@Provides
+@Singleton
+fun appContext(application: Application): Context {
+    return application
+}
+
+@Provides
+@Singleton
+fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    val ok = OkHttpClient.Builder()
+        .connectTimeout(timeout_connect, TimeUnit.SECONDS)
+        .readTimeout(timeout_read, TimeUnit.SECONDS)
+        .writeTimeout(timeout_write, TimeUnit.SECONDS)
+            
+                .
+                .
+                .
+            
+    ok.addInterceptor(interceptor)
+    return ok.build()
+}
+```
+
+  * 생성된 컴포넌트 모듈들은 AppComponent에서 바인드하여 AppInjector를 통해 Application에 주입하였다.
+```
+
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        MainActivityModule::class
+    ]
+)
+
+interface AppComponent {
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance app: Application): AppComponent
+    }
+
+    fun inject(app: DaumBookSearch)
+}
+```
 
 
 ### 4. CI
@@ -119,7 +205,6 @@ Android application to search for books with Daum API
     * Kotlin linter 체크
     * Android linter 체크
     * Test code Unit test 실시
-
 
 
 ## 화면 구성
@@ -137,8 +222,8 @@ Android application to search for books with Daum API
 - [x] 프로젝트 세팅
 - [x] 스키마 디자인
 - [x] Model 세팅
-    - [x] Remote Repository 세팅
-    - [x] Local Room 세팅
+    - [x] Repository 세팅
+    - [x] Room 세팅
     - [x] Paging Data 세팅
 - [x] ViewModel 세팅
 - [x] Unit Test 테스트코드 작성
