@@ -115,9 +115,9 @@ Android application to search for books with Daum API
         * 페이징 처리에 적용한 파라미터는 다음과 같다.
         
     ```
-    const val localPagingSize = 40          // Room에서 페이지당 불러오는 아이템 개수
-    const val localInitialLoadSize = 80     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
-    const val localPrefetchDistance = 30    // PagingDataAdapter에서 스크롤 시 
+    const val localPagingSize = 25          // Room에서 페이지당 불러오는 아이템 개수
+    const val localInitialLoadSize = 40     // PagingData를 초기화할 때 Room에서 불러오는 초기 아이템 개수
+    const val localPrefetchDistance = 25    // PagingDataAdapter에서 스크롤 시 
                                             // 아이템을 미리 불러오기 위해 메모리상 남은 개수
 
     const val remotePagingSize = 50         // Network에 요청할 페이지 당 아이템 개수 
