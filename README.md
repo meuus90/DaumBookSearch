@@ -75,19 +75,19 @@ Android application to search for books with Daum API
 │   ├── constant     ---------> # constant source
 │   └── view         ---------> # custom view source
 │
-├── daumbooksearch   ---------> # project package
-│   ├── di           ---------> # dependency injection
-│   ├── model
-│   │   ├── data/source
-│   │   │   ├── local   ------> # local room repository
-│   │   │   └── remote      
-│   │   │       ├── api         # server api interface
-│   │   │       └── repository  # remote repository
-│   │   ├── paging   ---------> # paging source
-│   │   └── schema   ---------> # schema collection
-│   ├── viewmodel    ---------> # viewmodel source
-│   ├── view         ---------> # view source
-│   └── DaumBookSearch.kt  ---> # application
+└── daumbooksearch   ---------> # project package
+    ├── di           ---------> # dependency injection
+    ├── model
+    │   ├── data/source
+    │   │   ├── local   ------> # local room repository
+    │   │   └── remote      
+    │   │       ├── api         # server api interface
+    │   │       └── repository  # remote repository
+    │   ├── paging   ---------> # paging source
+    │   └── schema   ---------> # schema collection
+    ├── viewmodel    ---------> # viewmodel source
+    ├── view         ---------> # view source
+    └── DaumBookSearch.kt  ---> # application
 ```
     
 ### Continuous Integration
