@@ -41,6 +41,7 @@ Android application to search for books with Daum API
     * IDE : Android Studio 4.0.1
     * JVM target : Java-1.8
     * Kotlin 1.3.72
+    * Gradle : 4.0.1
   
   * AndroidX 라이브러리
     * Core 1.3.1
