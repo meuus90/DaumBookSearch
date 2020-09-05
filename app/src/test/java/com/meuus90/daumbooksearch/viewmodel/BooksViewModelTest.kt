@@ -73,21 +73,6 @@ class BooksViewModelTest : TestWatcher() {
     }
 
     @Test
-    fun bookViewModelDirectlyTest() {
-        //todo : add LiveEvent test
-//        viewModel.postBookSchema(FakeSchema.mockBookSchema)
-//        val liveData = viewModel.books.asLiveData(coroutineContext)
-//        liveData.observeForever(mockObserver)
-
-//        viewModel.schemaLiveData.observe(mockObserver)
-//
-//        verify(mockObserver).onChanged(captor.capture())
-//        Assert.assertTrue(captor.value.equals(PagingData.empty<BookDoc>()))
-
-//        println("bookViewModelDirectlyTest() pass")
-    }
-
-    @Test
     fun postBookSchemaWithDebounceTest() {
         runBlockingTest {
             viewModel.postBookSchemaWithDebounce(mockBookSchema0)
