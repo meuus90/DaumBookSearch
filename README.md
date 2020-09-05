@@ -2,7 +2,7 @@
 Android application to search for books with Daum API
 
 [APK 링크 Github]
-[APK 링크 Google Drive]
+[APK 링크 Google Drive](https://drive.google.com/file/d/1RRU9Eckl61zeWiPZA1QCuoPRIKp0G0Sj/view?usp=sharing)
 
 
 ## 목차
@@ -41,6 +41,7 @@ Android application to search for books with Daum API
     * IDE : Android Studio 4.0.1
     * JVM target : Java-1.8
     * Kotlin 1.3.72
+    * Gradle : 4.0.1
   
   * AndroidX 라이브러리
     * Core 1.3.1
