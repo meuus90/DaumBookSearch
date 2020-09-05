@@ -1,4 +1,4 @@
-package com.meuus90.base.arch.util.network
+package com.meuus90.base.arch.util.network.entity
 
 data class NetworkError(val errorType: String?, val message: String = ERROR_DEFAULT) {
 

@@ -6,6 +6,10 @@ apply plugin: 'kotlin-allopen'
 apply plugin: 'jacoco'
 apply plugin: "de.mannodermaus.android-junit5"
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -18,7 +22,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.1.0"
         ndk.abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'arm64-v8a'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -27,12 +31,22 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "${variant.name}-${variant.versionCode}-${variant.versionName}.apk"
+            outputFileName = "DaumBookSearch-${variant.name}-${variant.versionName}.apk"
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
     buildTypes {
         debug {
+            signingConfig signingConfigs.debug
             lintOptions.checkReleaseBuilds false
 
             initWith debug
@@ -40,15 +54,20 @@ android {
             minifyEnabled false
             shrinkResources false
             testCoverageEnabled !project.hasProperty('android.injected.invoked.from.ide')
-            signingConfig signingConfigs.debug
+            multiDexKeepFile file('multidex-config.txt')
+            multiDexKeepProguard file('multidex-config.pro')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            signingConfig signingConfigs.release
             lintOptions.checkReleaseBuilds false
 
             initWith release
             minifyEnabled true
             shrinkResources true
+
+            multiDexKeepFile file('multidex-config.txt')
+            multiDexKeepProguard file('multidex-config.pro')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

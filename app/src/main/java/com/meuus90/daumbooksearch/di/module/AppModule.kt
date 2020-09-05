@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.meuus90.base.arch.util.livedata.LiveDataCallAdapterFactory
-import com.meuus90.base.arch.util.network.NetworkError
+import com.meuus90.base.arch.util.network.entity.NetworkError
 import com.meuus90.daumbooksearch.BuildConfig
 import com.meuus90.daumbooksearch.model.data.source.api.DaumAPI
 import com.meuus90.daumbooksearch.model.data.source.local.Cache

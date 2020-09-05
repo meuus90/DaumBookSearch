@@ -43,6 +43,9 @@
 # Ignore JSR 305 annotations for embedding nullability information.
 -dontwarn javax.annotation.**
 
+-keep class com.meuus90.daumbooksearch.model.schema.** { *; }
+-keep class com.meuus90.base.arch.util.network.entity.** { *; }
+
 
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
