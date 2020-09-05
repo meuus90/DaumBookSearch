@@ -271,11 +271,8 @@ interface AppComponent {
   * 상세 화면 이동 시 이미지 transition animation 애니메이션을 적용하였다.
 
 <img src="/images/Screenshot_20200905-162655_DaumBookSearch.jpg" width="180px" height="370px"> </img>
-
 <img src="/images/Screenshot_20200905-162707_DaumBookSearch.jpg" width="180px" height="370px"> </img>
-
 <img src="/images/Screenshot_20200905-162722_DaumBookSearch.jpg" width="180px" height="370px"> </img>
-
 <img src="/images/Screenshot_20200905-162750_DaumBookSearch.jpg" width="180px" height="370px"> </img>
 
 
