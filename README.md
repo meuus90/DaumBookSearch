@@ -1,9 +1,15 @@
 # DaumBookSearch
 Android application to search for books with Daum API
 
-[APK 링크 Github]
-[APK 링크 Google Drive](https://drive.google.com/file/d/1KSNg98BLw1dy7zQi8yNAOJ-Y71VMM52O/view?usp=sharing)
+  * Product APK 받기
+    * [APK 링크 Github](https://github.com/meuus90/DaumBookSearch/blob/master/DaumBookSearch-prodRelease-1.1.0.apk)
 
+    * [APK 링크 Google Drive](https://drive.google.com/file/d/1KSNg98BLw1dy7zQi8yNAOJ-Y71VMM52O/view?usp=sharing)
+    
+    * 실행 영상 YouTube 아래 이미지 클릭
+    
+    [![실행 영상](http://img.youtube.com/vi/NaQOUlxpBwM/0.jpg)](https://youtu.be/NaQOUlxpBwM?t=0s)
+    
 
 ## 목차
 
