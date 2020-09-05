@@ -249,16 +249,18 @@ interface AppComponent {
   
   * 500ms 이후 메인 검색 화면으로 이동한다.
 
+<img src="/images/Screenshot_20200905-033339_DaumBookSearch.jpg" width="180px" height="370px"> </img>
+
 
 ### 2. 검색 화면
 
   * 디바운싱 검색 기능을 제공한다. 입력창에 텍스트를 입력하고 500ms가 지나면 최종 입력된 문자열로 조회한다.
   
-  * 리스트가 검색되면 RecyclerView의 Adapter에 submit 한다.
+  * 리스트를 아래로 스크롤 시 정해진 페이징 처리방식에 따라 아이템을 자동으로 추가한다.
+  
+  * 아이템이 추가되면 RecyclerView의 Adapter에 submit 한다.
   
   * appbar_scrolling_view_behavior를 적용하였다.
-  
-  * 리스트를 아래로 스크롤 시 정해진 페이징 처리방식에 따라 아이템을 자동으로 추가한다.
   
   * 스피너를 이용하여 정렬방식이나 검색 필드를 제한하는 기능을 제공한다.
   
@@ -268,6 +270,14 @@ interface AppComponent {
   
   * 상세 화면 이동 시 이미지 transition animation 애니메이션을 적용하였다.
 
+<img src="/images/Screenshot_20200905-162655_DaumBookSearch.jpg" width="180px" height="370px"> </img>
+
+<img src="/images/Screenshot_20200905-162707_DaumBookSearch.jpg" width="180px" height="370px"> </img>
+
+<img src="/images/Screenshot_20200905-162722_DaumBookSearch.jpg" width="180px" height="370px"> </img>
+
+<img src="/images/Screenshot_20200905-162750_DaumBookSearch.jpg" width="180px" height="370px"> </img>
+
 
 ### 3. 상세 화면
 
@@ -276,6 +286,8 @@ interface AppComponent {
   * 하단 버튼 클릭 시 브라우저를 열어 링크 페이지로 보낸다.
   
   * Back 버튼을 클릭하거나 좌측 상단 버튼 클릭 시 메인 검색 화면으로 이동한다.
+
+<img src="/images/Screenshot_20200905-162807_DaumBookSearch.jpg" width="180px" height="370px"> </img>
 
 
 ## 작업 계획
