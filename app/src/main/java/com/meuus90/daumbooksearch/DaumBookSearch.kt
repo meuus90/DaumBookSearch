@@ -50,6 +50,7 @@ class DaumBookSearch : Application(), LifecycleObserver, HasAndroidInjector {
         Logger.addLogAdapter(AndroidLogAdapter())
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        registerComponentCallbacks(DaumBookSearchComponentCallback(this))
         AppInjector.init(this)
     }
 

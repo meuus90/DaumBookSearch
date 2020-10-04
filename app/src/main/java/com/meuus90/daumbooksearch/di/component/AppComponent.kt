@@ -6,13 +6,13 @@ import com.meuus90.daumbooksearch.di.module.AppModule
 import com.meuus90.daumbooksearch.di.module.activity.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.support.AndroidSupportInjectionModule
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidSupportInjectionModule::class,
+        AndroidInjectionModule::class,
         AppModule::class,
         MainActivityModule::class
     ]
